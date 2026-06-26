@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Adz Dzikra — Premium Islamic Publishing
+
+A premium website for Adz Dzikra, a classical Islamic publishing house built on three decades of Arabic typesetting and book layout expertise since 1992.
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4 + custom CSS variables
+- **Font**: Amiri (Google Fonts) for Arabic script, Georgia for display
+- **Deployment**: Vercel (via GitHub integration)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project is deployed to Vercel via GitHub integration.
 
-## Learn More
+### Steps to Deploy
 
-To learn more about Next.js, take a look at the following resources:
+1. **Push to GitHub**
+   ```bash
+   git remote add origin https://github.com/YOUR_USERNAME/adz-dzikra.git
+   git push -u origin main
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Connect to Vercel**
+   - Go to [vercel.com](https://vercel.com)
+   - Click "Add New → Project"
+   - Import your GitHub repository
+   - Keep all default settings (Next.js is auto-detected)
+   - Click "Deploy"
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Auto-deploy on push**
+   - Every `git push` to `main` will automatically redeploy via Vercel's GitHub integration
 
-## Deploy on Vercel
+## Contact Information
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **WhatsApp**: [0882-0000-2979](https://wa.me/6288200002979)
+- **Instagram**: [@dzikracomppublishers](https://instagram.com/dzikracomppublishers)
+- **Email**: dzikracompofficial05@gmail.com
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+adz-dzikra/
+├── app/
+│   ├── globals.css      # Design tokens, animations, utility classes
+│   ├── layout.tsx       # Root layout with metadata
+│   └── page.tsx         # Complete single-page website
+├── public/              # Static assets
+├── package.json
+└── README.md
+```
+
+## Design System
+
+### Colors
+- `--gold: #B8973A` — Primary brand gold
+- `--gold-light: #D4AF5A` — Lighter gold for headings
+- `--gold-muted: #8A6E2A` — Muted gold for secondary elements
+- `--dark: #0F0E0C` — Primary background
+- `--dark-2: #1A1814` — Alternating section background
+- `--cream: #FAF7F2` — Primary text color
+
+### Typography
+- **Display**: Georgia (serif) — headings, pull quotes, hero
+- **Body/UI**: System UI (sans-serif) — labels, captions, navigation
+- **Arabic**: Amiri — Arabic script
+
+## Content Policy
+
+This website contains:
+- ✅ Real contact information
+- ✅ Truthful publisher heritage (since 1992)
+- ✅ Accurate statistics
+- ✅ Placeholder collection cards (no fictional books)
+- ✅ Placeholder testimonials (no fictional reviews)
+- ❌ No fake prices, book titles, or cover images
+- ❌ No fictional scholars or customer names
