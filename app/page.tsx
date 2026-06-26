@@ -162,17 +162,20 @@ function Navigation() {
         {/* Logo */}
         <a
           href="#top"
-          style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "10px" }}
+          style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "12px" }}
         >
-          <span
+          <img
+            src="/logo.jpg"
+            alt="Adz Dzikra — Dzikra Comp. Rembang Indonesia"
             style={{
-              fontFamily: "Amiri, serif",
-              fontSize: "1.6rem",
-              color: "var(--gold)",
+              width: "44px",
+              height: "44px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              border: "1px solid rgba(184, 151, 58, 0.3)",
+              filter: "brightness(0.95) contrast(1.05)",
             }}
-          >
-            ذ
-          </span>
+          />
           <div>
             <div
               style={{
@@ -399,6 +402,21 @@ function HeroSection() {
         }}
       >
         <div style={{ animation: "fadeInUp 0.8s ease forwards", opacity: 0 }}>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: "32px" }}>
+            <img
+              src="/logo.jpg"
+              alt="Adz Dzikra — Dzikra Comp."
+              className="animate-float"
+              style={{
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                border: "1px solid rgba(184, 151, 58, 0.35)",
+                boxShadow: "0 0 40px rgba(184, 151, 58, 0.12), 0 8px 32px rgba(0,0,0,0.4)",
+              }}
+            />
+          </div>
           <SectionEyebrow>Handcrafted Editions Since 1992</SectionEyebrow>
         </div>
 
@@ -1715,16 +1733,19 @@ function Footer() {
         >
           {/* Brand */}
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
-              <span
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+              <img
+                src="/logo.jpg"
+                alt="Adz Dzikra Logo"
                 style={{
-                  fontFamily: "Amiri, serif",
-                  fontSize: "2rem",
-                  color: "var(--gold)",
+                  width: "48px",
+                  height: "48px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  border: "1px solid rgba(184, 151, 58, 0.3)",
+                  filter: "brightness(0.95) contrast(1.05)",
                 }}
-              >
-                ذ
-              </span>
+              />
               <div>
                 <div
                   style={{
