@@ -165,15 +165,13 @@ function Navigation() {
           style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "12px" }}
         >
           <img
-            src="/logo.jpg"
+            src="/logo.png"
             alt="Adz Dzikra — Dzikra Comp. Rembang Indonesia"
             style={{
-              width: "44px",
-              height: "44px",
-              borderRadius: "50%",
-              objectFit: "cover",
-              border: "1px solid rgba(184, 151, 58, 0.3)",
-              filter: "brightness(0.95) contrast(1.05)",
+              width: "40px",
+              height: "40px",
+              objectFit: "contain",
+              filter: "drop-shadow(0 0 6px rgba(184, 151, 58, 0.25))",
             }}
           />
           <div>
@@ -404,16 +402,14 @@ function HeroSection() {
         <div style={{ animation: "fadeInUp 0.8s ease forwards", opacity: 0 }}>
           <div style={{ display: "flex", justifyContent: "center", marginBottom: "32px" }}>
             <img
-              src="/logo.jpg"
+              src="/logo.png"
               alt="Adz Dzikra — Dzikra Comp."
               className="animate-float"
               style={{
-                width: "100px",
-                height: "100px",
-                borderRadius: "50%",
-                objectFit: "cover",
-                border: "1px solid rgba(184, 151, 58, 0.35)",
-                boxShadow: "0 0 40px rgba(184, 151, 58, 0.12), 0 8px 32px rgba(0,0,0,0.4)",
+                width: "110px",
+                height: "110px",
+                objectFit: "contain",
+                filter: "drop-shadow(0 0 20px rgba(184, 151, 58, 0.2)) drop-shadow(0 8px 16px rgba(0,0,0,0.5))",
               }}
             />
           </div>
@@ -1735,15 +1731,13 @@ function Footer() {
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
               <img
-                src="/logo.jpg"
+                src="/logo.png"
                 alt="Adz Dzikra Logo"
                 style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  border: "1px solid rgba(184, 151, 58, 0.3)",
-                  filter: "brightness(0.95) contrast(1.05)",
+                  width: "44px",
+                  height: "44px",
+                  objectFit: "contain",
+                  filter: "drop-shadow(0 0 6px rgba(184, 151, 58, 0.2))",
                 }}
               />
               <div>
