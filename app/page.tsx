@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 // ─── WHATSAPP CONFIG ──────────────────────────────────────────────
-const WA_NUMBER = "6288200002979";
+const WA_NUMBER = "62882000020979";
 const WA_MSG = encodeURIComponent(
   "Assalamu'alaikum, I'm interested in Adz Dzikra's publications. Could you please provide more information?"
 );
@@ -1501,7 +1501,7 @@ function ContactSection() {
                 marginBottom: "6px",
               }}
             >
-              0882-0000-2979
+              0882-0002-0979
             </div>
             <div
               style={{
@@ -1884,7 +1884,7 @@ function Footer() {
                 onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(250, 247, 242, 0.35)")}
               >
                 <IconWhatsApp size={14} />
-                0882-0000-2979
+                0882-0002-0979
               </a>
               <a
                 href={IG_URL}
