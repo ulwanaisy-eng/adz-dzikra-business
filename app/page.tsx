@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 
 const WA_NUMBER = "62882000020979";
-const WA_MSG_GENERAL = encodeURIComponent("Assalamu'alaikum, saya tertarik dengan terbitan DZIKRA. Boleh saya mendapatkan informasi lebih lanjut?");
-const WA_MSG_ORDER = encodeURIComponent("Assalamu'alaikum, saya ingin memesan Riyadhussalihin edisi DZIKRA. Mohon informasi lebih lanjut.");
+const WA_MSG_GENERAL = encodeURIComponent("Assalamu'alaikum, I'm interested in DZIKRA's publications. Could I get more information?");
+const WA_MSG_ORDER = encodeURIComponent("Assalamu'alaikum, I would like to order the DZIKRA edition of Riyadhussalihin. Please send me more information.");
 const WA_URL = `https://wa.me/${WA_NUMBER}?text=${WA_MSG_GENERAL}`;
 const WA_ORDER = `https://wa.me/${WA_NUMBER}?text=${WA_MSG_ORDER}`;
 const IG_URL = "https://instagram.com/dzikracomppublishers";
@@ -87,11 +87,11 @@ const BOOK = {
   titleId: "Riyadhussalihin",
   author: "Imam An-Nawawi",
   authorAr: "الإمام النووي",
-  desc: "Kitab hadits pilihan karya Imam Yahya bin Syaraf An-Nawawi — memuat lebih dari seribu hadits shahih yang dikelompokkan berdasarkan tema kehidupan seorang muslim. Diterbitkan oleh DZIKRA dengan tata letak Arab yang teliti, kertas berkualitas, dan jilid yang kuat.",
+  desc: "A selected collection of hadith by Imam Yahya bin Syaraf An-Nawawi — containing over a thousand authentic (sahih) hadith grouped by themes of a Muslim's daily life. Published by DZIKRA with meticulous Arabic typesetting, quality paper, and sturdy binding.",
   price_po: "Rp 199.999",
   price_normal: "Rp 250.000",
   price_reseller: "Rp 180.000",
-  pages: "±900 halaman",
+  pages: "±900 pages",
   size: "17 × 24 cm",
   cover: "Hard Cover",
   paper: "Bookpaper Cream",
@@ -102,12 +102,12 @@ const BOOK = {
     "/cover-back.jpg",
   ],
   features: [
-    "Tata letak Arab yang teliti & nyaman dibaca",
-    "Kertas bookpaper cream — ramah mata",
-    "Hard cover kokoh dengan emboss emas",
-    "Motif batik Jawa Tengah — kebanggaan lokal",
-    "Dicetak di Indonesia dengan standar tinggi",
-    "Harakat lengkap & akurat",
+    "Meticulous, comfortable-to-read Arabic typesetting",
+    "Cream bookpaper — easy on the eyes",
+    "Sturdy hard cover with gold embossing",
+    "Central Java batik motif — local pride",
+    "Printed in Indonesia to a high standard",
+    "Complete & accurate harakat (diacritics)",
   ],
 };
 
@@ -156,7 +156,7 @@ function BookModal({ onClose }: { onClose: () => void }) {
       <div className="modal-box">
         {/* Header */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 24px", borderBottom: "1px solid var(--border-gold)" }}>
-          <div style={{ fontFamily: "Georgia, serif", fontSize: "1rem", color: "var(--gold)" }}>Detail Produk</div>
+          <div style={{ fontFamily: "Georgia, serif", fontSize: "1rem", color: "var(--gold)" }}>Product Details</div>
           <button onClick={onClose} style={{ background: "none", border: "none", color: "var(--cream)", cursor: "pointer", opacity: 0.6 }}><IconClose size={20}/></button>
         </div>
         {/* Content */}
@@ -173,22 +173,22 @@ function BookModal({ onClose }: { onClose: () => void }) {
 
             {/* Price */}
             <div style={{ background: "rgba(200,165,86,0.06)", border: "1px solid var(--border-gold)", borderRadius: "3px", padding: "16px", marginBottom: "20px" }}>
-              <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.15em", color: "var(--gold)", textTransform: "uppercase", marginBottom: "6px" }}>Harga Pre-Order</div>
+              <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.15em", color: "var(--gold)", textTransform: "uppercase", marginBottom: "6px" }}>Pre-Order Price</div>
               <div className="price-po">{BOOK.price_po}</div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "4px" }}>
                 <span className="price-normal">{BOOK.price_normal}</span>
-                <span style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.62rem", color: "#E57373", background: "rgba(229,115,115,0.1)", padding: "2px 6px", borderRadius: "2px" }}>Hemat Rp 50.001</span>
+                <span style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.62rem", color: "#E57373", background: "rgba(229,115,115,0.1)", padding: "2px 6px", borderRadius: "2px" }}>Save Rp 50,001</span>
               </div>
             </div>
 
             {/* Specs */}
             <div style={{ marginBottom: "20px" }}>
-              <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.15em", color: "var(--gold-muted)", textTransform: "uppercase", marginBottom: "10px" }}>Spesifikasi</div>
+              <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.15em", color: "var(--gold-muted)", textTransform: "uppercase", marginBottom: "10px" }}>Specifications</div>
               {[
-                ["Halaman", BOOK.pages],
-                ["Ukuran", BOOK.size],
-                ["Jilid", BOOK.cover],
-                ["Kertas", BOOK.paper],
+                ["Pages", BOOK.pages],
+                ["Size", BOOK.size],
+                ["Binding", BOOK.cover],
+                ["Paper", BOOK.paper],
               ].map(([k, v]) => (
                 <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: "1px solid rgba(200,165,86,0.08)", fontFamily: "system-ui, sans-serif", fontSize: "0.78rem" }}>
                   <span style={{ color: "var(--text-muted-navy)" }}>{k}</span>
@@ -199,7 +199,7 @@ function BookModal({ onClose }: { onClose: () => void }) {
 
             {/* Features */}
             <div style={{ marginBottom: "24px" }}>
-              <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.15em", color: "var(--gold-muted)", textTransform: "uppercase", marginBottom: "10px" }}>Keunggulan</div>
+              <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.15em", color: "var(--gold-muted)", textTransform: "uppercase", marginBottom: "10px" }}>Highlights</div>
               {BOOK.features.map(f => (
                 <div key={f} style={{ display: "flex", gap: "8px", marginBottom: "6px", fontFamily: "system-ui, sans-serif", fontSize: "0.78rem", color: "var(--cream)", opacity: 0.8 }}>
                   <span style={{ color: "var(--gold)", flexShrink: 0 }}>✦</span>{f}
@@ -213,7 +213,7 @@ function BookModal({ onClose }: { onClose: () => void }) {
                 <IconWA size={16}/> Order via WhatsApp
               </a>
               <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-outline-gold" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "13px", borderRadius: "3px", textDecoration: "none" }}>
-                Form Pre-Order
+                Pre-Order Form
               </a>
             </div>
           </div>
@@ -246,7 +246,7 @@ function Navigation() {
           <img src="/logo.png" alt="DZIKRA" style={{ width: "44px", height: "44px", objectFit: "contain", filter: "drop-shadow(0 0 6px rgba(200,165,86,0.3))" }}/>
           <div>
             <div style={{ fontFamily: "Georgia, serif", fontSize: "1.1rem", color: "var(--gold)", letterSpacing: "0.14em" }}>DZIKRA</div>
-            <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--gold-muted)", opacity: 0.8 }}>Dibuat dengan Amanah</div>
+            <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--gold-muted)", opacity: 0.8 }}>Crafted With Amanah, Designed for Comfort</div>
           </div>
         </a>
         <div style={{ display: "flex", alignItems: "center", gap: "28px" }} className="desktop-only">
@@ -283,12 +283,6 @@ function HeroSection({ onOpenBook }: { onOpenBook: () => void }) {
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "60px 24px", width: "100%", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "48px", alignItems: "center" }}>
         {/* Left — Text */}
         <div>
-          <div style={{ animation: "fadeInUp 0.7s ease forwards", opacity: 0 }}>
-            <SectionEyebrow>Indonesian Publisher of Classical Islamic Texts</SectionEyebrow>
-          </div>
-          <div style={{ fontFamily: "Amiri, serif", fontSize: "clamp(1rem, 2.5vw, 1.4rem)", color: "var(--gold)", direction: "rtl", marginBottom: "8px", animation: "fadeInUp 0.8s ease 0.1s forwards", opacity: 0 }}>
-            بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
-          </div>
           <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(2.2rem, 4.5vw, 3.6rem)", fontWeight: 400, color: "var(--cream)", lineHeight: 1.15, marginBottom: "20px", animation: "fadeInUp 0.8s ease 0.15s forwards", opacity: 0 }}>
             Reading Classical Kitab,<br/>
             <span className="text-gold-gradient">Made More Comfortable</span>
@@ -297,7 +291,7 @@ function HeroSection({ onOpenBook }: { onOpenBook: () => void }) {
             <OrnamentDivider/>
           </div>
           <p style={{ fontFamily: "Georgia, serif", fontSize: "clamp(0.92rem, 1.7vw, 1.05rem)", lineHeight: 1.85, color: "var(--text-muted-navy)", marginBottom: "36px", animation: "fadeInUp 0.8s ease 0.35s forwards", opacity: 0, fontStyle: "italic" }}>
-            DZIKRA menerbitkan kitab turats Islam klasik dengan tata letak Arab yang teliti, kertas pilihan, dan desain yang membanggakan — hasil tiga dekade pengalaman Dzikra Comp. Rembang.
+            DZIKRA publishes classical Islamic heritage texts with meticulous Arabic typesetting, carefully chosen paper, and a design to be proud of — the result of three decades of experience from Dzikra Comp. Rembang.
           </p>
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", animation: "fadeInUp 0.8s ease 0.45s forwards", opacity: 0 }}>
             <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ padding: "14px 28px", borderRadius: "3px", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "8px" }}>
@@ -309,7 +303,7 @@ function HeroSection({ onOpenBook }: { onOpenBook: () => void }) {
           </div>
           {/* Stats */}
           <div style={{ display: "flex", gap: "clamp(20px, 5vw, 48px)", marginTop: "48px", paddingTop: "32px", borderTop: "1px solid rgba(200,165,86,0.15)", animation: "fadeInUp 0.8s ease 0.6s forwards", opacity: 0, flexWrap: "wrap" }}>
-            {[{ v: "1992", l: "Berdiri" }, { v: "1", l: "Judul Terbit" }, { v: "30+", l: "Tahun Keahlian" }].map(s => (
+            {[{ v: "1992", l: "Established" }, { v: "1", l: "Titles Published" }, { v: "30+", l: "Years of Expertise" }].map(s => (
               <div key={s.l}>
                 <div className="text-gold-gradient" style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 400, lineHeight: 1, marginBottom: "4px" }}>{s.v}</div>
                 <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--text-muted-navy)" }}>{s.l}</div>
@@ -334,7 +328,7 @@ function HeroSection({ onOpenBook }: { onOpenBook: () => void }) {
                 <div style={{ marginTop: "10px", fontFamily: "Georgia, serif", fontSize: "1.2rem", color: "var(--gold-bright)" }}>{BOOK.price_po}</div>
               </div>
             </div>
-            <div style={{ textAlign: "center", marginTop: "12px", fontFamily: "system-ui, sans-serif", fontSize: "0.65rem", color: "var(--gold-muted)", opacity: 0.6 }}>Klik untuk melihat detail →</div>
+            <div style={{ textAlign: "center", marginTop: "12px", fontFamily: "system-ui, sans-serif", fontSize: "0.65rem", color: "var(--gold-muted)", opacity: 0.6 }}>Click to view details →</div>
           </div>
         </div>
       </div>
@@ -377,7 +371,7 @@ function CollectionSection({ onOpenBook }: { onOpenBook: () => void }) {
                 <span className="price-normal">{BOOK.price_normal}</span>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
-                <button onClick={onOpenBook} className="btn-navy" style={{ padding: "10px", borderRadius: "3px", fontSize: "0.68rem", letterSpacing: "0.06em" }}>Detail Buku</button>
+                <button onClick={onOpenBook} className="btn-navy" style={{ padding: "10px", borderRadius: "3px", fontSize: "0.68rem", letterSpacing: "0.06em" }}>Book Details</button>
                 <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ padding: "10px", borderRadius: "3px", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontSize: "0.68rem" }}>
                   <IconWA size={12}/> Order
                 </a>
@@ -390,7 +384,7 @@ function CollectionSection({ onOpenBook }: { onOpenBook: () => void }) {
               <div style={{ height: "280px", background: "linear-gradient(160deg, var(--navy-mid), var(--navy-deep))", display: "flex", alignItems: "center", justifyContent: "center", borderBottom: "1px solid rgba(200,165,86,0.08)" }}>
                 <div style={{ textAlign: "center" }}>
                   <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: "var(--gold-muted)", opacity: 0.5, marginBottom: "8px", textTransform: "uppercase" }}>Coming Soon</div>
-                  <div style={{ fontFamily: "Georgia, serif", fontSize: "0.78rem", color: "var(--gold)", opacity: 0.35 }}>Edisi Berikutnya</div>
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: "0.78rem", color: "var(--gold)", opacity: 0.35 }}>Next Edition</div>
                 </div>
               </div>
               <div style={{ padding: "20px" }}>
@@ -425,12 +419,12 @@ function MengapaSection() {
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1px", background: "rgba(200,165,86,0.08)", border: "1px solid rgba(200,165,86,0.08)", borderRadius: "4px", overflow: "hidden" }}>
           {[
-            { icon: "◈", title: "Professional Arabic Typesetting", body: "30 tahun spesialisasi dalam typesetting Arab untuk penerbit besar Indonesia. Setiap harakat dan spasi diperhatikan." },
-            { icon: "✦", title: "Distinctive Indonesian Design", body: "Motif batik Jawa Tengah bertemu estetika kitab klasik — identitas lokal yang tidak dimiliki penerbit manapun." },
-            { icon: "◇", title: "Carefully Chosen Materials", body: "Kertas bookpaper cream ramah mata, hard cover kokoh, dan jilid yang tahan lama untuk menemani belajar bertahun-tahun." },
-            { icon: "◉", title: "Authentic & Trustworthy", body: "Naskah disiapkan dengan cermat, menjaga integritas teks asli dengan kejelasan dan ketepatan yang tinggi." },
-            { icon: "⬡", title: "Protected Delivery", body: "Setiap pesanan dikemas aman untuk memastikan kitab tiba dengan selamat ke seluruh penjuru Indonesia." },
-            { icon: "✧", title: "Made in Indonesia", body: "Diterbitkan, didesain, dan dicetak di Indonesia. Mendukung industri penerbitan Islam lokal yang berkualitas." },
+            { icon: "◈", title: "Professional Arabic Typesetting", body: "30 years of specialization in Arabic typesetting for major Indonesian publishers. Every diacritic and spacing detail is carefully attended to." },
+            { icon: "✦", title: "Distinctive Indonesian Design", body: "Central Java batik motifs meet classical kitab aesthetics — a local identity no other publisher has." },
+            { icon: "◇", title: "Carefully Chosen Materials", body: "Eye-friendly cream bookpaper, a sturdy hard cover, and durable binding to accompany years of study." },
+            { icon: "◉", title: "Authentic & Trustworthy", body: "Manuscripts are carefully prepared, preserving the integrity of the original text with the utmost clarity and precision." },
+            { icon: "⬡", title: "Protected Delivery", body: "Every order is packaged securely to ensure the kitab arrives safely anywhere in Indonesia." },
+            { icon: "✧", title: "Made in Indonesia", body: "Published, designed, and printed in Indonesia — supporting a quality local Islamic publishing industry." },
           ].map((c, i) => (
             <div key={c.title} className="card-feature reveal" style={{ padding: "clamp(24px, 3vw, 36px)", transitionDelay: `${i * 0.08}s` }}>
               <div style={{ fontSize: "1.1rem", color: "var(--gold-muted)", marginBottom: "12px", opacity: 0.8 }}>{c.icon}</div>
@@ -448,12 +442,12 @@ function MengapaSection() {
 function CaraOrderSection() {
   const ref = useReveal();
   const steps = [
-    { n: "01", t: "Lihat Collection", b: "Telusuri buku yang tersedia dan pilih yang sesuai." },
-    { n: "02", t: "Pilih Edisi", b: "Pilih buku atau edisi yang ingin dipesan." },
-    { n: "03", t: "Buat Orderan", b: "Order via WhatsApp resmi atau form Pre-Order kami." },
-    { n: "04", t: "Konfirmasi", b: "Konfirmasi dan selesaikan pembayaran untuk mengamankan salinan." },
-    { n: "05", t: "Persiapan Teliti", b: "Orderan disiapkan, dicek kualitasnya, dan dikemas dengan aman." },
-    { n: "06", t: "Dikirim ke Anda", b: "Terima kitab dan mulai perjalanan belajar yang lebih nyaman." },
+    { n: "01", t: "Browse the Collection", b: "Explore our available titles and choose the one that suits you." },
+    { n: "02", t: "Choose an Edition", b: "Select the book or edition you want to order." },
+    { n: "03", t: "Place Your Order", b: "Order via our official WhatsApp or our Pre-Order form." },
+    { n: "04", t: "Confirm", b: "Confirm and complete payment to secure your copy." },
+    { n: "05", t: "Careful Preparation", b: "Your order is prepared, quality-checked, and packaged securely." },
+    { n: "06", t: "Delivered to You", b: "Receive your kitab and begin a more comfortable learning journey." },
   ];
   return (
     <section id="cara-pesan" className="section-cream batik-cream" style={{ padding: "100px 24px" }}>
@@ -503,7 +497,7 @@ function ContactSection() {
           {[
             { href: WA_ORDER, icon: <IconWA size={20}/>, color: "#25D366", bg: "rgba(37,211,102,0.08)", border: "rgba(37,211,102,0.2)", label: "WhatsApp", value: "0882-0002-0979", sub: "Fastest response →" },
             { href: IG_URL, icon: <IconIG size={20}/>, color: "#C13584", bg: "rgba(193,53,132,0.08)", border: "rgba(193,53,132,0.2)", label: "Instagram", value: "@dzikracomppublishers", sub: "Follow our journey →" },
-            { href: `mailto:${EMAIL}`, icon: <IconEmail size={20}/>, color: "var(--gold)", bg: "rgba(200,165,86,0.08)", border: "rgba(200,165,86,0.2)", label: "Surel", value: EMAIL, sub: "Write to us →" },
+            { href: `mailto:${EMAIL}`, icon: <IconEmail size={20}/>, color: "var(--gold)", bg: "rgba(200,165,86,0.08)", border: "rgba(200,165,86,0.2)", label: "Email", value: EMAIL, sub: "Write to us →" },
           ].map(c => (
             <a key={c.label} href={c.href} target={c.href.startsWith("mailto") ? undefined : "_blank"} rel="noopener noreferrer" className="card-feature reveal" style={{ borderRadius: "3px", padding: "24px", textDecoration: "none", display: "block" }}>
               <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: c.bg, border: `1px solid ${c.border}`, display: "flex", alignItems: "center", justifyContent: "center", color: c.color, marginBottom: "14px" }}>{c.icon}</div>
@@ -537,7 +531,7 @@ function Footer() {
               <img src="/logo.png" alt="DZIKRA" style={{ width: "40px", height: "40px", objectFit: "contain", filter: "drop-shadow(0 0 5px rgba(200,165,86,0.25))" }}/>
               <div>
                 <div style={{ fontFamily: "Georgia, serif", fontSize: "1rem", color: "var(--gold)", letterSpacing: "0.14em" }}>DZIKRA</div>
-                <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--gold-muted)", opacity: 0.7 }}>Dibuat dengan Amanah</div>
+                <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--gold-muted)", opacity: 0.7 }}>Crafted With Amanah</div>
               </div>
             </div>
             <p style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.75rem", lineHeight: 1.75, color: "var(--text-muted-navy)", maxWidth: "220px" }}>
