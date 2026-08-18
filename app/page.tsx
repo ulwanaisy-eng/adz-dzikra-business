@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, useCallback } from "react";
+import Book3D from "./components/Book3D";
 
 const WA_NUMBER = "62882000020979";
 const WA_MSG_GENERAL = encodeURIComponent("Assalamu'alaikum, I'm interested in DZIKRA's publications. Could I get more information?");
@@ -313,23 +314,7 @@ function HeroSection({ onOpenBook }: { onOpenBook: () => void }) {
         </div>
         {/* Right — Book Visual */}
         <div style={{ display: "flex", justifyContent: "center", animation: "fadeInUp 0.9s ease 0.3s forwards", opacity: 0 }}>
-          <div className="animate-float-book" onClick={onOpenBook} style={{ cursor: "pointer", maxWidth: "320px", width: "100%" }}>
-            <div style={{ background: "linear-gradient(160deg, var(--navy-mid), var(--navy-deep))", border: "2px solid rgba(200,165,86,0.3)", borderRadius: "4px", padding: "40px 32px", textAlign: "center", boxShadow: "0 30px 80px rgba(0,0,0,0.5), -8px 8px 30px rgba(200,165,86,0.1), inset 0 0 60px rgba(200,165,86,0.03)", position: "relative", overflow: "hidden" }}>
-              {/* Batik corner decorations */}
-              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "6px", background: "linear-gradient(90deg, var(--gold-muted), var(--gold), var(--gold-muted))" }}/>
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "6px", background: "linear-gradient(90deg, var(--gold-muted), var(--gold), var(--gold-muted))" }}/>
-              <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: "var(--gold-muted)", marginBottom: "20px", textTransform: "uppercase" }}>Dzikra Comp. · Rembang · Jawa Tengah</div>
-              <div style={{ fontFamily: "Amiri, serif", fontSize: "clamp(2.5rem, 8vw, 4rem)", color: "var(--gold)", direction: "rtl", lineHeight: 1.2, marginBottom: "12px" }}>{BOOK.titleAr}</div>
-              <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, var(--gold-muted), transparent)", marginBottom: "12px", opacity: 0.5 }}/>
-              <div style={{ fontFamily: "Georgia, serif", fontSize: "1rem", color: "var(--cream)", opacity: 0.8, marginBottom: "4px" }}>{BOOK.titleId}</div>
-              <div style={{ fontFamily: "Amiri, serif", fontSize: "0.88rem", color: "var(--gold-muted)", direction: "rtl" }}>{BOOK.authorAr}</div>
-              <div style={{ marginTop: "24px", paddingTop: "16px", borderTop: "1px solid rgba(200,165,86,0.15)" }}>
-                <span className="badge-po">{BOOK.status}</span>
-                <div style={{ marginTop: "10px", fontFamily: "Georgia, serif", fontSize: "1.2rem", color: "var(--gold-bright)" }}>{BOOK.price_po}</div>
-              </div>
-            </div>
-            <div style={{ textAlign: "center", marginTop: "12px", fontFamily: "system-ui, sans-serif", fontSize: "0.65rem", color: "var(--gold-muted)", opacity: 0.6 }}>Click to view details →</div>
-          </div>
+          <Book3D onClick={onOpenBook} />
         </div>
       </div>
     </section>
