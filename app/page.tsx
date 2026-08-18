@@ -9,7 +9,7 @@ const WA_URL = `https://wa.me/${WA_NUMBER}?text=${WA_MSG_GENERAL}`;
 const WA_ORDER = `https://wa.me/${WA_NUMBER}?text=${WA_MSG_ORDER}`;
 const IG_URL = "https://instagram.com/dzikracomppublishers";
 const EMAIL = "dzikracompofficial05@gmail.com";
-const TALLY_PO = "https://tally.so"; // UPDATE with real Tally link
+const TALLY_PO = "https://tally.so/r/gDPpPK";
 
 // ── ICONS ────────────────────────────────────────────────────────
 function IconWA({ size = 22 }: { size?: number }) {
@@ -88,27 +88,19 @@ const BOOK = {
   titleId: "Riyadhussalihin",
   author: "Imam An-Nawawi",
   authorAr: "الإمام النووي",
-  desc: "A selected collection of hadith by Imam Yahya bin Syaraf An-Nawawi — containing over a thousand authentic (sahih) hadith grouped by themes of a Muslim's daily life. Published by DZIKRA with meticulous Arabic typesetting, quality paper, and sturdy binding.",
+  desc: "Riyadh as-Salihin (The Meadows of the Righteous) is a timeless collection of Prophetic guidance compiled by Imam al-Nawawi. It explores the foundations of a believer's life—from sincerity, repentance, patience, gratitude, and remembrance of Allah to worship, character, manners, and relationships with others.\n\nThrough carefully selected hadiths from the Qur'an and Sunnah, the work offers guidance for purifying the heart, strengthening faith, and living a life of righteousness.\n\nA classic work for those seeking to understand Islam not only as knowledge, but as a way of life.",
   price_po: "Rp 199.999",
   price_normal: "Rp 250.000",
   price_reseller: "Rp 180.000",
-  pages: "±900 pages",
-  size: "17 × 24 cm",
+  pages: "560 pages",
+  size: "14 × 21 cm",
   cover: "Hard Cover",
-  paper: "Bookpaper Cream",
+  paper: "Bookpaper 72 gr",
   status: "PRE-ORDER",
   images: [
-    "/cover-full.jpg",
-    "/cover-front.jpg",
-    "/cover-back.jpg",
-  ],
-  features: [
-    "Meticulous, comfortable-to-read Arabic typesetting",
-    "Cream bookpaper — easy on the eyes",
-    "Sturdy hard cover with gold embossing",
-    "Central Java batik motif — local pride",
-    "Printed in Indonesia to a high standard",
-    "Complete & accurate harakat (diacritics)",
+    "/book/front-cover.jpg",
+    "/book/spine.jpg",
+    "/book/back-cover.jpg",
   ],
 };
 
@@ -120,13 +112,22 @@ function ImageSlider({ images }: { images: string[] }) {
 
   return (
     <div style={{ position: "relative", background: "var(--navy-deep)", borderRadius: "3px", overflow: "hidden" }}>
-      <div style={{ aspectRatio: "3/4", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(160deg, var(--navy-mid), var(--navy-deep))", position: "relative" }}>
-        {/* Book cover placeholder — replace with real img when available */}
-        <div style={{ textAlign: "center", padding: "40px" }}>
-          <div style={{ fontFamily: "Amiri, serif", fontSize: "clamp(2rem, 6vw, 3.5rem)", color: "var(--gold)", marginBottom: "16px", direction: "rtl" }}>{BOOK.titleAr}</div>
-          <div style={{ fontFamily: "Georgia, serif", fontSize: "1rem", color: "var(--cream)", opacity: 0.7 }}>{BOOK.titleId}</div>
-          <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.7rem", color: "var(--gold-muted)", marginTop: "8px", letterSpacing: "0.1em" }}>DZIKRA</div>
-        </div>
+      <div style={{ aspectRatio: "3/4", position: "relative", background: "linear-gradient(160deg, var(--navy-mid), var(--navy-deep))" }}>
+        {images.map((src, i) => (
+          <div
+            key={src}
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: `url(${src})`,
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              opacity: i === current ? 1 : 0,
+              transition: "opacity 0.35s ease",
+            }}
+          />
+        ))}
         {/* Navigation arrows */}
         <button onClick={prev} style={{ position: "absolute", left: "8px", top: "50%", transform: "translateY(-50%)", background: "rgba(13,27,42,0.7)", border: "1px solid var(--border-gold)", borderRadius: "50%", width: "36px", height: "36px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--gold)" }}>
           <IconChevronLeft size={16}/>
@@ -198,14 +199,24 @@ function BookModal({ onClose }: { onClose: () => void }) {
               ))}
             </div>
 
-            {/* Features */}
+            {/* Description */}
             <div style={{ marginBottom: "24px" }}>
-              <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.15em", color: "var(--gold-muted)", textTransform: "uppercase", marginBottom: "10px" }}>Highlights</div>
-              {BOOK.features.map(f => (
-                <div key={f} style={{ display: "flex", gap: "8px", marginBottom: "6px", fontFamily: "system-ui, sans-serif", fontSize: "0.78rem", color: "var(--cream)", opacity: 0.8 }}>
-                  <span style={{ color: "var(--gold)", flexShrink: 0 }}>✦</span>{f}
-                </div>
-              ))}
+              <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.15em", color: "var(--gold-muted)", textTransform: "uppercase", marginBottom: "10px" }}>Description</div>
+              <div
+                style={{
+                  maxHeight: "160px",
+                  overflowY: "auto",
+                  paddingRight: "10px",
+                  fontFamily: "system-ui, sans-serif",
+                  fontSize: "0.78rem",
+                  lineHeight: 1.7,
+                  color: "var(--cream)",
+                  opacity: 0.85,
+                  whiteSpace: "pre-line",
+                }}
+              >
+                {BOOK.desc}
+              </div>
             </div>
 
             {/* CTA Buttons */}
@@ -213,7 +224,7 @@ function BookModal({ onClose }: { onClose: () => void }) {
               <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "14px", borderRadius: "3px", textDecoration: "none" }}>
                 <IconWA size={16}/> Order via WhatsApp
               </a>
-              <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-outline-gold" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "13px", borderRadius: "3px", textDecoration: "none" }}>
+              <a href={TALLY_PO} target="_blank" rel="noopener noreferrer" className="btn-outline-gold" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "13px", borderRadius: "3px", textDecoration: "none" }}>
                 Pre-Order Form
               </a>
             </div>
