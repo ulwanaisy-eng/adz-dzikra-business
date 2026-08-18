@@ -352,12 +352,8 @@ function CollectionSection({ onOpenBook }: { onOpenBook: () => void }) {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 360px))", gap: "28px", justifyContent: "center" }}>
           {/* Live Book */}
           <div className="card-book reveal" style={{ borderRadius: "4px", background: "var(--navy)", borderColor: "rgba(200,165,86,0.3)" }}>
-            <div style={{ height: "280px", background: "linear-gradient(160deg, var(--navy-mid), var(--navy-deep))", display: "flex", alignItems: "center", justifyContent: "center", borderBottom: "1px solid rgba(200,165,86,0.15)", position: "relative" }}>
+            <div style={{ height: "280px", backgroundImage: `url(${BOOK.images[0]})`, backgroundSize: "cover", backgroundPosition: "center 15%", display: "flex", alignItems: "flex-start", justifyContent: "flex-start", borderBottom: "1px solid rgba(200,165,86,0.15)", position: "relative" }}>
               <div style={{ position: "absolute", top: "12px", left: "12px" }}><span className="badge-po">Pre-Order</span></div>
-              <div style={{ textAlign: "center", padding: "20px" }}>
-                <div style={{ fontFamily: "Amiri, serif", fontSize: "2.4rem", color: "var(--gold)", direction: "rtl", marginBottom: "8px" }}>{BOOK.titleAr}</div>
-                <div style={{ fontFamily: "Georgia, serif", fontSize: "0.85rem", color: "var(--cream)", opacity: 0.7 }}>{BOOK.titleId}</div>
-              </div>
             </div>
             <div style={{ padding: "20px" }}>
               <h3 style={{ fontFamily: "Georgia, serif", fontSize: "1.1rem", color: "var(--cream)", marginBottom: "4px" }}>{BOOK.titleId}</h3>
