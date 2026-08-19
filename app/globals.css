@@ -268,6 +268,61 @@ body {
   overflow-y: auto;
 }
 
+/* ── STEP ICON ANIMATIONS (How to Order) ── */
+/* Reliable SVG-group rotation: fill-box + center origin avoids any
+   px-based transform-origin mismatch and always spins around the
+   element's own visual center. */
+.icon-spin-slow  { transform-box: fill-box; transform-origin: center; animation: icon-spin 10s linear infinite; }
+.icon-spin-med   { transform-box: fill-box; transform-origin: center; animation: icon-spin 7s linear infinite; }
+.icon-wheel-spin { transform-box: fill-box; transform-origin: center; animation: icon-spin 1.1s linear infinite; }
+@keyframes icon-spin { to { transform: rotate(360deg); } }
+
+.icon-pencil { animation: icon-pencil-move 3.3s ease-in-out infinite; }
+@keyframes icon-pencil-move {
+  0%, 100% { transform: translate(0px, 10px); }
+  50%      { transform: translate(10px, -2px); }
+}
+
+.icon-write-32 { stroke-dasharray: 32; animation: icon-write-32 3.3s ease-in-out infinite; }
+@keyframes icon-write-32 {
+  0%   { stroke-dashoffset: 32; opacity: 0; }
+  10%  { opacity: 1; }
+  40%  { stroke-dashoffset: 0; opacity: 1; }
+  75%  { stroke-dashoffset: 0; opacity: 1; }
+  95%  { opacity: 0; stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 32; opacity: 0; }
+}
+.icon-write-19 { stroke-dasharray: 19; animation: icon-write-19 3.3s ease-in-out infinite; }
+@keyframes icon-write-19 {
+  0%   { stroke-dashoffset: 19; opacity: 0; }
+  10%  { opacity: 1; }
+  40%  { stroke-dashoffset: 0; opacity: 1; }
+  75%  { stroke-dashoffset: 0; opacity: 1; }
+  95%  { opacity: 0; stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 19; opacity: 0; }
+}
+
+.icon-coin { animation: icon-coin-rise 2.1s ease-out infinite; }
+@keyframes icon-coin-rise {
+  0%   { transform: translateY(0); opacity: 0; }
+  15%  { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { transform: translateY(-26px); opacity: 0; }
+}
+
+.icon-sparkle { transform-box: fill-box; transform-origin: center; animation: icon-sparkle-pulse 2.4s ease-in-out infinite; }
+@keyframes icon-sparkle-pulse {
+  0%, 100% { opacity: 0; transform: scale(0.6); }
+  50%      { opacity: 1; transform: scale(1); }
+}
+
+.icon-speedline { animation: icon-speedline 1.3s linear infinite; }
+@keyframes icon-speedline {
+  0%   { transform: translateX(0); opacity: 0; }
+  15%  { opacity: 0.8; }
+  100% { transform: translateX(-84px); opacity: 0; }
+}
+
 /* ── IMAGE SLIDER ── */
 .slider-dot {
   width: 8px;

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState, useCallback } from "react";
 import Book3D from "./components/Book3D";
+import { IconBrowse, IconForm, IconPayment, IconDelivery } from "./components/StepIcons";
 
 const WA_NUMBER = "62882000020979";
 const WA_MSG_GENERAL = encodeURIComponent("Assalamu'alaikum, I'm interested in DZIKRA's publications. Could I get more information?");
@@ -434,32 +435,84 @@ function MengapaSection() {
 function CaraOrderSection() {
   const ref = useReveal();
   const steps = [
-    { n: "01", t: "Browse the Collection", b: "Explore our available titles and choose the one that suits you." },
-    { n: "02", t: "Choose an Edition", b: "Select the book or edition you want to order." },
-    { n: "03", t: "Place Your Order", b: "Order via our official WhatsApp or our Pre-Order form." },
-    { n: "04", t: "Confirm", b: "Confirm and complete payment to secure your copy." },
-    { n: "05", t: "Careful Preparation", b: "Your order is prepared, quality-checked, and packaged securely." },
-    { n: "06", t: "Delivered to You", b: "Receive your kitab and begin a more comfortable learning journey." },
+    { n: "01", t: "Browse Collection", b: "Jelajahi & pilih kitab yang kamu inginkan.", Icon: IconBrowse },
+    { n: "02", t: "Fill Form", b: "Isi data pemesanan pada formulir dengan lengkap.", Icon: IconForm },
+    { n: "03", t: "Payment", b: "Lakukan pembayaran aman & konfirmasi pesanan.", Icon: IconPayment },
+    { n: "04", t: "Delivery", b: "Paket disiapkan & dikirimkan langsung ke alamatmu.", Icon: IconDelivery },
   ];
   return (
     <section id="cara-pesan" className="section-cream batik-cream" style={{ padding: "100px 24px" }}>
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "1180px", margin: "0 auto" }}>
         <div ref={ref} className="reveal" style={{ textAlign: "center", marginBottom: "60px" }}>
           <SectionEyebrow light>How to Order</SectionEyebrow>
           <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 400, color: "var(--navy)", lineHeight: 1.25, marginBottom: "16px" }}>
-            Six Simple Steps
+            Four Simple Steps
           </h2>
           <OrnamentDivider light/>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1px", background: "rgba(27,42,74,0.1)", border: "1px solid rgba(27,42,74,0.1)", borderRadius: "4px", overflow: "hidden" }}>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {steps.map((s, i) => (
-            <div key={s.n} className="reveal" style={{ padding: "28px 24px", background: "rgba(245,237,214,0.6)", transitionDelay: `${i * 0.07}s` }}>
-              <div style={{ fontFamily: "Georgia, serif", fontSize: "2.8rem", color: "rgba(27,42,74,0.12)", lineHeight: 1, marginBottom: "12px" }}>{s.n}</div>
-              <h3 style={{ fontFamily: "Georgia, serif", fontSize: "0.96rem", color: "var(--navy)", marginBottom: "8px" }}>{s.t}</h3>
-              <p style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.78rem", lineHeight: 1.7, color: "var(--navy)", opacity: 0.6 }}>{s.b}</p>
+            <div
+              key={s.n}
+              className="reveal group relative transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(27,42,74,0.12)]"
+              style={{
+                transitionDelay: `${i * 0.09}s`,
+                background: "rgba(245,237,214,0.55)",
+                border: "1px solid rgba(27,42,74,0.1)",
+                borderRadius: "10px",
+                padding: "32px 22px 28px",
+                textAlign: "center",
+              }}
+            >
+              {/* Step number badge */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "16px",
+                  right: "18px",
+                  fontFamily: "Georgia, serif",
+                  fontSize: "0.7rem",
+                  letterSpacing: "0.1em",
+                  color: "var(--gold-muted)",
+                  opacity: 0.7,
+                }}
+              >
+                {s.n}
+              </div>
+
+              {/* Icon */}
+              <div
+                style={{
+                  width: "84px",
+                  height: "84px",
+                  margin: "4px auto 18px",
+                  borderRadius: "50%",
+                  background: "radial-gradient(circle, rgba(200,165,86,0.12) 0%, rgba(200,165,86,0.02) 70%)",
+                  border: "1px solid rgba(200,165,86,0.22)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <s.Icon size={56}/>
+              </div>
+
+              <h3 style={{ fontFamily: "Georgia, serif", fontSize: "1.05rem", color: "var(--navy)", marginBottom: "8px" }}>{s.t}</h3>
+              <p style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.78rem", lineHeight: 1.7, color: "var(--navy)", opacity: 0.62 }}>{s.b}</p>
+
+              {/* Connector arrow between steps (visible only when 4 columns are in a single row) */}
+              {i < steps.length - 1 && (
+                <div className="hidden lg:block absolute top-1/2 -right-3.5 -translate-y-1/2 z-10" aria-hidden>
+                  <svg width="20" height="12" viewBox="0 0 20 12" fill="none">
+                    <path d="M0 6H18M18 6L13 1M18 6L13 11" stroke="var(--gold-muted)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/>
+                  </svg>
+                </div>
+              )}
             </div>
           ))}
         </div>
+
         <div style={{ textAlign: "center", marginTop: "48px" }}>
           <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ display: "inline-flex", alignItems: "center", gap: "10px", padding: "14px 32px", borderRadius: "3px", textDecoration: "none" }}>
             <IconWA size={15}/> Begin Your Order via WhatsApp
