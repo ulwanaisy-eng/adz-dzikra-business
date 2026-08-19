@@ -435,10 +435,10 @@ function MengapaSection() {
 function CaraOrderSection() {
   const ref = useReveal();
   const steps = [
-    { n: "01", t: "Browse Collection", b: "Jelajahi & pilih kitab yang kamu inginkan.", Icon: IconBrowse },
-    { n: "02", t: "Fill Form", b: "Isi data pemesanan pada formulir dengan lengkap.", Icon: IconForm },
-    { n: "03", t: "Payment", b: "Lakukan pembayaran aman & konfirmasi pesanan.", Icon: IconPayment },
-    { n: "04", t: "Delivery", b: "Paket disiapkan & dikirimkan langsung ke alamatmu.", Icon: IconDelivery },
+    { n: "01", t: "Browse Collection", b: "Explore and choose the kitab you're looking for.", Icon: IconBrowse },
+    { n: "02", t: "Fill Form", b: "Complete your order details in the form.", Icon: IconForm },
+    { n: "03", t: "Payment", b: "Make a secure payment and confirm your order.", Icon: IconPayment },
+    { n: "04", t: "Delivery", b: "Your package is prepared and shipped straight to your door.", Icon: IconDelivery },
   ];
   return (
     <section id="cara-pesan" className="section-cream batik-cream" style={{ padding: "100px 24px" }}>
