@@ -246,7 +246,7 @@ function Navigation() {
   }, []);
 
   const links = [
-    { label: "Why DZIKRA", href: "#mengapa" },
+    { label: "About Us", href: "#about" },
     { label: "Collection", href: "#koleksi" },
     { label: "How to Order", href: "#cara-pesan" },
     { label: "Contact", href: "#kontak" },
@@ -394,35 +394,80 @@ function CollectionSection({ onOpenBook }: { onOpenBook: () => void }) {
   );
 }
 
-// ── WHY DZIKRA ────────────────────────────────────────────────────
-function MengapaSection() {
+// ── ABOUT / PUBLISHER PROFILE ─────────────────────────────────────
+const PUBLISHERS = [
+  "Mutiara Ilmu","Ahmad Nabhan","Pustaka Progressif","Al-Hidayah",
+  "Ali Imran","Daarul Abidin","Daarul Haddad","Duta Ilmu",
+  "Darul Ilmi","Balai Buku","Ibnu Abud",
+];
+
+function AboutSection() {
   const ref = useReveal();
   return (
-    <section id="mengapa" className="batik-bg" style={{ padding: "100px 24px", background: "var(--navy)" }}>
+    <section id="about" className="batik-bg" style={{ padding: "100px 24px", background: "var(--navy)" }}>
       <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-        <div ref={ref} className="reveal" style={{ textAlign: "center", marginBottom: "56px" }}>
-          <SectionEyebrow>Why DZIKRA</SectionEyebrow>
+        <div ref={ref} className="reveal" style={{ textAlign: "center", marginBottom: "60px" }}>
+          <SectionEyebrow>About DZIKRA</SectionEyebrow>
           <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 400, color: "var(--cream)", lineHeight: 1.25, marginBottom: "16px" }}>
-            Built on<br/><span className="text-gold-gradient">Three Decades of Expertise</span>
+            A Legacy Born in <span className="text-gold-gradient">1992</span>
           </h2>
           <OrnamentDivider/>
-          <p style={{ fontFamily: "Georgia, serif", fontSize: "0.98rem", lineHeight: 1.85, color: "var(--text-muted-navy)", maxWidth: "620px", margin: "16px auto 0", fontStyle: "italic" }}>
-            Since 1992, Dzikra Comp. Rembang has been trusted by leading Islamic publishers across Indonesia for meticulous Arabic typesetting. DZIKRA now carries that legacy into its own publications.
-          </p>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1px", background: "rgba(200,165,86,0.08)", border: "1px solid rgba(200,165,86,0.08)", borderRadius: "4px", overflow: "hidden" }}>
+
+        {/* Story + Logo side by side */}
+        <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "48px", alignItems: "center", marginBottom: "64px" }}>
+          {/* Logo */}
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ width: "200px", height: "200px", borderRadius: "50%", border: "2px solid rgba(200,165,86,0.3)", display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(200,165,86,0.04)", boxShadow: "0 0 40px rgba(200,165,86,0.08)" }}>
+              <img src="/logo.png" alt="DZIKRA" style={{ width: "180px", height: "180px", objectFit: "contain", filter: "drop-shadow(0 0 8px rgba(200,165,86,0.2))" }}/>
+            </div>
+          </div>
+          {/* Story */}
+          <div>
+            <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold-muted)", marginBottom: "20px", opacity: 0.7 }}>Our Story</div>
+            <p style={{ fontFamily: "Georgia, serif", fontSize: "clamp(0.92rem, 1.6vw, 1.05rem)", lineHeight: 1.9, color: "var(--text-muted-navy)", marginBottom: "16px", fontStyle: "italic" }}>
+              DZIKRA was founded upon a legacy that began in 1992, when Bapak Mudzakkir Khalil of Rembang, Central Java, began his journey in the world of Arabic manuscript typesetting — first by hand, and later embracing the digital era with the same dedication and precision.
+            </p>
+            <p style={{ fontFamily: "Georgia, serif", fontSize: "clamp(0.92rem, 1.6vw, 1.05rem)", lineHeight: 1.9, color: "var(--text-muted-navy)", marginBottom: "16px", fontStyle: "italic" }}>
+              For over three decades, his craftsmanship — in typesetting, layout, and manuscript correction — has served some of Indonesia's most respected Islamic publishers. His work has shaped countless kitab that scholars and students rely upon to this day.
+            </p>
+            <p style={{ fontFamily: "Georgia, serif", fontSize: "clamp(0.92rem, 1.6vw, 1.05rem)", lineHeight: 1.9, color: "var(--text-muted-navy)", fontStyle: "italic" }}>
+              Today, DZIKRA channels that wealth of experience into publishing under its own name — bringing the works of classical Islamic scholars to readers with the clarity, beauty, and authenticity they deserve.
+            </p>
+          </div>
+        </div>
+
+        {/* Publisher Heritage */}
+        <div className="reveal" style={{ border: "1px solid rgba(200,165,86,0.15)", borderRadius: "4px", padding: "clamp(24px, 4vw, 44px)", background: "rgba(200,165,86,0.025)", marginBottom: "48px" }}>
+          <div style={{ textAlign: "center", marginBottom: "24px" }}>
+            <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold-muted)", marginBottom: "10px", opacity: 0.7 }}>Trusted by Indonesia's Leading Islamic Publishers Since 1992</div>
+            <p style={{ fontFamily: "Georgia, serif", fontSize: "0.88rem", lineHeight: 1.8, color: "var(--text-muted-navy)", fontStyle: "italic", maxWidth: "560px", margin: "0 auto" }}>
+              Over the decades, Dzikra Comp. has had the honour of serving publishers including:
+            </p>
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 20px", justifyContent: "center" }}>
+            {PUBLISHERS.map((p, i) => (
+              <span key={p} style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.7rem", letterSpacing: "0.06em", color: "var(--gold-muted)", opacity: 0.65, display: "flex", alignItems: "center", gap: "10px" }}>
+                {p}{i < PUBLISHERS.length - 1 && <span style={{ opacity: 0.3 }}>·</span>}
+              </span>
+            ))}
+            <span style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.7rem", color: "var(--gold-muted)", opacity: 0.45, fontStyle: "italic" }}>& many more</span>
+          </div>
+        </div>
+
+        {/* Publisher Info (for ISBN) */}
+        <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1px", background: "rgba(200,165,86,0.07)", border: "1px solid rgba(200,165,86,0.07)", borderRadius: "4px", overflow: "hidden" }}>
           {[
-            { icon: "◈", title: "Professional Arabic Typesetting", body: "30 years of specialization in Arabic typesetting for major Indonesian publishers. Every diacritic and spacing detail is carefully attended to." },
-            { icon: "✦", title: "Distinctive Indonesian Design", body: "Central Java batik motifs meet classical kitab aesthetics — a local identity no other publisher has." },
-            { icon: "◇", title: "Carefully Chosen Materials", body: "Eye-friendly cream bookpaper, a sturdy hard cover, and durable binding to accompany years of study." },
-            { icon: "◉", title: "Authentic & Trustworthy", body: "Manuscripts are carefully prepared, preserving the integrity of the original text with the utmost clarity and precision." },
-            { icon: "⬡", title: "Protected Delivery", body: "Every order is packaged securely to ensure the kitab arrives safely anywhere in Indonesia." },
-            { icon: "✧", title: "Made in Indonesia", body: "Published, designed, and printed in Indonesia — supporting a quality local Islamic publishing industry." },
-          ].map((c, i) => (
-            <div key={c.title} className="card-feature reveal" style={{ padding: "clamp(24px, 3vw, 36px)", transitionDelay: `${i * 0.08}s` }}>
-              <div style={{ fontSize: "1.1rem", color: "var(--gold-muted)", marginBottom: "12px", opacity: 0.8 }}>{c.icon}</div>
-              <h3 style={{ fontFamily: "Georgia, serif", fontSize: "0.96rem", fontWeight: 400, color: "var(--cream)", marginBottom: "8px", lineHeight: 1.4 }}>{c.title}</h3>
-              <p style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.78rem", lineHeight: 1.75, color: "var(--text-muted-navy)" }}>{c.body}</p>
+            { label: "Publisher Name", value: "Dzikra Company" },
+            { label: "NIB", value: "1208260078792" },
+            { label: "Field", value: "Islamic Book Publishing (KBLI 58110)" },
+            { label: "Est.", value: "2026 (Legacy since 1992)" },
+            { label: "Location", value: "Rembang, Central Java, Indonesia" },
+            { label: "Contact", value: "dzikracompofficial05@gmail.com" },
+          ].map(item => (
+            <div key={item.label} style={{ padding: "20px 24px", background: "rgba(13,27,42,0.6)" }}>
+              <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.55rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--gold-muted)", opacity: 0.6, marginBottom: "6px" }}>{item.label}</div>
+              <div style={{ fontFamily: "Georgia, serif", fontSize: "0.88rem", color: "var(--cream)", opacity: 0.85 }}>{item.value}</div>
             </div>
           ))}
         </div>
@@ -591,7 +636,7 @@ function Footer() {
           </div>
           <div>
             <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.56rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--gold-muted)", opacity: 0.7, marginBottom: "14px" }}>Navigate</div>
-            {[{ l: "Why DZIKRA", h: "#mengapa" }, { l: "Collection", h: "#koleksi" }, { l: "How to Order", h: "#cara-pesan" }, { l: "Contact", h: "#kontak" }].map(l => (
+            {[{ l: "About Us", h: "#about" }, { l: "Collection", h: "#koleksi" }, { l: "How to Order", h: "#cara-pesan" }, { l: "Contact", h: "#kontak" }].map(l => (
               <a key={l.h} href={l.h} style={{ display: "block", fontFamily: "system-ui, sans-serif", fontSize: "0.76rem", color: "var(--text-muted-navy)", textDecoration: "none", marginBottom: "8px", opacity: 0.6, transition: "opacity 0.2s" }}
                 onMouseEnter={e => (e.currentTarget.style.opacity = "1")} onMouseLeave={e => (e.currentTarget.style.opacity = "0.6")}>{l.l}</a>
             ))}
@@ -636,7 +681,7 @@ export default function Home() {
       <main>
         <HeroSection onOpenBook={() => setBookOpen(true)}/>
         <CollectionSection onOpenBook={() => setBookOpen(true)}/>
-        <MengapaSection/>
+        <AboutSection/>
         <CaraOrderSection/>
         <ContactSection/>
       </main>
