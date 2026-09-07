@@ -84,26 +84,47 @@ function useReveal() {
 }
 
 // ── BOOK DATA ─────────────────────────────────────────────────────
-const BOOK = {
-  titleAr: "رياض الصالحين",
-  titleId: "Riyadhussalihin",
-  author: "Imam An-Nawawi",
-  authorAr: "الإمام النووي",
-  desc: "Riyadh as-Salihin (The Meadows of the Righteous) is a timeless collection of Prophetic guidance compiled by Imam al-Nawawi. It explores the foundations of a believer's life—from sincerity, repentance, patience, gratitude, and remembrance of Allah to worship, character, manners, and relationships with others.\n\nThrough carefully selected hadiths from the Qur'an and Sunnah, the work offers guidance for purifying the heart, strengthening faith, and living a life of righteousness.\n\nA classic work for those seeking to understand Islam not only as knowledge, but as a way of life.",
-  price_po: "Rp 199.999",
-  price_normal: "Rp 250.000",
-  price_reseller: "Rp 180.000",
-  pages: "560 pages",
-  size: "14 × 21 cm",
-  cover: "Hard Cover",
-  paper: "Bookpaper 72 gr",
-  status: "PRE-ORDER",
-  images: [
-    "/book/front-cover.jpg",
-    "/book/spine.jpg",
-    "/book/back-cover.jpg",
-  ],
-};
+const BOOKS = [
+  {
+    id: "riyadhussalihin",
+    titleAr: "رياض الصالحين",
+    titleId: "Riyadhussalihin",
+    author: "Imam An-Nawawi",
+    authorAr: "الإمام النووي",
+    description: `Riyadh as-Salihin (The Meadows of the Righteous) is a timeless collection of Prophetic guidance compiled by Imam al-Nawawi. It explores the foundations of a believer's life — from sincerity, repentance, patience, gratitude, and remembrance of Allah to worship, character, manners, and relationships with others.
+
+Through carefully selected hadiths from the Qur'an and Sunnah, the work offers guidance for purifying the heart, strengthening faith, and living a life of righteousness.
+
+A classic work for those seeking to understand Islam not only as knowledge, but as a way of life.`,
+    price_po: "Rp 199.999",
+    price_normal: "Rp 250.000",
+    pages: "560 pages",
+    size: "14 × 21 cm",
+    cover: "Hard Cover",
+    paper: "Bookpaper 72 gr",
+    images: ["/cover-front.jpg", "/cover-back.jpg"],
+  },
+  {
+    id: "al-adzkar",
+    titleAr: "الأذكار",
+    titleId: "Al-Adzkar",
+    author: "Imam An-Nawawi",
+    authorAr: "الإمام النووي",
+    description: `Al-Adhkar, authored by Imam Abu Zakariya Yahya ibn Sharaf al-Nawawi رحمه الله, is a monumental work that compiles authentic supplications, remembrances (adhkar), and Islamic etiquettes derived from the guidance of the Messenger of Allah ﷺ. For centuries, this book has served as a trusted reference for Muslims seeking to fill their daily lives with the remembrance of Allah and the practice of the Prophetic Sunnah.
+
+In this classic work, Imam al-Nawawi carefully organizes authentic adhkar and supplications for a wide range of situations and occasions, including morning and evening routines, daily acts of worship, travel, social interactions, and many other circumstances encountered throughout a Muslim's life.
+
+The Dzikra Edition has been prepared with a reader-friendly layout, high-quality printing, and careful attention to presentation.`,
+    price_po: "Rp 199.999",
+    price_normal: "Rp 250.000",
+    pages: "376 pages",
+    size: "14 × 21 cm",
+    cover: "Hard Cover",
+    paper: "Bookpaper 72 gr",
+    images: ["/adzkar-front.jpg", "/adzkar-back.jpg"],
+  },
+];
+const BOOK = BOOKS[0];
 
 // ── IMAGE SLIDER ──────────────────────────────────────────────────
 function ImageSlider({ images }: { images: string[] }) {
@@ -148,7 +169,7 @@ function ImageSlider({ images }: { images: string[] }) {
 }
 
 // ── BOOK MODAL ────────────────────────────────────────────────────
-function BookModal({ onClose }: { onClose: () => void }) {
+function BookModal({ onClose, book }: { onClose: () => void; book: typeof BOOKS[0] }) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
@@ -166,20 +187,20 @@ function BookModal({ onClose }: { onClose: () => void }) {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "0" }}>
           {/* Left — Image */}
           <div style={{ padding: "24px", borderRight: "1px solid var(--border-gold)" }}>
-            <ImageSlider images={BOOK.images}/>
+            <ImageSlider images={book.images}/>
           </div>
           {/* Right — Info */}
           <div style={{ padding: "24px" }}>
-            <div style={{ fontFamily: "Amiri, serif", fontSize: "2rem", color: "var(--gold)", direction: "rtl", marginBottom: "4px" }}>{BOOK.titleAr}</div>
-            <div style={{ fontFamily: "Georgia, serif", fontSize: "1.3rem", color: "var(--cream)", marginBottom: "4px" }}>{BOOK.titleId}</div>
-            <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.75rem", color: "var(--text-muted-navy)", marginBottom: "20px" }}>{BOOK.author}</div>
+            <div style={{ fontFamily: "Amiri, serif", fontSize: "2rem", color: "var(--gold)", direction: "rtl", marginBottom: "4px" }}>{book.titleAr}</div>
+            <div style={{ fontFamily: "Georgia, serif", fontSize: "1.3rem", color: "var(--cream)", marginBottom: "4px" }}>{book.titleId}</div>
+            <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.75rem", color: "var(--text-muted-navy)", marginBottom: "20px" }}>{book.author}</div>
 
             {/* Price */}
             <div style={{ background: "rgba(200,165,86,0.06)", border: "1px solid var(--border-gold)", borderRadius: "3px", padding: "16px", marginBottom: "20px" }}>
               <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.15em", color: "var(--gold)", textTransform: "uppercase", marginBottom: "6px" }}>Pre-Order Price</div>
-              <div className="price-po">{BOOK.price_po}</div>
+              <div className="price-po">{book.price_po}</div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "4px" }}>
-                <span className="price-normal">{BOOK.price_normal}</span>
+                <span className="price-normal">{book.price_normal}</span>
                 <span style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.62rem", color: "#E57373", background: "rgba(229,115,115,0.1)", padding: "2px 6px", borderRadius: "2px" }}>Save Rp 50,001</span>
               </div>
             </div>
@@ -188,10 +209,10 @@ function BookModal({ onClose }: { onClose: () => void }) {
             <div style={{ marginBottom: "20px" }}>
               <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.15em", color: "var(--gold-muted)", textTransform: "uppercase", marginBottom: "10px" }}>Specifications</div>
               {[
-                ["Pages", BOOK.pages],
-                ["Size", BOOK.size],
-                ["Binding", BOOK.cover],
-                ["Paper", BOOK.paper],
+                ["Pages", book.pages],
+                ["Size", book.size],
+                ["Binding", book.cover],
+                ["Paper", book.paper],
               ].map(([k, v]) => (
                 <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: "1px solid rgba(200,165,86,0.08)", fontFamily: "system-ui, sans-serif", fontSize: "0.78rem" }}>
                   <span style={{ color: "var(--text-muted-navy)" }}>{k}</span>
@@ -334,72 +355,63 @@ function HeroSection({ onOpenBook }: { onOpenBook: () => void }) {
 }
 
 // ── COLLECTION SECTION ────────────────────────────────────────────
-function CollectionSection({ onOpenBook }: { onOpenBook: () => void }) {
+function CollectionSection({ onOpenBook }: { onOpenBook: (b: typeof BOOKS[0]) => void }) {
   const ref = useReveal();
   return (
-    <section id="koleksi" className="section-cream batik-cream" style={{ padding: "100px 24px" }}>
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-        <div ref={ref} className="reveal" style={{ textAlign: "center", marginBottom: "56px" }}>
-          <SectionEyebrow light>Collection DZIKRA</SectionEyebrow>
-          <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 400, color: "var(--navy)", lineHeight: 1.25, marginBottom: "16px" }}>
-            Our Publications
-          </h2>
-          <OrnamentDivider light/>
-          <p style={{ fontFamily: "Georgia, serif", fontSize: "0.95rem", lineHeight: 1.85, color: "var(--navy)", opacity: 0.6, maxWidth: "560px", margin: "16px auto 0", fontStyle: "italic" }}>
-            Every title is carefully selected and published to the highest quality standards.
+    <section id="collection" className="section-cream batik-cream" style={{ padding:"96px 24px" }}>
+      <div style={{ maxWidth:"1100px", margin:"0 auto" }}>
+        <div ref={ref} className="reveal" style={{ textAlign:"center", marginBottom:"52px" }}>
+          <SectionEyebrow light>Our Collection</SectionEyebrow>
+          <h2 style={{ fontFamily:"Georgia,serif", fontSize:"clamp(1.8rem,3.5vw,2.8rem)", fontWeight:400, color:"var(--navy)", lineHeight:1.25, marginBottom:"12px" }}>Our Publications</h2>
+          <OrnamentDivider/>
+          <p style={{ fontFamily:"Georgia,serif", fontSize:"0.92rem", lineHeight:1.85, color:"var(--navy)", opacity:0.55, maxWidth:"520px", margin:"12px auto 0", fontStyle:"italic" }}>
+            Every title is carefully selected and published to the highest standards of craftsmanship.
           </p>
         </div>
-        {/* Book Card */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 360px))", gap: "28px", justifyContent: "center" }}>
-          {/* Live Book */}
-          <div className="card-book reveal" style={{ borderRadius: "4px", background: "var(--navy)", borderColor: "rgba(200,165,86,0.3)" }}>
-            <div style={{ height: "280px", backgroundImage: `url(${BOOK.images[0]})`, backgroundSize: "cover", backgroundPosition: "center 15%", display: "flex", alignItems: "flex-start", justifyContent: "flex-start", borderBottom: "1px solid rgba(200,165,86,0.15)", position: "relative" }}>
-              <div style={{ position: "absolute", top: "12px", left: "12px" }}><span className="badge-po">Pre-Order</span></div>
-            </div>
-            <div style={{ padding: "20px" }}>
-              <h3 style={{ fontFamily: "Georgia, serif", fontSize: "1.1rem", color: "var(--cream)", marginBottom: "4px" }}>{BOOK.titleId}</h3>
-              <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.72rem", color: "var(--text-muted-navy)", marginBottom: "12px" }}>{BOOK.author}</div>
-              <div style={{ display: "flex", alignItems: "baseline", gap: "10px", marginBottom: "16px" }}>
-                <span className="price-po" style={{ fontSize: "1.2rem" }}>{BOOK.price_po}</span>
-                <span className="price-normal">{BOOK.price_normal}</span>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(270px, 340px))", gap:"28px", justifyContent:"center" }}>
+          {BOOKS.map((bk, idx) => (
+            <div key={bk.id} className="card-book reveal" style={{ borderRadius:"4px", background:"var(--navy)", borderColor:"rgba(200,165,86,0.3)", transitionDelay:`${idx*0.12}s` }}>
+              <div style={{ height:"300px", overflow:"hidden", borderBottom:"1px solid rgba(200,165,86,0.15)", position:"relative", cursor:"pointer" }} onClick={() => onOpenBook(bk)}>
+                <img src={bk.images[0]} alt={bk.titleId} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block", transition:"transform 0.4s ease" }}
+                  onMouseEnter={e=>(e.currentTarget.style.transform="scale(1.04)")}
+                  onMouseLeave={e=>(e.currentTarget.style.transform="scale(1)")}/>
+                <div style={{ position:"absolute", top:"10px", left:"10px" }}><span className="badge-po">Pre-Order</span></div>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
-                <button onClick={onOpenBook} className="btn-navy" style={{ padding: "10px", borderRadius: "3px", fontSize: "0.68rem", letterSpacing: "0.06em" }}>Book Details</button>
-                <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ padding: "10px", borderRadius: "3px", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontSize: "0.68rem" }}>
-                  <IconWA size={12}/> Order
-                </a>
-              </div>
-            </div>
-          </div>
-          {/* Placeholder 2 */}
-          {[1,2].map(i => (
-            <div key={i} className="card-book reveal" style={{ borderRadius: "4px", background: "var(--navy)", opacity: 0.5, transitionDelay: `${i * 0.1}s` }}>
-              <div style={{ height: "280px", background: "linear-gradient(160deg, var(--navy-mid), var(--navy-deep))", display: "flex", alignItems: "center", justifyContent: "center", borderBottom: "1px solid rgba(200,165,86,0.08)" }}>
-                <div style={{ textAlign: "center" }}>
-                  <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: "var(--gold-muted)", opacity: 0.5, marginBottom: "8px", textTransform: "uppercase" }}>Coming Soon</div>
-                  <div style={{ fontFamily: "Georgia, serif", fontSize: "0.78rem", color: "var(--gold)", opacity: 0.35 }}>Next Edition</div>
+              <div style={{ padding:"20px" }}>
+                <div style={{ fontFamily:"Amiri,serif", fontSize:"1.3rem", color:"var(--gold)", direction:"rtl", marginBottom:"4px" }}>{bk.titleAr}</div>
+                <h3 style={{ fontFamily:"Georgia,serif", fontSize:"1.05rem", color:"var(--cream)", marginBottom:"3px" }}>{bk.titleId}</h3>
+                <div style={{ fontFamily:"system-ui,sans-serif", fontSize:"0.7rem", color:"var(--text-muted-navy)", marginBottom:"12px" }}>{bk.author} · {bk.pages}</div>
+                <div style={{ display:"flex", alignItems:"baseline", gap:"8px", marginBottom:"14px" }}>
+                  <span style={{ fontFamily:"Georgia,serif", fontSize:"1.15rem", color:"var(--gold-bright)" }}>{bk.price_po}</span>
+                  <span style={{ fontFamily:"system-ui,sans-serif", fontSize:"0.72rem", color:"var(--text-muted-navy)", textDecoration:"line-through" }}>{bk.price_normal}</span>
                 </div>
-              </div>
-              <div style={{ padding: "20px" }}>
-                <h3 style={{ fontFamily: "Georgia, serif", fontSize: "1rem", color: "var(--cream)", opacity: 0.4, marginBottom: "12px" }}>Coming Soon</h3>
-                <button disabled style={{ width: "100%", padding: "10px", background: "rgba(200,165,86,0.05)", border: "1px solid rgba(200,165,86,0.12)", borderRadius: "3px", fontFamily: "system-ui, sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--gold-muted)", opacity: 0.4, cursor: "not-allowed" }}>
-                  Not Yet Available
-                </button>
+                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"8px" }}>
+                  <button onClick={()=>onOpenBook(bk)} className="btn-navy" style={{ padding:"10px", borderRadius:"3px", fontSize:"0.66rem", letterSpacing:"0.05em" }}>Details</button>
+                  <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ padding:"10px", borderRadius:"3px", textDecoration:"none", display:"flex", alignItems:"center", justifyContent:"center", gap:"5px", fontSize:"0.66rem" }}>
+                    <IconWA size={12}/> Order
+                  </a>
+                </div>
               </div>
             </div>
           ))}
+          <div className="card-book reveal" style={{ borderRadius:"4px", background:"var(--navy)", opacity:0.38, transitionDelay:"0.24s" }}>
+            <div style={{ height:"300px", background:"linear-gradient(160deg,var(--navy-mid),var(--navy-deep))", display:"flex", alignItems:"center", justifyContent:"center", borderBottom:"1px solid rgba(200,165,86,0.07)" }}>
+              <div style={{ textAlign:"center", padding:"20px" }}>
+                <div style={{ fontFamily:"system-ui,sans-serif", fontSize:"0.52rem", letterSpacing:"0.2em", color:"var(--gold-muted)", opacity:0.5, marginBottom:"10px", textTransform:"uppercase" }}>Coming Soon</div>
+                <div style={{ fontFamily:"Amiri,serif", fontSize:"1.8rem", color:"var(--gold)", direction:"rtl", opacity:0.4, marginBottom:"6px" }}>شرح الحكم</div>
+                <div style={{ fontFamily:"Georgia,serif", fontSize:"0.82rem", color:"var(--gold)", opacity:0.3 }}>Syarah Al-Hikam</div>
+              </div>
+            </div>
+            <div style={{ padding:"20px" }}>
+              <h3 style={{ fontFamily:"Georgia,serif", fontSize:"0.96rem", color:"var(--cream)", opacity:0.3, marginBottom:"12px" }}>Syarah Al-Hikam</h3>
+              <button disabled style={{ width:"100%", padding:"10px", background:"rgba(200,165,86,0.04)", border:"1px solid rgba(200,165,86,0.1)", borderRadius:"3px", fontFamily:"system-ui,sans-serif", fontSize:"0.63rem", letterSpacing:"0.1em", textTransform:"uppercase", color:"var(--gold-muted)", opacity:0.3, cursor:"not-allowed" }}>Coming Soon</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
-
-// ── ABOUT / PUBLISHER PROFILE ─────────────────────────────────────
-const PUBLISHERS = [
-  "Mutiara Ilmu","Ahmad Nabhan","Pustaka Progressif","Al-Hidayah",
-  "Ali Imran","Daarul Abidin","Daarul Haddad","Duta Ilmu",
-  "Darul Ilmi","Balai Buku","Ibnu Abud",
-];
 
 function AboutSection() {
   const ref = useReveal();
@@ -673,14 +685,16 @@ function ScrollReveal() {
 
 // ── MAIN ─────────────────────────────────────────────────────────
 export default function Home() {
-  const [bookOpen, setBookOpen] = useState(false);
+  const [selectedBook, setSelectedBook] = useState<typeof BOOKS[0] | null>(null);
+  const openBook = (b: typeof BOOKS[0]) => setSelectedBook(b);
+  const closeBook = () => setSelectedBook(null);
   return (
     <>
       <ScrollReveal/>
       <Navigation/>
       <main>
-        <HeroSection onOpenBook={() => setBookOpen(true)}/>
-        <CollectionSection onOpenBook={() => setBookOpen(true)}/>
+        <HeroSection onOpenBook={() => openBook(BOOKS[0])}/>
+        <CollectionSection onOpenBook={openBook}/>
         <AboutSection/>
         <CaraOrderSection/>
         <ContactSection/>
@@ -691,7 +705,7 @@ export default function Home() {
         <IconWA size={24}/>
       </a>
       {/* Book Modal */}
-      {bookOpen && <BookModal onClose={() => setBookOpen(false)}/>}
+      {selectedBook && <BookModal onClose={closeBook} book={selectedBook}/>}
     </>
   );
 }
