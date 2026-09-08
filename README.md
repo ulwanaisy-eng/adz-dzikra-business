@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DZIKRA CMS
 
-## Getting Started
+The storefront now includes a private product manager at `/admin`.
 
-First, run the development server:
+## What you can manage
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Add, edit, publish, or draft products.
+- Upload multiple product images from the browser.
+- Set prices, author, Arabic title, description, specifications, badge, and WhatsApp checkout link.
+- Choose the featured product shown in the hero.
+- Edit hero text and buttons.
+- Edit collection heading/description.
+- Toggle About, How to Order, and Contact sections.
+- Show or hide an announcement bar.
+- Update WhatsApp, Instagram, email, and pre-order form settings.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How it works
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The admin UI writes the catalog and homepage settings into `data/products.json` and `data/settings.json` through the GitHub Contents API. Each save creates a normal Git commit; Vercel then deploys the new commit automatically.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+No GitHub Release or tag is required for product publishing.
 
-## Learn More
+## Vercel environment variables
 
-To learn more about Next.js, take a look at the following resources:
+Add these server-only variables in Vercel Project Settings → Environment Variables:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `DZIKRA_ADMIN_PASSWORD`
+- `GITHUB_CMS_TOKEN`
+- `GITHUB_CMS_OWNER` = `ulwanaisy-eng` (optional)
+- `GITHUB_CMS_REPO` = `adz-dzikra-business` (optional)
+- `GITHUB_CMS_BRANCH` = `main` (optional)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The GitHub token must be allowed to write repository contents. Never prefix it with `NEXT_PUBLIC_`.
 
-## Deploy on Vercel
+After adding/changing environment variables, redeploy the project.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Admin URL
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`https://www.dzikrapenerbit.com/admin`
+

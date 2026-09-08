@@ -27,9 +27,12 @@ interface Book3DProps {
   /** Optional caption shown under the book (defaults to the existing hero copy) */
   caption?: string;
   className?: string;
+  frontImage?: string;
+  backImage?: string;
+  spineImage?: string;
 }
 
-export default function Book3D({ onClick, caption = "Click to view details →", className = "" }: Book3DProps) {
+export default function Book3D({ onClick, caption = "Click to view details →", className = "", frontImage = "/book/front-cover.jpg", backImage = "/book/back-cover.jpg", spineImage = "/book/spine.jpg" }: Book3DProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
 
@@ -71,7 +74,7 @@ export default function Book3D({ onClick, caption = "Click to view details →",
         ref={containerRef}
         role="button"
         tabIndex={0}
-        aria-label="View Riyadhussalihin book details"
+        aria-label="View featured book details"
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={handleMouseLeave}
@@ -115,7 +118,7 @@ export default function Book3D({ onClick, caption = "Click to view details →",
             className="absolute inset-0 rounded-[3px] overflow-hidden"
             style={{
               transform: "translateZ(calc(var(--book-t) / 2))",
-              backgroundImage: "url(/book/front-cover.jpg)",
+              backgroundImage: `url(${frontImage})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               boxShadow:
@@ -152,7 +155,7 @@ export default function Book3D({ onClick, caption = "Click to view details →",
             className="absolute inset-0 rounded-[3px] overflow-hidden"
             style={{
               transform: "rotateY(180deg) translateZ(calc(var(--book-t) / 2))",
-              backgroundImage: "url(/book/back-cover.jpg)",
+              backgroundImage: `url(${backImage})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.15)",
@@ -166,7 +169,7 @@ export default function Book3D({ onClick, caption = "Click to view details →",
               width: "var(--book-t)",
               height: "var(--book-h)",
               transform: "translateX(calc(var(--book-t) * -0.5)) rotateY(-90deg)",
-              backgroundImage: "url(/book/spine.jpg)",
+              backgroundImage: `url(${spineImage})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               boxShadow: "inset -3px 0 6px rgba(0,0,0,0.4)",
