@@ -29,18 +29,24 @@ export async function POST(request: Request) {
     const body = await request.json();
     const product = body.product;
     const settings = body.settings;
-    if (!product?.id || !product?.titleId || !product?.price_po) {
-      return NextResponse.json({ error: "Nama produk, ID/slug, dan harga wajib diisi." }, { status: 400 });
+    if (!product && !settings) {
+      return NextResponse.json({ error: "Tidak ada data yang disimpan." }, { status: 400 });
     }
 
     const [currentProducts, currentSettings] = await Promise.all([readJson(PRODUCTS), readJson(SETTINGS)]);
     const products = Array.isArray(currentProducts.value) ? currentProducts.value : [];
-    const existingIndex = products.findIndex((p: { id: string }) => p.id === product.id);
+    let existingIndex = -1;
 
-    if (existingIndex >= 0) products[existingIndex] = product;
-    else products.push(product);
+    if (product) {
+      if (!product.id || !product.titleId || !product.price_po) {
+        return NextResponse.json({ error: "Nama produk, ID/slug, dan harga wajib diisi." }, { status: 400 });
+      }
+      existingIndex = products.findIndex((p: { id: string }) => p.id === product.id);
+      if (existingIndex >= 0) products[existingIndex] = product;
+      else products.push(product);
+    }
 
-    if (body.images?.length) {
+    if (product && body.images?.length) {
       const uploaded: string[] = [];
       for (const image of body.images) {
         const data = typeof image.data === "string" ? image.data : "";
@@ -56,13 +62,15 @@ export async function POST(request: Request) {
       if (existingIndex >= 0) products[existingIndex] = product;
     }
 
-    await writeCmsFile(PRODUCTS, JSON.stringify(products, null, 2) + "\n", `cms: ${existingIndex >= 0 ? "update" : "add"} product ${product.id}`, currentProducts.sha);
+    if (product) {
+      await writeCmsFile(PRODUCTS, JSON.stringify(products, null, 2) + "\n", `cms: ${existingIndex >= 0 ? "update" : "add"} product ${product.id}`, currentProducts.sha);
+    }
 
     if (settings) {
       await writeCmsFile(SETTINGS, JSON.stringify(settings, null, 2) + "\n", "cms: update homepage settings", currentSettings.sha);
     }
 
-    return NextResponse.json({ ok: true, product, message: "Tersimpan. Vercel akan deploy otomatis dari commit CMS." });
+    return NextResponse.json({ ok: true, product: product || null, message: "Tersimpan. Vercel akan deploy otomatis dari commit CMS." });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Gagal menyimpan." }, { status: 500 });
   }
