@@ -1,0 +1,40 @@
+[
+  {
+    "id": "riyadhussalihin",
+    "titleAr": "رياض الصالحين",
+    "titleId": "Riyadhussalihin",
+    "author": "Imam An-Nawawi",
+    "authorAr": "الإمام النووي",
+    "description": "Riyadh as-Salihin (The Meadows of the Righteous) is a timeless collection of Prophetic guidance compiled by Imam al-Nawawi. It explores the foundations of a believer's life — from sincerity, repentance, patience, gratitude, and remembrance of Allah to worship, character, manners, and relationships with others.",
+    "price_po": "Rp 199.999",
+    "price_normal": "Rp 250.000",
+    "pages": "560 pages",
+    "size": "14 × 21 cm",
+    "cover": "Hard Cover",
+    "paper": "Bookpaper 72 gr",
+    "images": ["/cover-front.jpg", "/cover-back.jpg"],
+    "status": "published",
+    "badge": "Pre-Order",
+    "featured": true,
+    "orderUrl": "https://wa.me/62882000020979"
+  },
+  {
+    "id": "al-adzkar",
+    "titleAr": "الأذكار",
+    "titleId": "Al-Adzkar",
+    "author": "Imam An-Nawawi",
+    "authorAr": "الإمام النووي",
+    "description": "Al-Adhkar, authored by Imam Abu Zakariya Yahya ibn Sharaf al-Nawawi رحمه الله, compiles authentic supplications, remembrances and Islamic etiquettes derived from the guidance of the Messenger of Allah ﷺ.",
+    "price_po": "Rp 199.999",
+    "price_normal": "Rp 250.000",
+    "pages": "376 pages",
+    "size": "14 × 21 cm",
+    "cover": "Hard Cover",
+    "paper": "Bookpaper 72 gr",
+    "images": ["/adzkar-front.jpg", "/adzkar-back.jpg"],
+    "status": "published",
+    "badge": "Pre-Order",
+    "featured": false,
+    "orderUrl": "https://wa.me/62882000020979"
+  }
+]
