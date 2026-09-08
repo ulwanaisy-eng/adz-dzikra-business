@@ -358,19 +358,6 @@ function CollectionSection({ onOpenBook }: { onOpenBook: (b: typeof BOOKS[0]) =>
               </div>
             </div>
           ))}
-          <div className="card-book reveal" style={{ borderRadius:"4px", background:"var(--navy)", opacity:0.38, transitionDelay:"0.24s" }}>
-            <div style={{ height:"300px", background:"linear-gradient(160deg,var(--navy-mid),var(--navy-deep))", display:"flex", alignItems:"center", justifyContent:"center", borderBottom:"1px solid rgba(200,165,86,0.07)" }}>
-              <div style={{ textAlign:"center", padding:"20px" }}>
-                <div style={{ fontFamily:"system-ui,sans-serif", fontSize:"0.52rem", letterSpacing:"0.2em", color:"var(--gold-muted)", opacity:0.5, marginBottom:"10px", textTransform:"uppercase" }}>Coming Soon</div>
-                <div style={{ fontFamily:"Amiri,serif", fontSize:"1.8rem", color:"var(--gold)", direction:"rtl", opacity:0.4, marginBottom:"6px" }}>شرح الحكم</div>
-                <div style={{ fontFamily:"Georgia,serif", fontSize:"0.82rem", color:"var(--gold)", opacity:0.3 }}>Syarah Al-Hikam</div>
-              </div>
-            </div>
-            <div style={{ padding:"20px" }}>
-              <h3 style={{ fontFamily:"Georgia,serif", fontSize:"0.96rem", color:"var(--cream)", opacity:0.3, marginBottom:"12px" }}>Syarah Al-Hikam</h3>
-              <button disabled style={{ width:"100%", padding:"10px", background:"rgba(200,165,86,0.04)", border:"1px solid rgba(200,165,86,0.1)", borderRadius:"3px", fontFamily:"system-ui,sans-serif", fontSize:"0.63rem", letterSpacing:"0.1em", textTransform:"uppercase", color:"var(--gold-muted)", opacity:0.3, cursor:"not-allowed" }}>Coming Soon</button>
-            </div>
-          </div>
         </div>
       </div>
     </section>
