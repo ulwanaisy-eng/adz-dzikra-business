@@ -300,7 +300,7 @@ function HeroSection({ onOpenBook }: { onOpenBook: () => void }) {
             {siteSettings.heroDescription}
           </p>
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", animation: "fadeInUp 0.8s ease 0.45s forwards", opacity: 0 }}>
-            <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ padding: "14px 28px", borderRadius: "3px", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "8px" }}>
+            <a href={siteSettings.heroPrimaryUrl} className="btn-gold" style={{ padding: "14px 28px", borderRadius: "3px", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "8px" }}>
               <IconWA size={15}/> Pre-Order Now
             </a>
             <button onClick={onOpenBook} className="btn-outline-gold" style={{ padding: "14px 28px", borderRadius: "3px", background: "none" }}>
@@ -319,7 +319,7 @@ function HeroSection({ onOpenBook }: { onOpenBook: () => void }) {
         </div>
         {/* Right — Book Visual */}
         <div style={{ display: "flex", justifyContent: "center", animation: "fadeInUp 0.9s ease 0.3s forwards", opacity: 0 }}>
-          <Book3D onClick={onOpenBook} />
+          <Book3D onClick={onOpenBook} frontImage={BOOK?.images?.[0] || "/book/front-cover.jpg"} backImage={BOOK?.images?.[1] || BOOK?.images?.[0] || "/book/back-cover.jpg"} />
         </div>
       </div>
     </section>
