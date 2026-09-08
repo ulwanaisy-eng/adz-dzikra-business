@@ -12,7 +12,9 @@ export async function POST(request: Request) {
   const { password } = await request.json().catch(() => ({ password: "" }));
   const expected = process.env.DZIKRA_ADMIN_PASSWORD;
   if (!expected) return NextResponse.json({ error: "Admin password is not configured on Vercel." }, { status: 500 });
-  if (typeof password !== "string" || !crypto.timingSafeEqual(Buffer.from(password), Buffer.from(expected))) {
+  const supplied = Buffer.from(typeof password === "string" ? password : "");
+  const expectedBuffer = Buffer.from(expected);
+  if (supplied.length !== expectedBuffer.length || !crypto.timingSafeEqual(supplied, expectedBuffer)) {
     return NextResponse.json({ error: "Password salah." }, { status: 401 });
   }
 
