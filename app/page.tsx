@@ -231,7 +231,7 @@ function Navigation() {
 
   const links = [
     { label: "About Us", href: "#about" },
-    { label: "Collection", href: "#koleksi" },
+    { label: "Collection", href: "#collection" },
     { label: "How to Order", href: "#cara-pesan" },
     { label: "Contact", href: "#kontak" },
   ];
@@ -599,7 +599,7 @@ function Footer() {
           </div>
           <div>
             <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.56rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--gold-muted)", opacity: 0.7, marginBottom: "14px" }}>Navigate</div>
-            {[{ l: "About Us", h: "#about" }, { l: "Collection", h: "#koleksi" }, { l: "How to Order", h: "#cara-pesan" }, { l: "Contact", h: "#kontak" }].map(l => (
+            {[{ l: "About Us", h: "#about" }, { l: "Collection", h: "#collection" }, { l: "How to Order", h: "#cara-pesan" }, { l: "Contact", h: "#kontak" }].map(l => (
               <a key={l.h} href={l.h} style={{ display: "block", fontFamily: "system-ui, sans-serif", fontSize: "0.76rem", color: "var(--text-muted-navy)", textDecoration: "none", marginBottom: "8px", opacity: 0.6, transition: "opacity 0.2s" }}
                 onMouseEnter={e => (e.currentTarget.style.opacity = "1")} onMouseLeave={e => (e.currentTarget.style.opacity = "0.6")}>{l.l}</a>
             ))}
