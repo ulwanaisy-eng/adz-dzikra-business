@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import Book3D from "./components/Book3D";
 import { IconBrowse, IconForm, IconPayment, IconDelivery } from "./components/StepIcons";
+import productsData from "@/data/products.json";
+import settingsData from "@/data/settings.json";
 
 const WA_NUMBER = "62882000020979";
 const WA_MSG_GENERAL = encodeURIComponent("Assalamu'alaikum, I'm interested in DZIKRA's publications. Could I get more information?");
@@ -83,48 +85,18 @@ function useReveal() {
   return ref;
 }
 
-// ── BOOK DATA ─────────────────────────────────────────────────────
-const BOOKS = [
-  {
-    id: "riyadhussalihin",
-    titleAr: "رياض الصالحين",
-    titleId: "Riyadhussalihin",
-    author: "Imam An-Nawawi",
-    authorAr: "الإمام النووي",
-    description: `Riyadh as-Salihin (The Meadows of the Righteous) is a timeless collection of Prophetic guidance compiled by Imam al-Nawawi. It explores the foundations of a believer's life — from sincerity, repentance, patience, gratitude, and remembrance of Allah to worship, character, manners, and relationships with others.
-
-Through carefully selected hadiths from the Qur'an and Sunnah, the work offers guidance for purifying the heart, strengthening faith, and living a life of righteousness.
-
-A classic work for those seeking to understand Islam not only as knowledge, but as a way of life.`,
-    price_po: "Rp 199.999",
-    price_normal: "Rp 250.000",
-    pages: "560 pages",
-    size: "14 × 21 cm",
-    cover: "Hard Cover",
-    paper: "Bookpaper 72 gr",
-    images: ["/cover-front.jpg", "/cover-back.jpg"],
-  },
-  {
-    id: "al-adzkar",
-    titleAr: "الأذكار",
-    titleId: "Al-Adzkar",
-    author: "Imam An-Nawawi",
-    authorAr: "الإمام النووي",
-    description: `Al-Adhkar, authored by Imam Abu Zakariya Yahya ibn Sharaf al-Nawawi رحمه الله, is a monumental work that compiles authentic supplications, remembrances (adhkar), and Islamic etiquettes derived from the guidance of the Messenger of Allah ﷺ. For centuries, this book has served as a trusted reference for Muslims seeking to fill their daily lives with the remembrance of Allah and the practice of the Prophetic Sunnah.
-
-In this classic work, Imam al-Nawawi carefully organizes authentic adhkar and supplications for a wide range of situations and occasions, including morning and evening routines, daily acts of worship, travel, social interactions, and many other circumstances encountered throughout a Muslim's life.
-
-The Dzikra Edition has been prepared with a reader-friendly layout, high-quality printing, and careful attention to presentation.`,
-    price_po: "Rp 199.999",
-    price_normal: "Rp 250.000",
-    pages: "376 pages",
-    size: "14 × 21 cm",
-    cover: "Hard Cover",
-    paper: "Bookpaper 72 gr",
-    images: ["/adzkar-front.jpg", "/adzkar-back.jpg"],
-  },
-];
-const BOOK = BOOKS[0];
+// ── CMS DATA ─────────────────────────────────────────────────────
+const BOOKS = productsData.filter((p) => p.status !== "draft");
+const BOOK = BOOKS.find((p) => p.id === settingsData.featuredProductId) || BOOKS[0];
+const siteSettings = settingsData;
+const WA_NUMBER = siteSettings.whatsappNumber;
+const WA_MSG_GENERAL = encodeURIComponent("Assalamu'alaikum, I'm interested in DZIKRA's publications. Could I get more information?");
+const WA_MSG_ORDER = encodeURIComponent("Assalamu'alaikum, I would like to order the DZIKRA edition of " + (BOOK?.titleId || "your publication") + ". Please send me more information.");
+const WA_URL = `https://wa.me/${WA_NUMBER}?text=${WA_MSG_GENERAL}`;
+const WA_ORDER = BOOK?.orderUrl || `https://wa.me/${WA_NUMBER}?text=${WA_MSG_ORDER}`;
+const IG_URL = siteSettings.instagramUrl;
+const EMAIL = siteSettings.email;
+const TALLY_PO = siteSettings.tallyUrl;
 
 // ── IMAGE SLIDER ──────────────────────────────────────────────────
 function ImageSlider({ images }: { images: string[] }) {
@@ -237,13 +209,13 @@ function BookModal({ onClose, book }: { onClose: () => void; book: typeof BOOKS[
                   whiteSpace: "pre-line",
                 }}
               >
-                {BOOK.desc}
+                {book.description}
               </div>
             </div>
 
             {/* CTA Buttons */}
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "14px", borderRadius: "3px", textDecoration: "none" }}>
+              <a href={book.orderUrl || WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "14px", borderRadius: "3px", textDecoration: "none" }}>
                 <IconWA size={16}/> Order via WhatsApp
               </a>
               <a href={TALLY_PO} target="_blank" rel="noopener noreferrer" className="btn-outline-gold" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "13px", borderRadius: "3px", textDecoration: "none" }}>
@@ -279,8 +251,8 @@ function Navigation() {
         <a href="#top" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "12px" }}>
           <img src="/logo.png" alt="DZIKRA" style={{ width: "44px", height: "44px", objectFit: "contain", filter: "drop-shadow(0 0 6px rgba(200,165,86,0.3))" }}/>
           <div>
-            <div style={{ fontFamily: "Georgia, serif", fontSize: "1.1rem", color: "var(--gold)", letterSpacing: "0.14em" }}>DZIKRA</div>
-            <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--gold-muted)", opacity: 0.8 }}>Crafted With Amanah, Designed for Comfort</div>
+            <div style={{ fontFamily: "Georgia, serif", fontSize: "1.1rem", color: "var(--gold)", letterSpacing: "0.14em" }}>{siteSettings.siteName}</div>
+            <div style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--gold-muted)", opacity: 0.8 }}>{siteSettings.heroDescription}</div>
           </div>
         </a>
         <div style={{ display: "flex", alignItems: "center", gap: "28px" }} className="desktop-only">
@@ -289,7 +261,7 @@ function Navigation() {
               onMouseEnter={e => (e.currentTarget.style.color = "var(--gold)")} onMouseLeave={e => (e.currentTarget.style.color = "var(--text-muted-navy)")}>{l.label}</a>
           ))}
           <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ padding: "9px 18px", borderRadius: "3px", textDecoration: "none", display: "flex", alignItems: "center", gap: "7px" }}>
-            <IconWA size={13}/> Pre-Order Now
+            <IconWA size={13}/> {siteSettings.heroPrimaryText}
           </a>
         </div>
         <button onClick={() => setMenuOpen(!menuOpen)} style={{ background: "none", border: "none", color: "var(--gold)", cursor: "pointer", display: "none", padding: "4px" }} className="mobile-menu-btn">
@@ -300,7 +272,7 @@ function Navigation() {
         <div style={{ background: "var(--navy)", borderTop: "1px solid var(--border-gold)", padding: "16px 24px" }}>
           {links.map(l => <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ display: "block", padding: "12px 0", fontFamily: "system-ui, sans-serif", fontSize: "0.82rem", color: "var(--text-muted-navy)", textDecoration: "none", borderBottom: "1px solid rgba(200,165,86,0.07)" }}>{l.label}</a>)}
           <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" onClick={() => setMenuOpen(false)} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "12px", borderRadius: "3px", textDecoration: "none", marginTop: "14px" }}>
-            <IconWA size={13}/> Pre-Order Now
+            <IconWA size={13}/> {siteSettings.heroPrimaryText}
           </a>
         </div>
       )}
@@ -317,15 +289,15 @@ function HeroSection({ onOpenBook }: { onOpenBook: () => void }) {
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "60px 24px", width: "100%", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "48px", alignItems: "center" }}>
         {/* Left — Text */}
         <div>
-          <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(2.2rem, 4.5vw, 3.6rem)", fontWeight: 400, color: "var(--cream)", lineHeight: 1.15, marginBottom: "20px", animation: "fadeInUp 0.8s ease 0.15s forwards", opacity: 0 }}>
-            Reading Classical Kitab,<br/>
-            <span className="text-gold-gradient">Made More Comfortable</span>
+          <div style={{fontFamily:"system-ui,sans-serif",fontSize:"0.62rem",letterSpacing:"0.22em",textTransform:"uppercase",color:"var(--gold)",marginBottom:"14px"}}>{siteSettings.heroEyebrow}</div>\n          <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(2.2rem, 4.5vw, 3.6rem)", fontWeight: 400, color: "var(--cream)", lineHeight: 1.15, marginBottom: "20px", animation: "fadeInUp 0.8s ease 0.15s forwards", opacity: 0 }}>
+            {siteSettings.heroTitle}<br/>
+            <span className="text-gold-gradient">{siteSettings.heroTitleAccent}</span>
           </h1>
           <div style={{ marginBottom: "24px", animation: "fadeInUp 0.8s ease 0.25s forwards", opacity: 0 }}>
             <OrnamentDivider/>
           </div>
           <p style={{ fontFamily: "Georgia, serif", fontSize: "clamp(0.92rem, 1.7vw, 1.05rem)", lineHeight: 1.85, color: "var(--text-muted-navy)", marginBottom: "36px", animation: "fadeInUp 0.8s ease 0.35s forwards", opacity: 0, fontStyle: "italic" }}>
-            DZIKRA publishes classical Islamic heritage texts with meticulous Arabic typesetting, carefully chosen paper, and a design to be proud of — the result of three decades of experience from Dzikra Comp. Rembang.
+            {siteSettings.heroDescription}
           </p>
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", animation: "fadeInUp 0.8s ease 0.45s forwards", opacity: 0 }}>
             <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ padding: "14px 28px", borderRadius: "3px", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "8px" }}>
@@ -361,11 +333,11 @@ function CollectionSection({ onOpenBook }: { onOpenBook: (b: typeof BOOKS[0]) =>
     <section id="collection" className="section-cream batik-cream" style={{ padding:"96px 24px" }}>
       <div style={{ maxWidth:"1100px", margin:"0 auto" }}>
         <div ref={ref} className="reveal" style={{ textAlign:"center", marginBottom:"52px" }}>
-          <SectionEyebrow light>Our Collection</SectionEyebrow>
-          <h2 style={{ fontFamily:"Georgia,serif", fontSize:"clamp(1.8rem,3.5vw,2.8rem)", fontWeight:400, color:"var(--navy)", lineHeight:1.25, marginBottom:"12px" }}>Our Publications</h2>
+          <SectionEyebrow light>{siteSettings.collectionEyebrow}</SectionEyebrow>
+          <h2 style={{ fontFamily:"Georgia,serif", fontSize:"clamp(1.8rem,3.5vw,2.8rem)", fontWeight:400, color:"var(--navy)", lineHeight:1.25, marginBottom:"12px" }}>{siteSettings.collectionTitle}</h2>
           <OrnamentDivider/>
           <p style={{ fontFamily:"Georgia,serif", fontSize:"0.92rem", lineHeight:1.85, color:"var(--navy)", opacity:0.55, maxWidth:"520px", margin:"12px auto 0", fontStyle:"italic" }}>
-            Every title is carefully selected and published to the highest standards of craftsmanship.
+            {siteSettings.collectionDescription}
           </p>
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(270px, 340px))", gap:"28px", justifyContent:"center" }}>
@@ -375,7 +347,7 @@ function CollectionSection({ onOpenBook }: { onOpenBook: (b: typeof BOOKS[0]) =>
                 <img src={bk.images[0]} alt={bk.titleId} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block", transition:"transform 0.4s ease" }}
                   onMouseEnter={e=>(e.currentTarget.style.transform="scale(1.04)")}
                   onMouseLeave={e=>(e.currentTarget.style.transform="scale(1)")}/>
-                <div style={{ position:"absolute", top:"10px", left:"10px" }}><span className="badge-po">Pre-Order</span></div>
+                <div style={{ position:"absolute", top:"10px", left:"10px" }}><span className="badge-po">{bk.badge}</span></div>
               </div>
               <div style={{ padding:"20px" }}>
                 <div style={{ fontFamily:"Amiri,serif", fontSize:"1.3rem", color:"var(--gold)", direction:"rtl", marginBottom:"4px" }}>{bk.titleAr}</div>
@@ -387,7 +359,7 @@ function CollectionSection({ onOpenBook }: { onOpenBook: (b: typeof BOOKS[0]) =>
                 </div>
                 <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"8px" }}>
                   <button onClick={()=>onOpenBook(bk)} className="btn-navy" style={{ padding:"10px", borderRadius:"3px", fontSize:"0.66rem", letterSpacing:"0.05em" }}>Details</button>
-                  <a href={WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ padding:"10px", borderRadius:"3px", textDecoration:"none", display:"flex", alignItems:"center", justifyContent:"center", gap:"5px", fontSize:"0.66rem" }}>
+                  <a href={bk.orderUrl || WA_ORDER} target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ padding:"10px", borderRadius:"3px", textDecoration:"none", display:"flex", alignItems:"center", justifyContent:"center", gap:"5px", fontSize:"0.66rem" }}>
                     <IconWA size={12}/> Order
                   </a>
                 </div>
@@ -597,8 +569,8 @@ function ContactSection() {
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px", marginBottom: "36px" }}>
           {[
-            { href: WA_ORDER, icon: <IconWA size={20}/>, color: "#25D366", bg: "rgba(37,211,102,0.08)", border: "rgba(37,211,102,0.2)", label: "WhatsApp", value: "0882-0002-0979", sub: "Fastest response →" },
-            { href: IG_URL, icon: <IconIG size={20}/>, color: "#C13584", bg: "rgba(193,53,132,0.08)", border: "rgba(193,53,132,0.2)", label: "Instagram", value: "@dzikracomppublishers", sub: "Follow our journey →" },
+            { href: WA_ORDER, icon: <IconWA size={20}/>, color: "#25D366", bg: "rgba(37,211,102,0.08)", border: "rgba(37,211,102,0.2)", label: "WhatsApp", value: siteSettings.whatsappNumber, sub: "Fastest response →" },
+            { href: IG_URL, icon: <IconIG size={20}/>, color: "#C13584", bg: "rgba(193,53,132,0.08)", border: "rgba(193,53,132,0.2)", label: "Instagram", value: siteSettings.instagramUrl.replace(/^https?:\\/\\/(www\\.)?instagram\\.com\\//, "@").replace(/\\/$/, ""), sub: "Follow our journey →" },
             { href: `mailto:${EMAIL}`, icon: <IconEmail size={20}/>, color: "var(--gold)", bg: "rgba(200,165,86,0.08)", border: "rgba(200,165,86,0.2)", label: "Email", value: EMAIL, sub: "Write to us →" },
           ].map(c => (
             <a key={c.label} href={c.href} target={c.href.startsWith("mailto") ? undefined : "_blank"} rel="noopener noreferrer" className="card-feature reveal" style={{ borderRadius: "3px", padding: "24px", textDecoration: "none", display: "block" }}>
@@ -637,7 +609,7 @@ function Footer() {
               </div>
             </div>
             <p style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.75rem", lineHeight: 1.75, color: "var(--text-muted-navy)", maxWidth: "220px" }}>
-              Publishing the Islamic classical tradition in editions worthy of the knowledge they carry.
+              {siteSettings.heroDescription}
             </p>
             <div style={{ display: "flex", gap: "12px", marginTop: "16px" }}>
               {[{ href: IG_URL, icon: <IconIG size={16}/>, label: "Instagram" }, { href: WA_ORDER, icon: <IconWA size={16}/>, label: "WhatsApp" }, { href: `mailto:${EMAIL}`, icon: <IconEmail size={16}/>, label: "Email" }].map(s => (
@@ -693,11 +665,11 @@ export default function Home() {
       <ScrollReveal/>
       <Navigation/>
       <main>
-        <HeroSection onOpenBook={() => openBook(BOOKS[0])}/>
+        <HeroSection onOpenBook={() => BOOK && openBook(BOOK)}/>
         <CollectionSection onOpenBook={openBook}/>
-        <AboutSection/>
-        <CaraOrderSection/>
-        <ContactSection/>
+        {siteSettings.showAbout && <AboutSection/>}
+        {siteSettings.showHowToOrder && <CaraOrderSection/>}
+        {siteSettings.showContact && <ContactSection/>}
       </main>
       <Footer/>
       {/* Floating WA */}
