@@ -88,7 +88,6 @@ const WA_ORDER = BOOK?.orderUrl || `https://wa.me/${WA_NUMBER}?text=${WA_MSG_ORD
 const IG_URL = siteSettings.instagramUrl;
 const EMAIL = siteSettings.email;
 const TALLY_PO = siteSettings.tallyUrl;
-const PUBLISHERS = ["Dzikra Comp.", "Mizan", "Pustaka Imam Asy-Syafi'i", "Darul Haq"];
 const INSTAGRAM_HANDLE = IG_URL
   .replace("https://www.instagram.com/", "")
   .replace("https://instagram.com/", "")
@@ -373,6 +372,7 @@ function CollectionSection({ onOpenBook }: { onOpenBook: (b: typeof BOOKS[0]) =>
 
 function AboutSection() {
   const ref = useReveal();
+  const publishers: string[] = ["Dzikra Comp.", "Mizan", "Pustaka Imam Asy-Syafi'i", "Darul Haq"];
   return (
     <section id="about" className="batik-bg" style={{ padding: "100px 24px", background: "var(--navy)" }}>
       <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
@@ -416,9 +416,9 @@ function AboutSection() {
             </p>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 20px", justifyContent: "center" }}>
-            {PUBLISHERS.map((p, i) => (
+            {publishers.map((p, i) => (
               <span key={p} style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.7rem", letterSpacing: "0.06em", color: "var(--gold-muted)", opacity: 0.65, display: "flex", alignItems: "center", gap: "10px" }}>
-                {p}{i < PUBLISHERS.length - 1 && <span style={{ opacity: 0.3 }}>·</span>}
+                {p}{i < publishers.length - 1 && <span style={{ opacity: 0.3 }}>·</span>}
               </span>
             ))}
             <span style={{ fontFamily: "system-ui, sans-serif", fontSize: "0.7rem", color: "var(--gold-muted)", opacity: 0.45, fontStyle: "italic" }}>& many more</span>
