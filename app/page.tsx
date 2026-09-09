@@ -84,10 +84,16 @@ const WA_NUMBER = siteSettings.whatsappNumber;
 const WA_MSG_GENERAL = encodeURIComponent("Assalamu'alaikum, I'm interested in DZIKRA's publications. Could I get more information?");
 const WA_MSG_ORDER = encodeURIComponent("Assalamu'alaikum, I would like to order the DZIKRA edition of " + (BOOK?.titleId || "your publication") + ". Please send me more information.");
 const WA_URL = `https://wa.me/${WA_NUMBER}?text=${WA_MSG_GENERAL}`;
-const WA_URL = BOOK?.orderUrl || `https://wa.me/${WA_NUMBER}?text=${WA_MSG_ORDER}`;
-const siteSettings.instagramUrl = siteSettings.instagramUrl;
-const siteSettings.email = siteSettings.email;
+const WA_ORDER = BOOK?.orderUrl || `https://wa.me/${WA_NUMBER}?text=${WA_MSG_ORDER}`;
+const IG_URL = siteSettings.instagramUrl;
+const EMAIL = siteSettings.email;
 const TALLY_PO = siteSettings.tallyUrl;
+const INSTAGRAM_HANDLE = IG_URL
+  .replace("https://www.instagram.com/", "")
+  .replace("https://instagram.com/", "")
+  .replace("http://www.instagram.com/", "")
+  .replace("http://instagram.com/", "")
+  .replace(/\/$/, "");
 
 // ── IMAGE SLIDER ──────────────────────────────────────────────────
 function ImageSlider({ images }: { images: string[] }) {
