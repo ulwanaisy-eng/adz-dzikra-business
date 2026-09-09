@@ -88,6 +88,7 @@ const WA_ORDER = BOOK?.orderUrl || `https://wa.me/${WA_NUMBER}?text=${WA_MSG_ORD
 const IG_URL = siteSettings.instagramUrl;
 const EMAIL = siteSettings.email;
 const TALLY_PO = siteSettings.tallyUrl;
+const PUBLISHERS = ["Dzikra Comp.", "Mizan", "Pustaka Imam Asy-Syafi'i", "Darul Haq"];
 const INSTAGRAM_HANDLE = IG_URL
   .replace("https://www.instagram.com/", "")
   .replace("https://instagram.com/", "")
