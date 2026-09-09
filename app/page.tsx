@@ -555,7 +555,7 @@ function ContactSection() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px", marginBottom: "36px" }}>
           {[
             { href: WA_ORDER, icon: <IconWA size={20}/>, color: "#25D366", bg: "rgba(37,211,102,0.08)", border: "rgba(37,211,102,0.2)", label: "WhatsApp", value: siteSettings.whatsappNumber, sub: "Fastest response →" },
-            { href: IG_URL, icon: <IconIG size={20}/>, color: "#C13584", bg: "rgba(193,53,132,0.08)", border: "rgba(193,53,132,0.2)", label: "Instagram", value: siteSettings.instagramUrl.replace(/^https?:\/\/(www\.)?instagram\.com\//, "@").replace(/\/$/, ""), sub: "Follow our journey →" },
+            { href: IG_URL, icon: <IconIG size={20}/>, color: "#C13584", bg: "rgba(193,53,132,0.08)", border: "rgba(193,53,132,0.2)", label: "Instagram", value: "@" + INSTAGRAM_HANDLE, sub: "Follow our journey →" },
             { href: `mailto:${EMAIL}`, icon: <IconEmail size={20}/>, color: "var(--gold)", bg: "rgba(200,165,86,0.08)", border: "rgba(200,165,86,0.2)", label: "Email", value: EMAIL, sub: "Write to us →" },
           ].map(c => (
             <a key={c.label} href={c.href} target={c.href.startsWith("mailto") ? undefined : "_blank"} rel="noopener noreferrer" className="card-feature reveal" style={{ borderRadius: "3px", padding: "24px", textDecoration: "none", display: "block" }}>
