@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { books } from "@/lib/catalog";
 import { BookGallery } from "./components/book-gallery";
+import { DzikraStory } from "./components/dzikra-story";
 
 const story = [
   ["1992", "Berawal dari ketelitian", "Dari meja kerja sederhana, proses menyusun kitab dilakukan dengan tangan, kesabaran, dan amanah."],
@@ -17,7 +18,8 @@ export default function Home() {
       <svg className="gunungan" viewBox="0 0 360 520" aria-hidden="true"><path d="M180 18C144 88 95 128 83 204c-10 63 25 98 0 159 45-16 58 25 97 18 39 7 52-34 97-18-25-61 10-96 0-159C265 128 216 88 180 18Z"/><path d="M180 70v290M115 200h130M105 280h150M126 130l54 70 54-70M120 334l60-54 60 54"/></svg>
       <div className="hero-copy"><p className="eyebrow">PENERBIT & DISTRIBUTOR KITAB</p><h1>DZIKRA</h1><p className="tagline">Crafted with Amanah<br/>Designed for Comfort</p><a className="scroll-cue" href="#tentang">Jelajahi perjalanan <b>↓</b></a></div>
     </section>
-    <section className="story" id="tentang">
+    <DzikraStory />
+    <section className="story">
       <div className="section-intro"><p className="eyebrow">SEJAK 1992</p><h2>Menjaga ilmu,<br/><em>dengan amanah.</em></h2><p>Perjalanan Dzikra tumbuh dari pekerjaan yang menuntut ketelitian: menyusun, menata, memeriksa, dan menghadirkan kitab dengan penuh tanggung jawab.</p></div>
       <div className="timeline">
         {story.map(([year, title, text], i) => <article className={`scene scene-${i + 1}`} key={year}><div className="scene-number">{year}</div><div className="scene-art"><i /><i /><i /></div><div><p className="eyebrow">{year}</p><h3>{title}</h3><p>{text}</p></div></article>)}

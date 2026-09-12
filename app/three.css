@@ -1,0 +1,9 @@
+.three-story { height:500vh; background:#082329; }
+.three-sticky { position:sticky; top:0; height:100svh; overflow:hidden; }
+.three-sticky canvas { position:absolute!important; inset:0; }
+.three-copy { position:absolute; z-index:2; left:clamp(22px,8vw,130px); bottom:12vh; max-width:420px; color:#fff9e9; pointer-events:none; }
+.three-copy h2 { margin:0 0 18px; font:500 clamp(40px,5vw,75px)/.98 "Playfair Display",serif; }
+.three-copy>p:last-child { max-width:310px; font-size:12px; line-height:1.65; color:#d4d1c1; }
+.three-progress { position:absolute; z-index:2; top:50%; right:5vw; display:grid; gap:10px; }
+.three-progress i { width:7px; height:7px; border:1px solid #d5b75b; border-radius:50%; }.three-progress i.active { background:#d5b75b; box-shadow:0 0 10px #d5b75b; }
+@media(max-width:700px){.three-story{height:420vh}.three-copy{bottom:9vh}.three-progress{right:22px}}

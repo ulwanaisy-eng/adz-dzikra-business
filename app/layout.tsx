@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./overrides.css";
+import "./three.css";
 
 export const metadata: Metadata = {
   title: "Dzikra — Penerbit & Distributor Kitab",
