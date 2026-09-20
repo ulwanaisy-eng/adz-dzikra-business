@@ -533,6 +533,11 @@
     transform: none !important;
   }
 
+  .video {
+    object-fit: contain;
+    object-position: center center !important;
+  }
+
   .edge {
     inset: 11px;
   }

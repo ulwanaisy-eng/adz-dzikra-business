@@ -228,6 +228,7 @@
 
 @media (max-width: 767px) {
   .stage { min-height: 520px; }
+  .gununganFilm { object-fit: contain; }
   .frame { inset: 11px; }
   .nav { height: 62px; padding-inline: 18px; }
   .nav div { gap: 14px; font-size: 10px; }

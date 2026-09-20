@@ -164,6 +164,30 @@ export function CinematicHistory() {
   }, [activeScene, historyVisible, reducedMotion]);
 
   useEffect(() => {
+    if (reducedMotion) return;
+
+    // A scroll or touch is a user gesture on mobile. Retrying here makes the
+    // experience resilient to Safari/Android autoplay timing differences while
+    // keeping every film muted and inline.
+    const resumeActiveVideo = () => {
+      if (!historyVisible) return;
+      playVideo(videoRefs.current[activeSceneRef.current]);
+    };
+
+    window.addEventListener("scroll", resumeActiveVideo, { passive: true });
+    window.addEventListener("touchstart", resumeActiveVideo, { passive: true });
+    window.addEventListener("pointerdown", resumeActiveVideo, { passive: true });
+    document.addEventListener("visibilitychange", resumeActiveVideo);
+
+    return () => {
+      window.removeEventListener("scroll", resumeActiveVideo);
+      window.removeEventListener("touchstart", resumeActiveVideo);
+      window.removeEventListener("pointerdown", resumeActiveVideo);
+      document.removeEventListener("visibilitychange", resumeActiveVideo);
+    };
+  }, [historyVisible, reducedMotion]);
+
+  useEffect(() => {
     if (reducedMotion || window.matchMedia("(min-width: 768px)").matches) return;
 
     const observer = new IntersectionObserver(
@@ -371,6 +395,11 @@ export function CinematicHistory() {
                       preload="metadata"
                       aria-label={"Rekaman " + scene.label}
                       onLoadedData={(event) => {
+                        if (activeSceneRef.current === index && historyVisible && !reducedMotion) {
+                          playVideo(event.currentTarget);
+                        }
+                      }}
+                      onCanPlay={(event) => {
                         if (activeSceneRef.current === index && historyVisible && !reducedMotion) {
                           playVideo(event.currentTarget);
                         }

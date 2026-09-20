@@ -201,8 +201,8 @@ function HeroWorld({
   const light = useRef<THREE.PointLight>(null);
 
   useFrame((state, delta) => {
-    const sequence = compact || reduced ? 1 : motion.current.sequence;
-    const portal = compact || reduced ? 0 : motion.current.portal;
+    const sequence = reduced ? 1 : motion.current.sequence;
+    const portal = reduced ? 0 : motion.current.portal;
     const swayProgress = THREE.MathUtils.clamp((sequence - 0.165) / 0.17, 0, 1);
     const sway = Math.sin(swayProgress * Math.PI * 6) * (1 - swayProgress * 0.42) * 0.15;
     const openedByIntro = smooth(0.42, 0.59, sequence);
@@ -211,7 +211,7 @@ function HeroWorld({
     const breath = sequence > 0.72 ? Math.sin(state.clock.elapsedTime * 0.72) * 0.035 : 0;
 
     if (rig.current) {
-      const pointerStrength = sequence > 0.58 && !compact && !reduced ? 1 : 0;
+      const pointerStrength = sequence > 0.58 && !reduced ? 1 : 0;
       rig.current.rotation.y = THREE.MathUtils.damp(rig.current.rotation.y, state.pointer.x * 0.045 * pointerStrength, 4.2, delta);
       rig.current.rotation.x = THREE.MathUtils.damp(rig.current.rotation.x, -state.pointer.y * 0.025 * pointerStrength, 4.2, delta);
     }
@@ -278,7 +278,7 @@ function HeroWorld({
         </>
       )}
 
-      <Dust motion={motion} enabled={!reduced && !compact} />
+      <Dust motion={motion} enabled={!reduced} />
     </>
   );
 }
@@ -324,7 +324,7 @@ export function DzikraHeroOpening() {
   }, [gununganFilmFailed, inViewport]);
 
   useLayoutEffect(() => {
-    if (!rootRef.current || !stageRef.current) return;
+    if (!rootRef.current || !stageRef.current || reduced) return;
 
     const root = rootRef.current;
     const stage = stageRef.current;
@@ -332,13 +332,6 @@ export function DzikraHeroOpening() {
     const context = gsap.context(() => {
       const revealTargets = [navRef.current, eyebrowRef.current, wordmarkRef.current, taglineRef.current, cueRef.current]
         .filter((target): target is HTMLElement => Boolean(target));
-
-      if (reduced || compact) {
-        motion.current.sequence = 1;
-        gsap.set(revealTargets, { autoAlpha: 1, y: 0, scale: 1 });
-        gsap.set(gununganFilmRef.current, { autoAlpha: 1, scale: 1.16, transformOrigin: "50% 50%" });
-        return;
-      }
 
       gsap.set(gununganFilmRef.current, { autoAlpha: 1, scale: 1.16, transformOrigin: "50% 50%" });
       gsap.set(revealTargets, { autoAlpha: 0, y: 12 });
@@ -381,7 +374,7 @@ export function DzikraHeroOpening() {
   }, [compact, reduced]);
 
   const motionMode = reduced ? "reduced" : compact ? "compact" : "full";
-  const frameLoop = inViewport && !reduced && !compact ? "always" : "demand";
+  const frameLoop = inViewport && !reduced ? "always" : "demand";
 
   return (
     <section
@@ -412,6 +405,15 @@ export function DzikraHeroOpening() {
                 void video.play().catch(() => undefined);
               }
             }}
+            onCanPlay={(event) => {
+              const video = event.currentTarget;
+              video.muted = true;
+              video.defaultMuted = true;
+              video.playsInline = true;
+              if (inViewport && !gununganFilmEndedRef.current) {
+                void video.play().catch(() => undefined);
+              }
+            }}
             onTimeUpdate={(event) => {
               const video = event.currentTarget;
               if (video.currentTime >= 6.12 && !gununganFilmEndedRef.current) {
@@ -429,7 +431,7 @@ export function DzikraHeroOpening() {
             frameloop={frameLoop}
             gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
           >
-            <HeroWorld motion={motion} reduced={reduced} compact={compact} showKayon={gununganFilmFailed} />
+            <HeroWorld motion={motion} reduced={reduced} compact={compact} showKayon={compact || gununganFilmFailed} />
           </Canvas>
         </div>
         <div className={styles.fog} aria-hidden="true" />
