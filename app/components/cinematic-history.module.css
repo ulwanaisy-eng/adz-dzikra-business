@@ -515,7 +515,9 @@
   .scene {
     position: relative;
     display: grid;
-    min-height: 100svh;
+    min-height: max(100svh, 720px);
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;
@@ -537,7 +539,8 @@
 
   .copy {
     width: auto !important;
-    margin: 0 clamp(20px, 6vw, 32px) clamp(67px, 10vh, 92px) !important;
+    margin: 0 clamp(20px, 6vw, 32px) calc(clamp(67px, 10vh, 92px) + env(safe-area-inset-bottom)) !important;
+    padding-top: 68px;
     transform: none !important;
     opacity: 1 !important;
   }
@@ -631,12 +634,12 @@
 
   .playControl {
     right: 20px;
-    bottom: 22px;
+    bottom: calc(22px + env(safe-area-inset-bottom));
     opacity: 1;
   }
 
   .scene4 {
-    min-height: 110svh;
+    min-height: max(110svh, 790px);
   }
 
   .scene4::after {
@@ -648,6 +651,29 @@
     height: 1px;
     content: "";
     background: rgba(245, 221, 160, .56);
+  }
+}
+
+@media (max-width: 390px) {
+  .scene {
+    min-height: max(100svh, 700px);
+  }
+
+  .scene4 {
+    min-height: max(110svh, 760px);
+  }
+
+  .copy h2 {
+    font-size: clamp(37px, 10.8vw, 54px) !important;
+    line-height: .93;
+  }
+
+  .lead {
+    font-size: 16px;
+  }
+
+  .body {
+    font-size: 12px;
   }
 }
 

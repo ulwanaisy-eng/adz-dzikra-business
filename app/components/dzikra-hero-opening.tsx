@@ -398,10 +398,20 @@ export function DzikraHeroOpening() {
             className={styles.gununganFilm}
             src="/cinematic/dzikra-gunungan-opening.mp4"
             muted
+            autoPlay
             playsInline
             preload="metadata"
             aria-hidden="true"
             tabIndex={-1}
+            onLoadedData={(event) => {
+              const video = event.currentTarget;
+              video.muted = true;
+              video.defaultMuted = true;
+              video.playsInline = true;
+              if (inViewport && !gununganFilmEndedRef.current) {
+                void video.play().catch(() => undefined);
+              }
+            }}
             onTimeUpdate={(event) => {
               const video = event.currentTarget;
               if (video.currentTime >= 6.12 && !gununganFilmEndedRef.current) {

@@ -104,6 +104,12 @@ function usePrefersReducedMotion() {
 
 function playVideo(video: HTMLVideoElement | null) {
   if (!video) return;
+  // Keep the media in the configuration accepted by mobile autoplay policies.
+  // React's `muted` attribute is not always reflected early enough on iOS,
+  // so set the DOM properties immediately before attempting playback.
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
   void video.play().catch(() => {
     // Autoplay can be declined by the browser. The visible play control remains available.
   });
@@ -359,10 +365,16 @@ export function CinematicHistory() {
                       style={{ objectPosition: scene.position }}
                       src={scene.src}
                       muted
+                      autoPlay={index === activeScene}
                       loop
                       playsInline
                       preload="metadata"
                       aria-label={"Rekaman " + scene.label}
+                      onLoadedData={(event) => {
+                        if (activeSceneRef.current === index && historyVisible && !reducedMotion) {
+                          playVideo(event.currentTarget);
+                        }
+                      }}
                       onError={() => {
                         setFailedVideos((current) => ({ ...current, [scene.id]: true }));
                       }}
