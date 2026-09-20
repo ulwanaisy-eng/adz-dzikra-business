@@ -1,7 +1,7 @@
 # Mengaktifkan Admin Production
 
 1. Buat proyek Supabase baru.
-2. Buka **SQL Editor**, tempel lalu jalankan seluruh isi `supabase/schema.sql`.
+2. Buka **SQL Editor**, tempel lalu jalankan seluruh isi `supabase/schema.sql`. Jika tabel sebelumnya sudah dibuat, jalankan juga `supabase/migrations/20260915_live_catalog.sql` sekali untuk menambahkan URL Tally dan kebijakan katalog live.
 3. Di **Authentication > Users**, buat satu akun untuk pengelola Dzikra. Nonaktifkan public sign-up bila hanya admin yang boleh masuk.
 4. Salin UUID akun tersebut ke perintah terakhir dalam `schema.sql`, lalu jalankan agar akun menjadi `ADMIN`.
 5. Salin `.env.example` menjadi `.env.local`, kemudian isi URL serta anon key dari **Project Settings > API**.

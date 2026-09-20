@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./overrides.css";
 import "./three.css";
+import { AnalyticsProvider } from "./components/analytics-provider";
 
 export const metadata: Metadata = {
   title: "Dzikra — Penerbit & Distributor Kitab",
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="id"><body>{children}</body></html>;
+  return <html lang="id"><body>{children}<AnalyticsProvider /></body></html>;
 }

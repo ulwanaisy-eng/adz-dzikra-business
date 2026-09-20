@@ -24,10 +24,14 @@ create table public.products (
   dimensions text,
   weight_grams integer,
   cover_type text,
+  order_url text,
   status public.product_status not null default 'DRAFT',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- Safe migration when the table was created before the Tally field existed.
+alter table public.products add column if not exists order_url text;
 
 create table public.product_images (
   id uuid primary key default gen_random_uuid(),
@@ -52,9 +56,9 @@ alter table public.products enable row level security;
 alter table public.product_images enable row level security;
 
 create policy "admin can read profiles" on public.profiles for select using (id = auth.uid() or public.is_admin());
-create policy "public sees live products" on public.products for select using (status in ('PREORDER', 'READY'));
+create policy "public sees live products" on public.products for select using (status in ('PREORDER', 'READY', 'SOLD_OUT'));
 create policy "admins manage products" on public.products for all using (public.is_admin()) with check (public.is_admin());
-create policy "public sees images for live products" on public.product_images for select using (exists (select 1 from public.products where products.id = product_id and products.status in ('PREORDER', 'READY')));
+create policy "public sees images for live products" on public.product_images for select using (exists (select 1 from public.products where products.id = product_id and products.status in ('PREORDER', 'READY', 'SOLD_OUT')));
 create policy "admins manage images" on public.product_images for all using (public.is_admin()) with check (public.is_admin());
 
 insert into storage.buckets (id, name, public) values ('product-images', 'product-images', true)
@@ -63,6 +67,13 @@ create policy "public reads product photos" on storage.objects for select using 
 create policy "admins upload product photos" on storage.objects for insert with check (bucket_id = 'product-images' and public.is_admin());
 create policy "admins update product photos" on storage.objects for update using (bucket_id = 'product-images' and public.is_admin());
 create policy "admins delete product photos" on storage.objects for delete using (bucket_id = 'product-images' and public.is_admin());
+
+-- Existing projects: run this block once after pulling the update so
+-- SOLD_OUT catalogue entries remain publicly readable.
+drop policy if exists "public sees live products" on public.products;
+create policy "public sees live products" on public.products for select using (status in ('PREORDER', 'READY', 'SOLD_OUT'));
+drop policy if exists "public sees images for live products" on public.product_images;
+create policy "public sees images for live products" on public.product_images for select using (exists (select 1 from public.products where products.id = product_id and products.status in ('PREORDER', 'READY', 'SOLD_OUT')));
 
 -- After creating your Auth user in Supabase, promote it once by replacing the UUID:
 -- insert into public.profiles (id, role) values ('YOUR_AUTH_USER_UUID', 'ADMIN')

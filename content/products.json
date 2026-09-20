@@ -1,0 +1,40 @@
+[
+  {
+    "id": "riyadhussalihin",
+    "slug": "riyadhussalihin",
+    "name": "Riyadhussalihin",
+    "description": "Koleksi hadits pilihan tentang adab, ibadah, dan pembinaan jiwa.",
+    "author": "Imam an-Nawawi",
+    "muhaqqiq": null,
+    "preorderPrice": null,
+    "retailPrice": null,
+    "preorderStartsAt": null,
+    "preorderEndsAt": null,
+    "preorderStatus": "UPCOMING",
+    "dimensions": "Menunggu pembaruan spesifikasi",
+    "weightGrams": null,
+    "coverType": "Softcover",
+    "images": [],
+    "orderUrl": null,
+    "status": "PREORDER"
+  },
+  {
+    "id": "al-adzkar",
+    "slug": "al-adzkar",
+    "name": "Al-Adzkar",
+    "description": "Dzikir dan doa pilihan untuk menghidupkan hari dengan tuntunan yang terpercaya.",
+    "author": "Imam an-Nawawi",
+    "muhaqqiq": null,
+    "preorderPrice": null,
+    "retailPrice": null,
+    "preorderStartsAt": null,
+    "preorderEndsAt": null,
+    "preorderStatus": "UPCOMING",
+    "dimensions": "Menunggu pembaruan spesifikasi",
+    "weightGrams": null,
+    "coverType": "Softcover",
+    "images": [],
+    "orderUrl": null,
+    "status": "PREORDER"
+  }
+]

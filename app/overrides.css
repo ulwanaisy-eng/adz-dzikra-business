@@ -1,7 +1,18 @@
 /* Keeps the opening mark as a cinematic backdrop, not over the copy. */
 .hero-copy {
   position: relative;
+  z-index: 2;
+}
+
+/* A small interactive companion to the pre-rendered history film, never its replacement. */
+.hero-webgl {
+  position: absolute !important;
   z-index: 1;
+  right: clamp(20px, 5.5vw, 104px);
+  bottom: clamp(24px, 7vh, 82px);
+  width: min(31vw, 430px) !important;
+  min-height: 0 !important;
+  opacity: .86;
 }
 
 .wordmark {
@@ -26,8 +37,73 @@
 .product-select { display:flex; align-items:center; gap:12px; border:0; background:transparent; padding:10px 0; text-align:left; color:var(--ink); }.product-select small { display:block; margin-top:5px; color:#526161; font:10px "DM Mono",monospace; }
 .mini-cover { display:grid; place-items:center; flex:0 0 34px; height:46px; background:#d2c19e; overflow:hidden; }.mini-cover img { width:100%; height:100%; object-fit:cover; }.product-price { font:11px "DM Mono",monospace; color:#526161; }
 .editor form { display:grid; gap:24px; }.editor fieldset { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:0; padding:20px 0 0; border:0; border-top:1px solid var(--line); }.editor legend { width:100%; padding:0 0 13px; font:500 20px "Playfair Display",serif; }.editor label { display:grid; gap:7px; font-size:11px; color:#526161; }.editor label.wide { grid-column:1/-1; }.editor input,.editor textarea,.editor select { width:100%; border:1px solid #d5cbb8; border-radius:0; background:#fffdf6; padding:10px; color:var(--ink); font:13px "DM Sans",sans-serif; }.editor textarea { resize:vertical; }.photo-preview { grid-column:1/-1; display:flex; align-items:end; gap:13px; }.photo-preview img { width:68px; height:94px; object-fit:cover; box-shadow:4px 5px 11px rgba(0,0,0,.17); }.photo-preview button,.form-actions button:not(.save-book) { border:0; background:transparent; padding:8px 0; color:#526161; font-size:12px; }.form-actions { display:flex; align-items:center; gap:20px; }
-@media(max-width:800px) { .admin-heading,.admin-grid { display:grid; grid-template-columns:1fr; }.draft-note { max-width:none; }.catalog-list,.editor { padding:18px; }.editor fieldset { grid-template-columns:1fr; }.editor label.wide,.photo-preview { grid-column:auto; } }
+@media(max-width:800px) { .admin-heading,.admin-grid { display:grid; grid-template-columns:1fr; }.draft-note { max-width:none; }.catalog-list,.editor { padding:18px; }.editor fieldset { grid-template-columns:1fr; }.editor label.wide,.photo-preview { grid-column:auto; }.hero-webgl { display:none; } }
 
 .cover-placeholder { display:grid; place-items:center; width:100%; height:100%; background:linear-gradient(135deg,#e7ddc7,#cdbb91); color:#53625f; text-align:center; font:italic 22px/1.2 "Playfair Display",serif; }
+.catalog-empty { margin:42px 0 0; padding:36px; border:1px solid var(--line); color:#526161; font:italic 22px/1.35 "Playfair Display",serif; }
 .gallery { position:relative; width:100%; height:100%; }.gallery>img { object-fit:cover; }.gallery-prev,.gallery-next { position:absolute; top:calc(50% - 18px); z-index:1; width:36px; height:36px; border:0; border-radius:50%; background:rgba(8,35,41,.75); color:#fff; }.gallery-prev { left:10px; }.gallery-next { right:10px; }.gallery-dots { position:absolute; bottom:12px; left:0; right:0; display:flex; justify-content:center; gap:6px; }.gallery-dots button { width:7px; height:7px; border:1px solid #fff; border-radius:50%; background:transparent; padding:0; }.gallery-dots button.active { background:#fff; }
 .photo-previews { grid-column:1/-1; display:flex; flex-wrap:wrap; gap:12px; }.photo-previews .photo-preview { display:grid; gap:6px; align-items:start; }.photo-previews .photo-preview img { width:72px; height:98px; object-fit:cover; box-shadow:4px 5px 11px rgba(0,0,0,.17); }.photo-previews .photo-preview button { max-width:80px; padding:0; text-align:left; }
+
+/* The film owns the historical timeline. This small 2D release lets the catalog begin cleanly. */
+.dz-now {
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);
+  gap:clamp(42px,9vw,152px);
+  padding:clamp(92px,13vw,174px) clamp(22px,9vw,146px);
+  background:#e9dfcb;
+  color:var(--ink);
+}
+
+.dz-now__header h2 {
+  max-width:800px;
+  margin:0;
+  font:500 clamp(43px,5.7vw,84px)/.96 "Playfair Display",serif;
+  letter-spacing:-.055em;
+}
+
+.dz-now__header h2 em { color:var(--rust); }
+
+.dz-now__body {
+  align-self:end;
+  max-width:470px;
+  color:#526161;
+  font-size:15px;
+  line-height:1.76;
+}
+
+.dz-now__body p { margin:0; }
+.dz-now__body p + p { margin-top:18px; }
+
+.dz-now__services {
+  grid-column:1/-1;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  margin:clamp(22px,4vw,56px) 0 0;
+  padding:0;
+  border-top:1px solid var(--line);
+  list-style:none;
+}
+
+.dz-now__services li {
+  display:flex;
+  flex-direction:column;
+  gap:17px;
+  min-height:130px;
+  padding:22px 16px 14px;
+  border-right:1px solid var(--line);
+  font:500 19px/1.25 "Playfair Display",serif;
+}
+
+.dz-now__services li:first-child { padding-left:0; }
+.dz-now__services li:last-child { border-right:0; }
+.dz-now__services span { color:var(--rust); font:10px "DM Mono",monospace; letter-spacing:.12em; }
+
+@media(max-width:800px) {
+  .dz-now { grid-template-columns:1fr; gap:28px; padding:83px 22px; }
+  .dz-now__body { font-size:14px; }
+  .dz-now__services { grid-template-columns:repeat(2,minmax(0,1fr)); margin-top:15px; }
+  .dz-now__services li { min-height:113px; padding-left:12px; font-size:17px; }
+  .dz-now__services li:first-child { padding-left:0; }
+  .dz-now__services li:nth-child(2) { border-right:0; }
+  .dz-now__services li:nth-child(-n+2) { border-bottom:1px solid var(--line); }
+}

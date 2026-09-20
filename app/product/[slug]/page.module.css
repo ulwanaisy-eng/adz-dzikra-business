@@ -1,0 +1,177 @@
+.page {
+  min-height: 100svh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 86% 0%, rgba(212, 176, 106, .16), transparent 25%),
+    #f7f1e5;
+  color: #112d31;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 25px clamp(22px, 5vw, 82px);
+  border-bottom: 1px solid rgba(17, 45, 49, .13);
+}
+
+.wordmark {
+  font: 600 20px/1 "DM Sans", sans-serif;
+  letter-spacing: .19em;
+}
+
+.wordmark span { font-size: 7px; vertical-align: top; letter-spacing: 0; }
+
+.backLink,
+.eyebrow,
+.photoNote,
+.specificationLabel {
+  font: 500 10px/1.35 "DM Mono", ui-monospace, monospace;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.backLink {
+  padding-bottom: 6px;
+  border-bottom: 1px solid #112d31;
+}
+
+.product {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, .88fr);
+  min-height: calc(100svh - 71px);
+}
+
+.galleryPanel {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  min-height: 680px;
+  padding: clamp(58px, 9vw, 130px) clamp(22px, 8vw, 135px);
+  background: #e5d8bd;
+}
+
+.galleryFrame {
+  width: min(100%, 540px);
+  aspect-ratio: .7;
+  overflow: hidden;
+  box-shadow: 26px 34px 52px rgba(17, 45, 49, .23);
+}
+
+.photoNote {
+  margin: 24px 0 0;
+  color: #67726a;
+}
+
+.content {
+  align-self: center;
+  max-width: 650px;
+  padding: clamp(58px, 9vw, 140px) clamp(28px, 7vw, 112px);
+}
+
+.eyebrow,
+.specificationLabel { margin: 0; color: #aa7b2e; }
+
+.content h1 {
+  max-width: 620px;
+  margin: 19px 0 0;
+  font: 500 clamp(52px, 6.3vw, 96px)/.9 "Playfair Display", Georgia, serif;
+  letter-spacing: -.055em;
+  text-wrap: balance;
+}
+
+.status {
+  display: inline-flex;
+  margin: 26px 0 0;
+  padding: 7px 9px;
+  border: 1px solid rgba(170, 123, 46, .57);
+  color: #9a6d29;
+  font: 500 10px/1 "DM Mono", ui-monospace, monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.price {
+  margin: 17px 0 0;
+  color: #112d31;
+  font: 500 clamp(20px, 2vw, 28px)/1.25 "Playfair Display", Georgia, serif;
+}
+
+.description {
+  max-width: 510px;
+  margin: 23px 0 0;
+  color: #526161;
+  font: 400 15px/1.75 "DM Sans", sans-serif;
+}
+
+.orderButton,
+.orderPending {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: 34px;
+  padding: 16px 19px;
+  font: 600 11px/1 "DM Sans", sans-serif;
+  letter-spacing: .04em;
+}
+
+.orderButton {
+  background: #be963d;
+  color: #082329;
+  transition: background .25s ease, transform .25s ease;
+}
+
+.orderButton:hover { background: #d4b06a; transform: translateY(-2px); }
+.orderButton span { font-size: 18px; }
+
+.orderPending {
+  border: 1px solid rgba(17, 45, 49, .24);
+  color: #64706c;
+}
+
+.specifications {
+  margin-top: 52px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(17, 45, 49, .18);
+}
+
+.specifications dl { margin: 20px 0 0; }
+
+.specifications dl div {
+  display: grid;
+  grid-template-columns: minmax(112px, .58fr) 1fr;
+  gap: 18px;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(17, 45, 49, .1);
+}
+
+.specifications dt {
+  color: #708079;
+  font: 500 10px/1.4 "DM Mono", ui-monospace, monospace;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.specifications dd {
+  margin: 0;
+  color: #294148;
+  font: 400 14px/1.45 "DM Sans", sans-serif;
+}
+
+.pending { margin: 18px 0 0; color: #64706c; font: 14px/1.6 "DM Sans", sans-serif; }
+
+@media (max-width: 820px) {
+  .product { grid-template-columns: 1fr; }
+  .galleryPanel { min-height: 0; padding: 72px clamp(22px, 12vw, 90px) 48px; }
+  .content { max-width: 680px; padding: 62px clamp(22px, 7vw, 54px) 80px; }
+}
+
+@media (max-width: 480px) {
+  .navigation { padding-top: 20px; padding-bottom: 20px; }
+  .wordmark { font-size: 17px; }
+  .backLink { font-size: 9px; }
+  .galleryPanel { padding-top: 54px; }
+  .content h1 { font-size: clamp(47px, 15vw, 66px); }
+  .specifications dl div { grid-template-columns: 1fr; gap: 5px; }
+}
