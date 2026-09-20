@@ -414,12 +414,11 @@ export function DzikraHeroOpening() {
                 void video.play().catch(() => undefined);
               }
             }}
-            onTimeUpdate={(event) => {
-              const video = event.currentTarget;
-              if (video.currentTime >= 6.12 && !gununganFilmEndedRef.current) {
-                video.pause();
-                gununganFilmEndedRef.current = true;
-              }
+            onEnded={() => {
+              // Freeze the final frame of the real gunungan film. The logo
+              // reveal is driven by the same intro timeline, so there is no
+              // second/fake gunungan layer competing with the source video.
+              gununganFilmEndedRef.current = true;
             }}
             onError={() => setGununganFilmFailed(true)}
           />
@@ -431,7 +430,7 @@ export function DzikraHeroOpening() {
             frameloop={frameLoop}
             gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
           >
-            <HeroWorld motion={motion} reduced={reduced} compact={compact} showKayon={compact || gununganFilmFailed} />
+            <HeroWorld motion={motion} reduced={reduced} compact={compact} showKayon={gununganFilmFailed} />
           </Canvas>
         </div>
         <div className={styles.fog} aria-hidden="true" />

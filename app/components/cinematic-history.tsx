@@ -54,7 +54,7 @@ const filmScenes: readonly FilmScene[] = [
     lead: "Berawal dari satu komitmen sederhana:",
     body: "menjaga dan menyebarkan ilmu melalui kitab-kitab Islam. Sebelum ada teknologi, setiap halaman dikerjakan dengan ketelitian, kesabaran, dan tanggung jawab.",
     src: "/cinematic/dzikra-1992-manuscript.mp4",
-    position: "center center",
+    position: "52% center",
   },
   {
     id: "2010",
@@ -64,7 +64,7 @@ const filmScenes: readonly FilmScene[] = [
     lead: "Dari pekerjaan manual menuju proses digital.",
     body: "Menggunakan teknologi untuk bekerja lebih cepat tanpa mengorbankan kualitas yang kami jaga sejak awal.",
     src: "/cinematic/dzikra-2010-layout-crt.mp4",
-    position: "center center",
+    position: "78% center",
   },
   {
     id: "tahqiq",
@@ -74,7 +74,7 @@ const filmScenes: readonly FilmScene[] = [
     lead: "Karena satu huruf yang keliru dapat mengubah makna sebuah ilmu.",
     body: "Setiap naskah ditelaah ulang dengan amanah sebelum menjadi kitab yang sampai ke tangan pembaca.",
     src: "/cinematic/dzikra-manuscript-correction.mp4",
-    position: "center center",
+    position: "76% center",
   },
   {
     id: "2026",
@@ -84,7 +84,7 @@ const filmScenes: readonly FilmScene[] = [
     lead: "Dibangun dari pengalaman lebih dari tiga dekade.",
     body: "Selama puluhan tahun, Dzikra membantu penerbit, pesantren, ulama, dan penulis melalui pengetikan, layout, koreksi, serta persiapan kitab. Kini kami melangkah lebih jauh.",
     src: "/cinematic/dzikra-print-production.mp4",
-    position: "center center",
+    position: "77% center",
   },
 ];
 
@@ -111,7 +111,8 @@ function playVideo(video: HTMLVideoElement | null) {
   video.defaultMuted = true;
   video.playsInline = true;
   void video.play().catch(() => {
-    // Autoplay can be declined by the browser. The visible play control remains available.
+    // Autoplay can be declined until the first scroll/touch; the listener
+    // above retries playback as soon as the visitor interacts with the page.
   });
 }
 
@@ -125,7 +126,6 @@ export function CinematicHistory() {
   const progressRefs = useRef<Array<HTMLLIElement | null>>([]);
   const activeSceneRef = useRef(0);
   const [activeScene, setActiveScene] = useState(0);
-  const [playingScene, setPlayingScene] = useState<number | null>(null);
   const [failedVideos, setFailedVideos] = useState<Record<string, boolean>>({});
   const [historyVisible, setHistoryVisible] = useState(false);
   const reducedMotion = usePrefersReducedMotion();
@@ -149,7 +149,6 @@ export function CinematicHistory() {
   useEffect(() => {
     if (reducedMotion || !historyVisible) {
       videoRefs.current.forEach((video) => video?.pause());
-      setPlayingScene(null);
       return;
     }
 
@@ -265,7 +264,6 @@ export function CinematicHistory() {
             onEnter: () => setHistoryVisible(true),
             onLeave: () => {
               videoRefs.current.forEach((video) => video?.pause());
-              setPlayingScene(null);
               setHistoryVisible(false);
             },
             onEnterBack: () => {
@@ -316,18 +314,6 @@ export function CinematicHistory() {
 
     return () => context.revert();
   }, [reducedMotion]);
-
-  const toggleVideo = (index: number) => {
-    const video = videoRefs.current[index];
-    if (!video) return;
-    setActiveFilmScene(index);
-
-    if (video.paused) {
-      playVideo(video);
-    } else {
-      video.pause();
-    }
-  };
 
   return (
     <section
@@ -392,7 +378,7 @@ export function CinematicHistory() {
                       autoPlay={index === activeScene}
                       loop
                       playsInline
-                      preload="metadata"
+                      preload="auto"
                       aria-label={"Rekaman " + scene.label}
                       onLoadedData={(event) => {
                         if (activeSceneRef.current === index && historyVisible && !reducedMotion) {
@@ -406,10 +392,6 @@ export function CinematicHistory() {
                       }}
                       onError={() => {
                         setFailedVideos((current) => ({ ...current, [scene.id]: true }));
-                      }}
-                      onPlay={() => setPlayingScene(index)}
-                      onPause={() => {
-                        setPlayingScene((current) => (current === index ? null : current));
                       }}
                     />
                   )}
@@ -450,19 +432,6 @@ export function CinematicHistory() {
                   )}
                 </div>
 
-                <button
-                  className={styles.playControl}
-                  type="button"
-                  onClick={() => toggleVideo(index)}
-                  aria-label={
-                    playingScene === index
-                      ? "Jeda film " + scene.chapter
-                      : "Putar film " + scene.chapter
-                  }
-                >
-                  <span aria-hidden="true">{playingScene === index ? "Ⅱ" : "▶"}</span>
-                  {playingScene === index ? "Jeda" : "Putar"}
-                </button>
               </article>
             );
           })}
