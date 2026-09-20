@@ -558,7 +558,14 @@
     margin: 0 clamp(20px, 6vw, 32px) calc(clamp(67px, 10vh, 92px) + env(safe-area-inset-bottom)) !important;
     padding-top: 68px;
     transform: none !important;
-    opacity: 1 !important;
+    opacity: .22;
+    transform: translateY(14px) !important;
+    transition: opacity .72s ease, transform .72s ease;
+  }
+
+  .copyActive {
+    opacity: 1;
+    transform: translateY(0) !important;
   }
 
   .copy h2 {

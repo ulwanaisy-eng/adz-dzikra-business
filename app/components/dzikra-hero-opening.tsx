@@ -299,6 +299,9 @@ export function DzikraHeroOpening() {
   const [inViewport, setInViewport] = useState(true);
   const [gununganFilmFailed, setGununganFilmFailed] = useState(false);
   const { reduced, compact } = useHeroPreferences();
+  const gununganFilmSrc = compact
+    ? "/cinematic/dzikra-gunungan-opening-mobile.mp4"
+    : "/cinematic/dzikra-gunungan-opening.mp4";
 
   useEffect(() => {
     if (!rootRef.current) return;
@@ -322,6 +325,12 @@ export function DzikraHeroOpening() {
       video.pause();
     }
   }, [gununganFilmFailed, inViewport]);
+
+  useEffect(() => {
+    // A viewport-specific source has its own timeline. Do not let the
+    // desktop film's ended state stop the mobile film on a resize.
+    gununganFilmEndedRef.current = false;
+  }, [gununganFilmSrc]);
 
   useLayoutEffect(() => {
     if (!rootRef.current || !stageRef.current || reduced) return;
@@ -389,11 +398,11 @@ export function DzikraHeroOpening() {
           <video
             ref={gununganFilmRef}
             className={styles.gununganFilm}
-            src="/cinematic/dzikra-gunungan-opening.mp4"
+            src={gununganFilmSrc}
             muted
             autoPlay
             playsInline
-            preload="metadata"
+            preload="auto"
             aria-hidden="true"
             tabIndex={-1}
             onLoadedData={(event) => {
