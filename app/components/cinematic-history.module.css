@@ -71,7 +71,7 @@
   background: var(--deep);
   opacity: 0;
   visibility: hidden;
-  will-change: opacity, transform;
+  will-change: auto;
 }
 
 .scene:first-child {
@@ -81,12 +81,13 @@
 
 .sceneActive {
   pointer-events: auto;
+  will-change: opacity, transform;
 }
 
 .videoShell {
   position: absolute;
   inset: -3%;
-  will-change: transform;
+  will-change: auto;
 }
 
 .video,
@@ -99,6 +100,7 @@
 .video {
   object-fit: cover;
   background: var(--deep);
+  will-change: auto;
 }
 
 .fallback {
@@ -192,6 +194,12 @@
   z-index: 5;
   width: min(48vw, 670px);
   margin: 0 0 clamp(74px, 12vh, 132px) clamp(24px, 9vw, 146px);
+  will-change: auto;
+}
+
+.sceneActive .videoShell,
+.sceneActive .video,
+.copyActive {
   will-change: transform, opacity;
 }
 
@@ -566,6 +574,24 @@
   .copyActive {
     opacity: 1;
     transform: translateY(0) !important;
+  }
+
+  /* The poster is rendered immediately. Copy only begins its fade after the
+     film can paint a frame, or after the short slow-network fallback. */
+  .copyPending,
+  .copyPending.copyActive {
+    opacity: 0 !important;
+    transform: translateY(18px) !important;
+  }
+
+  .copyPending > .eyebrow,
+  .copyPending > h2,
+  .copyPending > .lead,
+  .copyPending > .body,
+  .copyPending > .pillars {
+    opacity: 0 !important;
+    transform: translateY(10px) !important;
+    transition-delay: 0s !important;
   }
 
   /* The words follow the same short fade as the film: the editorial copy

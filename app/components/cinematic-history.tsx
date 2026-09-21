@@ -13,6 +13,7 @@ type FilmScene = {
   lead: string;
   body: string;
   src: string;
+  poster: string;
   position: string;
   mobilePosition: string;
 };
@@ -55,6 +56,7 @@ const filmScenes: readonly FilmScene[] = [
     lead: "Berawal dari satu komitmen sederhana:",
     body: "menjaga dan menyebarkan ilmu melalui kitab-kitab Islam. Sebelum ada teknologi, setiap halaman dikerjakan dengan ketelitian, kesabaran, dan tanggung jawab.",
     src: "/cinematic/dzikra-1992-manuscript.mp4",
+    poster: "/cinematic/dzikra-1992-manuscript-poster.jpg",
     position: "52% center",
     mobilePosition: "52% center",
   },
@@ -66,6 +68,7 @@ const filmScenes: readonly FilmScene[] = [
     lead: "Dari pekerjaan manual menuju proses digital.",
     body: "Menggunakan teknologi untuk bekerja lebih cepat tanpa mengorbankan kualitas yang kami jaga sejak awal.",
     src: "/cinematic/dzikra-2010-layout-crt.mp4",
+    poster: "/cinematic/dzikra-2010-layout-crt-poster.jpg",
     position: "78% center",
     // On a portrait phone, move the crop left enough to retain the CRT
     // computer while keeping Bapak in the right half of the composition.
@@ -79,6 +82,7 @@ const filmScenes: readonly FilmScene[] = [
     lead: "Karena satu huruf yang keliru dapat mengubah makna sebuah ilmu.",
     body: "Setiap naskah ditelaah ulang dengan amanah sebelum menjadi kitab yang sampai ke tangan pembaca.",
     src: "/cinematic/dzikra-manuscript-correction.mp4",
+    poster: "/cinematic/dzikra-manuscript-correction-poster.jpg",
     position: "76% center",
     mobilePosition: "76% center",
   },
@@ -90,6 +94,7 @@ const filmScenes: readonly FilmScene[] = [
     lead: "Dibangun dari pengalaman lebih dari tiga dekade.",
     body: "Selama puluhan tahun, Dzikra membantu penerbit, pesantren, ulama, dan penulis melalui pengetikan, layout, koreksi, serta persiapan kitab. Kini kami melangkah lebih jauh.",
     src: "/cinematic/dzikra-print-production.mp4",
+    poster: "/cinematic/dzikra-print-production-poster.jpg",
     position: "77% center",
     // Keep both Bapak and the press in the mobile crop; the previous
     // right-biased framing only showed the portrait.
@@ -133,9 +138,12 @@ export function CinematicHistory() {
   const copyRefs = useRef<Array<HTMLDivElement | null>>([]);
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
   const progressRefs = useRef<Array<HTMLLIElement | null>>([]);
+  const refreshRafRef = useRef<number | null>(null);
   const activeSceneRef = useRef(0);
   const [activeScene, setActiveScene] = useState(0);
   const [failedVideos, setFailedVideos] = useState<Record<string, boolean>>({});
+  const [videoReady, setVideoReady] = useState<Record<string, boolean>>({});
+  const [copyFallback, setCopyFallback] = useState<Record<string, boolean>>({});
   const [historyVisible, setHistoryVisible] = useState(false);
   const reducedMotion = usePrefersReducedMotion();
 
@@ -143,6 +151,19 @@ export function CinematicHistory() {
     if (activeSceneRef.current === nextIndex) return;
     activeSceneRef.current = nextIndex;
     setActiveScene(nextIndex);
+  };
+
+  const markVideoReady = (sceneId: string) => {
+    setVideoReady((current) => current[sceneId] ? current : { ...current, [sceneId]: true });
+  };
+
+  const queueScrollTriggerRefresh = () => {
+    if (window.matchMedia("(max-width: 767px)").matches) return;
+    if (refreshRafRef.current) cancelAnimationFrame(refreshRafRef.current);
+    refreshRafRef.current = requestAnimationFrame(() => {
+      refreshRafRef.current = null;
+      ScrollTrigger.refresh();
+    });
   };
 
   useEffect(() => {
@@ -154,6 +175,25 @@ export function CinematicHistory() {
     observer.observe(rootRef.current);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => () => {
+    if (refreshRafRef.current) cancelAnimationFrame(refreshRafRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion || !historyVisible) return;
+
+    const sceneId = filmScenes[activeScene]?.id;
+    if (!sceneId || videoReady[sceneId] || copyFallback[sceneId]) return;
+
+    // On a slower network the poster is already visible. Give the background
+    // film a short head start, then reveal copy so the narrative never hangs.
+    const timeout = window.setTimeout(() => {
+      setCopyFallback((current) => current[sceneId] ? current : { ...current, [sceneId]: true });
+    }, 1050);
+
+    return () => window.clearTimeout(timeout);
+  }, [activeScene, copyFallback, historyVisible, reducedMotion, videoReady]);
 
   useEffect(() => {
     if (reducedMotion || !historyVisible) {
@@ -182,13 +222,11 @@ export function CinematicHistory() {
       playVideo(videoRefs.current[activeSceneRef.current]);
     };
 
-    window.addEventListener("scroll", resumeActiveVideo, { passive: true });
     window.addEventListener("touchstart", resumeActiveVideo, { passive: true });
     window.addEventListener("pointerdown", resumeActiveVideo, { passive: true });
     document.addEventListener("visibilitychange", resumeActiveVideo);
 
     return () => {
-      window.removeEventListener("scroll", resumeActiveVideo);
       window.removeEventListener("touchstart", resumeActiveVideo);
       window.removeEventListener("pointerdown", resumeActiveVideo);
       document.removeEventListener("visibilitychange", resumeActiveVideo);
@@ -213,13 +251,23 @@ export function CinematicHistory() {
       setActiveFilmScene(nextIndex);
     };
 
-    updateActiveScene();
-    window.addEventListener("scroll", updateActiveScene, { passive: true });
-    window.addEventListener("resize", updateActiveScene);
+    let frame = 0;
+    const queueActiveSceneUpdate = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        updateActiveScene();
+      });
+    };
+
+    queueActiveSceneUpdate();
+    window.addEventListener("scroll", queueActiveSceneUpdate, { passive: true });
+    window.addEventListener("resize", queueActiveSceneUpdate);
 
     return () => {
-      window.removeEventListener("scroll", updateActiveScene);
-      window.removeEventListener("resize", updateActiveScene);
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", queueActiveSceneUpdate);
+      window.removeEventListener("resize", queueActiveSceneUpdate);
     };
   }, [reducedMotion]);
 
@@ -362,6 +410,8 @@ export function CinematicHistory() {
         <div className={styles.layers}>
           {filmScenes.map((scene, index) => {
             const failed = failedVideos[scene.id];
+            const copyMayEnter = Boolean(videoReady[scene.id] || copyFallback[scene.id] || failed);
+            const preload = index <= activeScene + 1 ? "auto" : "metadata";
             const sceneClass = [styles.scene, styles["scene" + (index + 1)], index === activeScene ? styles.sceneActive : ""]
               .filter(Boolean)
               .join(" ");
@@ -393,13 +443,16 @@ export function CinematicHistory() {
                         "--mobile-position": scene.mobilePosition,
                       } as CSSProperties}
                       src={scene.src}
+                      poster={scene.poster}
                       muted
                       autoPlay={index === activeScene}
                       loop
                       playsInline
-                      preload="auto"
+                      preload={preload}
                       aria-label={"Rekaman " + scene.label}
+                      onLoadedMetadata={queueScrollTriggerRefresh}
                       onLoadedData={(event) => {
+                        markVideoReady(scene.id);
                         if (activeSceneRef.current === index && historyVisible && !reducedMotion) {
                           playVideo(event.currentTarget);
                         }
@@ -409,8 +462,10 @@ export function CinematicHistory() {
                           playVideo(event.currentTarget);
                         }
                       }}
+                      onPlaying={() => markVideoReady(scene.id)}
                       onError={() => {
                         setFailedVideos((current) => ({ ...current, [scene.id]: true }));
+                        setCopyFallback((current) => ({ ...current, [scene.id]: true }));
                       }}
                     />
                   )}
@@ -425,7 +480,11 @@ export function CinematicHistory() {
                   ref={(node) => {
                     copyRefs.current[index] = node;
                   }}
-                  className={[styles.copy, index === activeScene ? styles.copyActive : ""].filter(Boolean).join(" ")}
+                  className={[
+                    styles.copy,
+                    index === activeScene ? styles.copyActive : "",
+                    copyMayEnter ? "" : styles.copyPending,
+                  ].filter(Boolean).join(" ")}
                 >
                   <p className={styles.eyebrow}>
                     <span>{scene.chapter}</span>

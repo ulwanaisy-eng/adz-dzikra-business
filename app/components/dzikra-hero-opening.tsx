@@ -412,6 +412,7 @@ export function DzikraHeroOpening() {
             ref={gununganFilmRef}
             className={styles.gununganFilm}
             src={compact ? undefined : gununganFilmSrc}
+            poster="/cinematic/dzikra-gunungan-mobile-still.png"
             muted
             autoPlay={!compact}
             playsInline
