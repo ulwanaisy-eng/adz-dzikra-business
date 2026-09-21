@@ -44,6 +44,22 @@
 .gallery { position:relative; width:100%; height:100%; }.gallery-track { display:flex; width:100%; height:100%; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-behavior:smooth; scrollbar-width:none; -ms-overflow-style:none; }.gallery-track::-webkit-scrollbar { display:none; }.gallery-slide { position:relative; flex:0 0 100%; width:100%; height:100%; scroll-snap-align:center; scroll-snap-stop:always; }.gallery-slide img { object-fit:cover; }.gallery-prev,.gallery-next { position:absolute; top:calc(50% - 18px); z-index:1; width:36px; height:36px; border:0; border-radius:50%; background:rgba(8,35,41,.75); color:#fff; }.gallery-prev { left:10px; }.gallery-next { right:10px; }.gallery-dots { position:absolute; bottom:12px; left:0; right:0; display:flex; justify-content:center; gap:6px; }.gallery-dots button { width:7px; height:7px; border:1px solid #fff; border-radius:50%; background:transparent; padding:0; }.gallery-dots button.active { background:#fff; }.gallery-counter { display:none; }
 
 @media (max-width:700px) { .gallery-prev,.gallery-next,.gallery-dots { display:none; }.gallery-counter { position:absolute; right:12px; bottom:12px; z-index:1; display:block; margin:0; padding:6px 8px; border:1px solid rgba(255,255,255,.55); background:rgba(8,35,41,.58); color:#fff; font:10px/1 "DM Mono",ui-monospace,monospace; letter-spacing:.08em; } }
+
+/* Long book names and the catalog link need to be able to wrap on narrow screens. */
+@media (max-width:700px) {
+  .book-info { min-width:0; }
+  .book-info h3 { overflow-wrap:anywhere; hyphens:auto; }
+  .text-link {
+    display:inline-flex;
+    align-items:baseline;
+    gap:10px;
+    max-width:100%;
+    line-height:1.4;
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+  .text-link span { flex:none; padding-left:0; }
+}
 .photo-previews { grid-column:1/-1; display:flex; flex-wrap:wrap; gap:12px; }.photo-previews .photo-preview { display:grid; gap:6px; align-items:start; }.photo-previews .photo-preview img { width:72px; height:98px; object-fit:cover; box-shadow:4px 5px 11px rgba(0,0,0,.17); }.photo-previews .photo-preview button { max-width:80px; padding:0; text-align:left; }
 
 /* The film owns the historical timeline. This small 2D release lets the catalog begin cleanly. */

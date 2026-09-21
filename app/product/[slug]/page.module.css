@@ -165,6 +165,14 @@
   .product { grid-template-columns: 1fr; }
   .galleryPanel { min-height: 0; padding: 72px clamp(22px, 12vw, 90px) 48px; }
   .content { max-width: 680px; padding: 62px clamp(22px, 7vw, 54px) 80px; }
+  .content h1 { overflow-wrap: anywhere; hyphens: auto; }
+  .description {
+    max-width: none;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+    text-align: justify;
+    text-align-last: left;
+  }
 }
 
 @media (max-width: 480px) {
