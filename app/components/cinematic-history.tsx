@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./cinematic-history.module.css";
@@ -14,6 +14,7 @@ type FilmScene = {
   body: string;
   src: string;
   position: string;
+  mobilePosition: string;
 };
 
 type TahqiqPillar = {
@@ -55,6 +56,7 @@ const filmScenes: readonly FilmScene[] = [
     body: "menjaga dan menyebarkan ilmu melalui kitab-kitab Islam. Sebelum ada teknologi, setiap halaman dikerjakan dengan ketelitian, kesabaran, dan tanggung jawab.",
     src: "/cinematic/dzikra-1992-manuscript.mp4",
     position: "52% center",
+    mobilePosition: "52% center",
   },
   {
     id: "2010",
@@ -65,6 +67,9 @@ const filmScenes: readonly FilmScene[] = [
     body: "Menggunakan teknologi untuk bekerja lebih cepat tanpa mengorbankan kualitas yang kami jaga sejak awal.",
     src: "/cinematic/dzikra-2010-layout-crt.mp4",
     position: "78% center",
+    // On a portrait phone, move the crop left enough to retain the CRT
+    // computer while keeping Bapak in the right half of the composition.
+    mobilePosition: "62% center",
   },
   {
     id: "tahqiq",
@@ -75,6 +80,7 @@ const filmScenes: readonly FilmScene[] = [
     body: "Setiap naskah ditelaah ulang dengan amanah sebelum menjadi kitab yang sampai ke tangan pembaca.",
     src: "/cinematic/dzikra-manuscript-correction.mp4",
     position: "76% center",
+    mobilePosition: "76% center",
   },
   {
     id: "2026",
@@ -85,6 +91,9 @@ const filmScenes: readonly FilmScene[] = [
     body: "Selama puluhan tahun, Dzikra membantu penerbit, pesantren, ulama, dan penulis melalui pengetikan, layout, koreksi, serta persiapan kitab. Kini kami melangkah lebih jauh.",
     src: "/cinematic/dzikra-print-production.mp4",
     position: "77% center",
+    // Keep both Bapak and the press in the mobile crop; the previous
+    // right-biased framing only showed the portrait.
+    mobilePosition: "61% center",
   },
 ];
 
@@ -193,7 +202,10 @@ export function CinematicHistory() {
     // crosses a viewport-relative line, rather than waiting for its bottom to
     // become visible. This keeps the trigger consistent across phone sizes.
     const updateActiveScene = () => {
-      const triggerLine = window.innerHeight * 0.32;
+      // Begin the crossfade as the TOP of a new frame enters the lower half
+      // of the viewport. It feels immediate without waiting until the scene
+      // has already occupied most of the screen.
+      const triggerLine = window.innerHeight * 0.62;
       let nextIndex = 0;
       sceneRefs.current.forEach((scene, index) => {
         if (scene && scene.getBoundingClientRect().top <= triggerLine) nextIndex = index;
@@ -376,7 +388,10 @@ export function CinematicHistory() {
                         videoRefs.current[index] = node;
                       }}
                       className={styles.video}
-                      style={{ objectPosition: scene.position }}
+                      style={{
+                        objectPosition: scene.position,
+                        "--mobile-position": scene.mobilePosition,
+                      } as CSSProperties}
                       src={scene.src}
                       muted
                       autoPlay={index === activeScene}

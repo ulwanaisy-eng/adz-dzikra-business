@@ -535,17 +535,18 @@
 
   .video {
     object-fit: cover;
+    object-position: var(--mobile-position) !important;
     /* Portrait screens need a deliberate crop: the subject is kept in the
        right third while the editorial copy remains readable on the left. */
     transform: scale(1.08);
-    opacity: .2;
-    filter: saturate(.66) brightness(.58);
-    transition: opacity .86s ease-in-out, filter .86s ease-in-out, transform .86s ease-in-out;
+    opacity: .16;
+    filter: saturate(.7) brightness(.68);
+    transition: opacity .62s ease-in-out, filter .62s ease-in-out, transform .62s ease-in-out;
   }
 
   .sceneActive .video {
     opacity: 1;
-    filter: saturate(.98) brightness(.88);
+    filter: saturate(1) brightness(.96);
     transform: scale(1.1);
   }
 
@@ -557,16 +558,43 @@
     width: auto !important;
     margin: 0 clamp(18px, 5vw, 26px) calc(clamp(54px, 8vh, 72px) + env(safe-area-inset-bottom)) !important;
     padding-top: 54px;
-    transform: none !important;
-    opacity: .22;
-    transform: translateY(14px) !important;
-    transition: opacity .86s ease-in-out, transform .86s ease-in-out;
+    opacity: 0;
+    transform: translateY(18px) !important;
+    transition: opacity .62s ease-in-out, transform .62s ease-in-out;
   }
 
   .copyActive {
     opacity: 1;
     transform: translateY(0) !important;
   }
+
+  /* The words follow the same short fade as the film: the editorial copy
+     arrives with the scene, rather than feeling late behind the video. */
+  .copy > .eyebrow,
+  .copy > h2,
+  .copy > .lead,
+  .copy > .body,
+  .copy > .pillars {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .48s ease-out, transform .48s ease-out;
+    transition-delay: 0s;
+  }
+
+  .copyActive > .eyebrow,
+  .copyActive > h2,
+  .copyActive > .lead,
+  .copyActive > .body,
+  .copyActive > .pillars {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .copyActive > .eyebrow { transition-delay: .02s; }
+  .copyActive > h2 { transition-delay: .08s; }
+  .copyActive > .lead { transition-delay: .14s; }
+  .copyActive > .body { transition-delay: .19s; }
+  .copyActive > .pillars { transition-delay: .24s; }
 
   .copy h2 {
     max-width: 610px;
@@ -629,8 +657,41 @@
 
   .scene3 .shade {
     background:
-      linear-gradient(180deg, rgba(3, 14, 17, .92) 0%, rgba(3, 14, 17, .67) 46%, rgba(3, 14, 17, .78) 100%),
-      linear-gradient(90deg, rgba(3, 14, 17, .72), rgba(3, 14, 17, .2));
+      linear-gradient(180deg, rgba(3, 14, 17, .72) 0%, rgba(3, 14, 17, .42) 46%, rgba(3, 14, 17, .63) 100%),
+      linear-gradient(90deg, rgba(3, 14, 17, .58), rgba(3, 14, 17, .1));
+  }
+
+  .scene3 .copy h2 {
+    font-size: clamp(29px, 8vw, 44px) !important;
+  }
+
+  .scene3 .lead {
+    margin-top: 11px;
+    font-size: 14px;
+  }
+
+  .scene3 .body {
+    margin-top: 8px;
+    font-size: 11px;
+    line-height: 1.42;
+  }
+
+  .scene3 .pillars {
+    gap: 8px 12px;
+    margin-top: 13px;
+  }
+
+  .scene3 .pillarArabic {
+    font-size: clamp(23px, 6.8vw, 31px);
+  }
+
+  .scene3 .pillarLatin {
+    font-size: clamp(13px, 3.7vw, 17px);
+  }
+
+  .scene3 .pillarDescription {
+    font-size: 9.5px;
+    line-height: 1.27;
   }
 
   .progress {

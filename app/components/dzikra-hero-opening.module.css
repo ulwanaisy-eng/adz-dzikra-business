@@ -235,6 +235,9 @@
     object-fit: cover;
     object-position: center center;
   }
+  /* The supplied Gunungan film is held as a still on phones. This removes
+     autoplay as a point of failure; the logo remains the moving reveal. */
+  .canvas { display: none; }
   .frame { inset: 11px; }
   .nav { height: 62px; padding-inline: 18px; }
   .nav div { gap: 14px; font-size: 10px; }

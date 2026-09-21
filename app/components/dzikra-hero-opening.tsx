@@ -37,6 +37,21 @@ function smooth(from: number, to: number, value: number) {
   return THREE.MathUtils.smoothstep(value, from, to);
 }
 
+function holdOpeningFrame(video: HTMLVideoElement | null) {
+  if (!video) return;
+  video.pause();
+
+  // Mobile uses the supplied Gunungan film as a single held photograph.
+  // A tiny seek avoids the occasional black decode frame at time zero.
+  if (video.readyState >= HTMLMediaElement.HAVE_METADATA && video.currentTime < 0.08) {
+    try {
+      video.currentTime = 0.08;
+    } catch {
+      // Metadata can arrive a moment later; the media callbacks retry this.
+    }
+  }
+}
+
 function createKayonShape() {
   const path = new THREE.Shape();
 
@@ -315,7 +330,7 @@ export function DzikraHeroOpening() {
 
   useEffect(() => {
     const video = gununganFilmRef.current;
-    if (!video || gununganFilmFailed) return;
+    if (!video || gununganFilmFailed || compact) return;
 
     if (inViewport && !gununganFilmEndedRef.current) {
       void video.play().catch(() => {
@@ -324,7 +339,7 @@ export function DzikraHeroOpening() {
     } else {
       video.pause();
     }
-  }, [gununganFilmFailed, inViewport]);
+  }, [compact, gununganFilmFailed, inViewport]);
 
   useEffect(() => {
     // A viewport-specific source has its own timeline. Do not let the
@@ -336,9 +351,15 @@ export function DzikraHeroOpening() {
     video.muted = true;
     video.defaultMuted = true;
     video.playsInline = true;
+
+    if (compact) {
+      holdOpeningFrame(video);
+      return;
+    }
+
     video.load();
     if (inViewport) void video.play().catch(() => undefined);
-  }, [gununganFilmFailed, gununganFilmSrc]);
+  }, [compact, gununganFilmFailed, gununganFilmSrc]);
 
   useLayoutEffect(() => {
     if (!rootRef.current || !stageRef.current || reduced) return;
@@ -354,13 +375,16 @@ export function DzikraHeroOpening() {
       gsap.set(revealTargets, { autoAlpha: 0, y: 12 });
       gsap.set(wordmarkRef.current, { scale: 0.94 });
       const intro = gsap.timeline();
+      const revealAt = compact
+        ? { nav: 0.18, eyebrow: 0.28, wordmark: 0.44, tagline: 0.72, cue: 1.05 }
+        : { nav: 7.04, eyebrow: 7.1, wordmark: 7.34, tagline: 7.82, cue: 10.25 };
       intro
-        .to(motion.current, { sequence: 1, duration: 12, ease: "none" }, 0)
-        .to(navRef.current, { autoAlpha: 1, y: 0, duration: 0.45, ease: "power2.out" }, 7.04)
-        .to(eyebrowRef.current, { autoAlpha: 1, y: 0, duration: 0.55, ease: "power2.out" }, 7.1)
-        .to(wordmarkRef.current, { autoAlpha: 1, y: 0, scale: 1, duration: 0.72, ease: "power3.out" }, 7.34)
-        .to(taglineRef.current, { autoAlpha: 1, y: 0, duration: 0.56, ease: "power2.out" }, 7.82)
-        .to(cueRef.current, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" }, 10.25);
+        .to(motion.current, { sequence: 1, duration: compact ? 1.2 : 12, ease: "none" }, 0)
+        .to(navRef.current, { autoAlpha: 1, y: 0, duration: 0.45, ease: "power2.out" }, revealAt.nav)
+        .to(eyebrowRef.current, { autoAlpha: 1, y: 0, duration: 0.55, ease: "power2.out" }, revealAt.eyebrow)
+        .to(wordmarkRef.current, { autoAlpha: 1, y: 0, scale: 1, duration: 0.72, ease: "power3.out" }, revealAt.wordmark)
+        .to(taglineRef.current, { autoAlpha: 1, y: 0, duration: 0.56, ease: "power2.out" }, revealAt.tagline)
+        .to(cueRef.current, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" }, revealAt.cue);
       introTimelineRef.current = intro;
 
       gsap.timeline({
@@ -408,7 +432,7 @@ export function DzikraHeroOpening() {
             className={styles.gununganFilm}
             src={gununganFilmSrc}
             muted
-            autoPlay
+            autoPlay={!compact}
             playsInline
             preload="auto"
             aria-hidden="true"
@@ -418,6 +442,10 @@ export function DzikraHeroOpening() {
               video.muted = true;
               video.defaultMuted = true;
               video.playsInline = true;
+              if (compact) {
+                holdOpeningFrame(video);
+                return;
+              }
               if (inViewport && !gununganFilmEndedRef.current) {
                 void video.play().catch(() => undefined);
               }
@@ -427,9 +455,16 @@ export function DzikraHeroOpening() {
               video.muted = true;
               video.defaultMuted = true;
               video.playsInline = true;
+              if (compact) {
+                holdOpeningFrame(video);
+                return;
+              }
               if (inViewport && !gununganFilmEndedRef.current) {
                 void video.play().catch(() => undefined);
               }
+            }}
+            onLoadedMetadata={(event) => {
+              if (compact) holdOpeningFrame(event.currentTarget);
             }}
             onEnded={() => {
               // Freeze the final frame of the real gunungan film. The logo
