@@ -329,8 +329,16 @@ export function DzikraHeroOpening() {
   useEffect(() => {
     // A viewport-specific source has its own timeline. Do not let the
     // desktop film's ended state stop the mobile film on a resize.
+    const video = gununganFilmRef.current;
     gununganFilmEndedRef.current = false;
-  }, [gununganFilmSrc]);
+
+    if (!video || gununganFilmFailed) return;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.load();
+    if (inViewport) void video.play().catch(() => undefined);
+  }, [gununganFilmFailed, gununganFilmSrc]);
 
   useLayoutEffect(() => {
     if (!rootRef.current || !stageRef.current || reduced) return;
