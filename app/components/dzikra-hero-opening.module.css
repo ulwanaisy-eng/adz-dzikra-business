@@ -43,6 +43,10 @@
   will-change: transform, filter;
 }
 
+.gununganStill {
+  display: none;
+}
+
 .portalCopy {
   position: absolute;
   z-index: 6;
@@ -232,11 +236,21 @@
     min-height: 100svh;
   }
   .gununganFilm {
+    display: none;
     object-fit: cover;
     object-position: center center;
   }
-  /* The supplied Gunungan film is held as a still on phones. This removes
-     autoplay as a point of failure; the logo remains the moving reveal. */
+  /* The mobile opening deliberately uses a PNG frame extracted from the
+     supplied Gunungan footage. There is no mobile video element to autoplay. */
+  .gununganStill {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    display: block;
+    background: #06191d url("/cinematic/dzikra-gunungan-mobile-still.png") center center / cover no-repeat;
+    filter: saturate(.94) contrast(1.04) brightness(.94);
+    will-change: transform, filter;
+  }
   .canvas { display: none; }
   .frame { inset: 11px; }
   .nav { height: 62px; padding-inline: 18px; }

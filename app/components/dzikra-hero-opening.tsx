@@ -37,21 +37,6 @@ function smooth(from: number, to: number, value: number) {
   return THREE.MathUtils.smoothstep(value, from, to);
 }
 
-function holdOpeningFrame(video: HTMLVideoElement | null) {
-  if (!video) return;
-  video.pause();
-
-  // Mobile uses the supplied Gunungan film as a single held photograph.
-  // A tiny seek avoids the occasional black decode frame at time zero.
-  if (video.readyState >= HTMLMediaElement.HAVE_METADATA && video.currentTime < 0.08) {
-    try {
-      video.currentTime = 0.08;
-    } catch {
-      // Metadata can arrive a moment later; the media callbacks retry this.
-    }
-  }
-}
-
 function createKayonShape() {
   const path = new THREE.Shape();
 
@@ -302,6 +287,7 @@ export function DzikraHeroOpening() {
   const rootRef = useRef<HTMLElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const gununganFilmRef = useRef<HTMLVideoElement | null>(null);
+  const gununganStillRef = useRef<HTMLDivElement | null>(null);
   const gununganFilmEndedRef = useRef(false);
   const portalCopyRef = useRef<HTMLDivElement | null>(null);
   const navRef = useRef<HTMLElement | null>(null);
@@ -314,9 +300,7 @@ export function DzikraHeroOpening() {
   const [inViewport, setInViewport] = useState(true);
   const [gununganFilmFailed, setGununganFilmFailed] = useState(false);
   const { reduced, compact } = useHeroPreferences();
-  const gununganFilmSrc = compact
-    ? "/cinematic/dzikra-gunungan-opening-mobile.mp4"
-    : "/cinematic/dzikra-gunungan-opening.mp4";
+  const gununganFilmSrc = "/cinematic/dzikra-gunungan-opening.mp4";
 
   useEffect(() => {
     if (!rootRef.current) return;
@@ -347,15 +331,10 @@ export function DzikraHeroOpening() {
     const video = gununganFilmRef.current;
     gununganFilmEndedRef.current = false;
 
-    if (!video || gununganFilmFailed) return;
+    if (!video || gununganFilmFailed || compact) return;
     video.muted = true;
     video.defaultMuted = true;
     video.playsInline = true;
-
-    if (compact) {
-      holdOpeningFrame(video);
-      return;
-    }
 
     video.load();
     if (inViewport) void video.play().catch(() => undefined);
@@ -366,12 +345,13 @@ export function DzikraHeroOpening() {
 
     const root = rootRef.current;
     const stage = stageRef.current;
+    const gununganVisual = compact ? gununganStillRef.current : gununganFilmRef.current;
     gsap.registerPlugin(ScrollTrigger);
     const context = gsap.context(() => {
       const revealTargets = [navRef.current, eyebrowRef.current, wordmarkRef.current, taglineRef.current, cueRef.current]
         .filter((target): target is HTMLElement => Boolean(target));
 
-      gsap.set(gununganFilmRef.current, { autoAlpha: 1, scale: 1.16, transformOrigin: "50% 50%" });
+      gsap.set(gununganVisual, { autoAlpha: 1, scale: 1.16, transformOrigin: "50% 50%" });
       gsap.set(revealTargets, { autoAlpha: 0, y: 12 });
       gsap.set(wordmarkRef.current, { scale: 0.94 });
       const intro = gsap.timeline();
@@ -407,7 +387,7 @@ export function DzikraHeroOpening() {
       })
         .to(motion.current, { portal: 1, duration: 1 }, 0)
         .to(portalCopyRef.current, { autoAlpha: 0, scale: 0.72, y: -20, duration: 0.65 }, 0.06)
-        .to(gununganFilmRef.current, { scale: 1.34, filter: "saturate(.8) contrast(1.06) brightness(.56)", duration: 0.78 }, 0)
+        .to(gununganVisual, { scale: 1.34, filter: "saturate(.8) contrast(1.06) brightness(.56)", duration: 0.78 }, 0)
         .to(stage, { backgroundColor: "#071f24", duration: 0.28 }, 0.72);
     }, root);
 
@@ -426,11 +406,12 @@ export function DzikraHeroOpening() {
       aria-label="Pembukaan Dzikra"
     >
       <div ref={stageRef} className={styles.stage}>
+        <div ref={gununganStillRef} className={styles.gununganStill} aria-hidden="true" />
         {!gununganFilmFailed && (
           <video
             ref={gununganFilmRef}
             className={styles.gununganFilm}
-            src={gununganFilmSrc}
+            src={compact ? undefined : gununganFilmSrc}
             muted
             autoPlay={!compact}
             playsInline
@@ -442,10 +423,7 @@ export function DzikraHeroOpening() {
               video.muted = true;
               video.defaultMuted = true;
               video.playsInline = true;
-              if (compact) {
-                holdOpeningFrame(video);
-                return;
-              }
+              if (compact) return;
               if (inViewport && !gununganFilmEndedRef.current) {
                 void video.play().catch(() => undefined);
               }
@@ -455,16 +433,10 @@ export function DzikraHeroOpening() {
               video.muted = true;
               video.defaultMuted = true;
               video.playsInline = true;
-              if (compact) {
-                holdOpeningFrame(video);
-                return;
-              }
+              if (compact) return;
               if (inViewport && !gununganFilmEndedRef.current) {
                 void video.play().catch(() => undefined);
               }
-            }}
-            onLoadedMetadata={(event) => {
-              if (compact) holdOpeningFrame(event.currentTarget);
             }}
             onEnded={() => {
               // Freeze the final frame of the real gunungan film. The logo
