@@ -7,6 +7,11 @@ import { AnalyticsProvider } from "./components/analytics-provider";
 export const metadata: Metadata = {
   title: "Dzikra — Penerbit & Distributor Kitab",
   description: "Crafted with Amanah, Designed for Comfort.",
+  icons: {
+    icon: "/images/dzikra-logo.jpg",
+    shortcut: "/images/dzikra-logo.jpg",
+    apple: "/images/dzikra-logo.jpg",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
