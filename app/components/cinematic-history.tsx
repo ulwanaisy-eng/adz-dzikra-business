@@ -72,7 +72,7 @@ const filmScenes: readonly FilmScene[] = [
     position: "78% center",
     // On a portrait phone, move the crop left enough to retain the CRT
     // computer while keeping Bapak in the right half of the composition.
-    mobilePosition: "62% center",
+    mobilePosition: "46% center",
   },
   {
     id: "tahqiq",
@@ -98,7 +98,7 @@ const filmScenes: readonly FilmScene[] = [
     position: "77% center",
     // Keep both Bapak and the press in the mobile crop; the previous
     // right-biased framing only showed the portrait.
-    mobilePosition: "61% center",
+    mobilePosition: "46% center",
   },
 ];
 
@@ -236,38 +236,25 @@ export function CinematicHistory() {
   useEffect(() => {
     if (reducedMotion || window.matchMedia("(min-width: 768px)").matches) return;
 
-    // Mobile scenes are not pinned. Advance when the TOP of the next frame
-    // crosses a viewport-relative line, rather than waiting for its bottom to
-    // become visible. This keeps the trigger consistent across phone sizes.
-    const updateActiveScene = () => {
-      // Begin the crossfade as the TOP of a new frame enters the lower half
-      // of the viewport. It feels immediate without waiting until the scene
-      // has already occupied most of the screen.
-      const triggerLine = window.innerHeight * 0.62;
-      let nextIndex = 0;
-      sceneRefs.current.forEach((scene, index) => {
-        if (scene && scene.getBoundingClientRect().top <= triggerLine) nextIndex = index;
+    // The virtual viewport ends at 62%, so a new scene becomes active as its
+    // TOP crosses that line. IntersectionObserver avoids layout reads inside
+    // a scroll callback, which is gentler on mobile compositing.
+    const visibleScenes = new Set<number>();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const index = Number((entry.target as HTMLElement).dataset.sceneIndex);
+        if (entry.isIntersecting) visibleScenes.add(index);
+        else visibleScenes.delete(index);
       });
-      setActiveFilmScene(nextIndex);
-    };
+      setActiveFilmScene(Math.max(0, ...visibleScenes));
+    }, { rootMargin: "0px 0px -38% 0px", threshold: 0 });
 
-    let frame = 0;
-    const queueActiveSceneUpdate = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = 0;
-        updateActiveScene();
-      });
-    };
-
-    queueActiveSceneUpdate();
-    window.addEventListener("scroll", queueActiveSceneUpdate, { passive: true });
-    window.addEventListener("resize", queueActiveSceneUpdate);
+    sceneRefs.current.forEach((scene) => {
+      if (scene) observer.observe(scene);
+    });
 
     return () => {
-      if (frame) cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", queueActiveSceneUpdate);
-      window.removeEventListener("resize", queueActiveSceneUpdate);
+      observer.disconnect();
     };
   }, [reducedMotion]);
 

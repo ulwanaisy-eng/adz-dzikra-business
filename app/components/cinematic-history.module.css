@@ -537,16 +537,18 @@
 
   .videoShell {
     position: absolute;
-    inset: -3% -8%;
+    /* Keep the widest possible portion of the original 16:9 footage on a
+       portrait screen before object-position chooses the storytelling focus. */
+    inset: -1% -2%;
     transform: none !important;
   }
 
   .video {
     object-fit: cover;
     object-position: var(--mobile-position) !important;
-    /* Portrait screens need a deliberate crop: the subject is kept in the
-       right third while the editorial copy remains readable on the left. */
-    transform: scale(1.08);
+    /* Portrait screens still crop landscape footage; each scene supplies its
+       own object-position so the key subject and process remain in frame. */
+    transform: scale(1.02);
     opacity: .16;
     filter: saturate(.7) brightness(.68);
     transition: opacity .62s ease-in-out, filter .62s ease-in-out, transform .62s ease-in-out;
@@ -555,7 +557,7 @@
   .sceneActive .video {
     opacity: 1;
     filter: saturate(1) brightness(.96);
-    transform: scale(1.1);
+    transform: scale(1.04);
   }
 
   .edge {

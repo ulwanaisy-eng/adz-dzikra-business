@@ -28,11 +28,11 @@
   height: 100% !important;
 }
 
-.canvas { z-index: 1; }
+.canvas { z-index: 2; }
 
 .gununganFilm {
   position: absolute;
-  z-index: 0;
+  z-index: 1;
   inset: 0;
   width: 100%;
   height: 100%;
@@ -44,7 +44,12 @@
 }
 
 .gununganStill {
-  display: none;
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  background: #06191d url("/cinematic/dzikra-gunungan-mobile-still.png") center center / cover no-repeat;
+  filter: saturate(.94) contrast(1.04) brightness(.94);
 }
 
 .portalCopy {
@@ -236,20 +241,13 @@
     min-height: 100svh;
   }
   .gununganFilm {
-    display: none;
     object-fit: cover;
     object-position: center center;
   }
-  /* The mobile opening deliberately uses a PNG frame extracted from the
-     supplied Gunungan footage. There is no mobile video element to autoplay. */
+  /* The poster remains behind the video only as a real loading/error
+     fallback. The Gunungan film itself stays visible and mounted on mobile. */
   .gununganStill {
-    position: absolute;
-    z-index: 0;
-    inset: 0;
-    display: block;
-    background: #06191d url("/cinematic/dzikra-gunungan-mobile-still.png") center center / cover no-repeat;
-    filter: saturate(.94) contrast(1.04) brightness(.94);
-    will-change: transform, filter;
+    will-change: auto;
   }
   .canvas { display: none; }
   .frame { inset: 11px; }

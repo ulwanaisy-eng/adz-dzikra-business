@@ -289,6 +289,7 @@ export function DzikraHeroOpening() {
   const gununganFilmRef = useRef<HTMLVideoElement | null>(null);
   const gununganStillRef = useRef<HTMLDivElement | null>(null);
   const gununganFilmEndedRef = useRef(false);
+  const gununganPlaybackRejectedRef = useRef(false);
   const portalCopyRef = useRef<HTMLDivElement | null>(null);
   const navRef = useRef<HTMLElement | null>(null);
   const eyebrowRef = useRef<HTMLParagraphElement | null>(null);
@@ -300,7 +301,28 @@ export function DzikraHeroOpening() {
   const [inViewport, setInViewport] = useState(true);
   const [gununganFilmFailed, setGununganFilmFailed] = useState(false);
   const { reduced, compact } = useHeroPreferences();
-  const gununganFilmSrc = "/cinematic/dzikra-gunungan-opening.mp4";
+  const gununganDesktopFilmSrc = "/cinematic/dzikra-gunungan-opening.mp4";
+  const gununganMobileFilmSrc = "/cinematic/dzikra-gunungan-opening-mobile-lite.mp4";
+
+  const attemptGununganPlayback = () => {
+    const video = gununganFilmRef.current;
+    if (!video || gununganFilmFailed || !inViewport || gununganFilmEndedRef.current) return;
+
+    // Mobile browsers only allow muted, inline media to start without a tap.
+    // Set the DOM properties as well as JSX attributes immediately before play.
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    void video.play()
+      .then(() => {
+        gununganPlaybackRejectedRef.current = false;
+      })
+      .catch(() => {
+        // The film remains mounted. A loaded-data event or the first genuine
+        // scroll/touch will retry once the browser grants a media gesture.
+        gununganPlaybackRejectedRef.current = true;
+      });
+  };
 
   useEffect(() => {
     if (!rootRef.current) return;
@@ -314,39 +336,64 @@ export function DzikraHeroOpening() {
 
   useEffect(() => {
     const video = gununganFilmRef.current;
-    if (!video || gununganFilmFailed || compact) return;
+    if (!video || gununganFilmFailed) return;
 
     if (inViewport && !gununganFilmEndedRef.current) {
-      void video.play().catch(() => {
-        // The opening remains readable even if a browser declines autoplay.
-      });
+      attemptGununganPlayback();
     } else {
       video.pause();
     }
-  }, [compact, gununganFilmFailed, inViewport]);
+  }, [gununganFilmFailed, inViewport]);
 
   useEffect(() => {
-    // A viewport-specific source has its own timeline. Do not let the
-    // desktop film's ended state stop the mobile film on a resize.
     const video = gununganFilmRef.current;
     gununganFilmEndedRef.current = false;
 
-    if (!video || gununganFilmFailed || compact) return;
+    if (!video || gununganFilmFailed) return;
     video.muted = true;
     video.defaultMuted = true;
     video.playsInline = true;
 
     video.load();
-    if (inViewport) void video.play().catch(() => undefined);
-  }, [compact, gununganFilmFailed, gununganFilmSrc]);
+    attemptGununganPlayback();
+  }, [gununganFilmFailed]);
+
+  useEffect(() => {
+    const retryAfterGesture = () => {
+      if (gununganPlaybackRejectedRef.current) attemptGununganPlayback();
+    };
+
+    // This is a fallback only after a rejected autoplay promise; it does not
+    // issue play() during ordinary scrolling.
+    window.addEventListener("touchstart", retryAfterGesture, { passive: true });
+    window.addEventListener("pointerdown", retryAfterGesture, { passive: true });
+    window.addEventListener("scroll", retryAfterGesture, { passive: true });
+
+    return () => {
+      window.removeEventListener("touchstart", retryAfterGesture);
+      window.removeEventListener("pointerdown", retryAfterGesture);
+      window.removeEventListener("scroll", retryAfterGesture);
+    };
+  }, [gununganFilmFailed, inViewport]);
 
   useLayoutEffect(() => {
     if (!rootRef.current || !stageRef.current || reduced) return;
 
     const root = rootRef.current;
     const stage = stageRef.current;
-    const gununganVisual = compact ? gununganStillRef.current : gununganFilmRef.current;
+    const gununganVisual = gununganFilmFailed ? gununganStillRef.current : gununganFilmRef.current;
     gsap.registerPlugin(ScrollTrigger);
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
+    const configureMobileResizeHandling = () => {
+      // Do not let mobile browser-chrome resize events recalculate this pin.
+      // It is deliberately scoped to touch-only, narrow viewports; desktop is
+      // left with ScrollTrigger's normal resize behavior.
+      ScrollTrigger.config({
+        ignoreMobileResize: ScrollTrigger.isTouch === 1 && mobileQuery.matches,
+      });
+    };
+    configureMobileResizeHandling();
+    mobileQuery.addEventListener("change", configureMobileResizeHandling);
     const context = gsap.context(() => {
       const revealTargets = [navRef.current, eyebrowRef.current, wordmarkRef.current, taglineRef.current, cueRef.current]
         .filter((target): target is HTMLElement => Boolean(target));
@@ -391,8 +438,11 @@ export function DzikraHeroOpening() {
         .to(stage, { backgroundColor: "#071f24", duration: 0.28 }, 0.72);
     }, root);
 
-    return () => context.revert();
-  }, [compact, reduced]);
+    return () => {
+      mobileQuery.removeEventListener("change", configureMobileResizeHandling);
+      context.revert();
+    };
+  }, [compact, gununganFilmFailed, reduced]);
 
   const motionMode = reduced ? "reduced" : compact ? "compact" : "full";
   const frameLoop = inViewport && !reduced ? "always" : "demand";
@@ -411,10 +461,9 @@ export function DzikraHeroOpening() {
           <video
             ref={gununganFilmRef}
             className={styles.gununganFilm}
-            src={compact ? undefined : gununganFilmSrc}
             poster="/cinematic/dzikra-gunungan-mobile-still.png"
             muted
-            autoPlay={!compact}
+            autoPlay
             playsInline
             preload="auto"
             aria-hidden="true"
@@ -424,20 +473,14 @@ export function DzikraHeroOpening() {
               video.muted = true;
               video.defaultMuted = true;
               video.playsInline = true;
-              if (compact) return;
-              if (inViewport && !gununganFilmEndedRef.current) {
-                void video.play().catch(() => undefined);
-              }
+              attemptGununganPlayback();
             }}
             onCanPlay={(event) => {
               const video = event.currentTarget;
               video.muted = true;
               video.defaultMuted = true;
               video.playsInline = true;
-              if (compact) return;
-              if (inViewport && !gununganFilmEndedRef.current) {
-                void video.play().catch(() => undefined);
-              }
+              attemptGununganPlayback();
             }}
             onEnded={() => {
               // Freeze the final frame of the real gunungan film. The logo
@@ -446,7 +489,10 @@ export function DzikraHeroOpening() {
               gununganFilmEndedRef.current = true;
             }}
             onError={() => setGununganFilmFailed(true)}
-          />
+          >
+            <source media="(max-width: 767px)" src={gununganMobileFilmSrc} type="video/mp4" />
+            <source src={gununganDesktopFilmSrc} type="video/mp4" />
+          </video>
         )}
         <div className={styles.canvas} aria-hidden="true">
           <Canvas
