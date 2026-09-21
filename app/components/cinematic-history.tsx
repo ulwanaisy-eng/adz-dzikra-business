@@ -70,9 +70,9 @@ const filmScenes: readonly FilmScene[] = [
     src: "/cinematic/dzikra-2010-layout-crt.mp4",
     poster: "/cinematic/dzikra-2010-layout-crt-poster.jpg",
     position: "78% center",
-    // On a portrait phone, move the crop left enough to retain the CRT
-    // computer while keeping Bapak in the right half of the composition.
-    mobilePosition: "46% center",
+    // Bapak remains on the right throughout this clip. On a portrait phone,
+    // prioritise him over the full-width CRT desk composition.
+    mobilePosition: "70% center",
   },
   {
     id: "tahqiq",
@@ -84,7 +84,9 @@ const filmScenes: readonly FilmScene[] = [
     src: "/cinematic/dzikra-manuscript-correction.mp4",
     poster: "/cinematic/dzikra-manuscript-correction-poster.jpg",
     position: "76% center",
-    mobilePosition: "76% center",
+    // The correction film is stable, but this gentler right focus retains
+    // Bapak's face instead of cutting into it on narrow screens.
+    mobilePosition: "71% center",
   },
   {
     id: "2026",
@@ -96,9 +98,9 @@ const filmScenes: readonly FilmScene[] = [
     src: "/cinematic/dzikra-print-production.mp4",
     poster: "/cinematic/dzikra-print-production-poster.jpg",
     position: "77% center",
-    // Keep both Bapak and the press in the mobile crop; the previous
-    // right-biased framing only showed the portrait.
-    mobilePosition: "46% center",
+    // The press is deliberately secondary on phone screens: Bapak is the
+    // character carrying the 2026 story and stays in the visible crop.
+    mobilePosition: "70% center",
   },
 ];
 
