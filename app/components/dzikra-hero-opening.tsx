@@ -501,7 +501,10 @@ export function DzikraHeroOpening() {
             frameloop={frameLoop}
             gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
           >
-            <HeroWorld motion={motion} reduced={reduced} compact={compact} showKayon={gununganFilmFailed} />
+            {/* The generated film is the only Gunungan artwork in this opening.
+                Canvas is retained solely for atmosphere (dust and light), never
+                as a synthetic Gunungan fallback. */}
+            <HeroWorld motion={motion} reduced={reduced} compact={compact} showKayon={false} />
           </Canvas>
         </div>
         <div className={styles.fog} aria-hidden="true" />
