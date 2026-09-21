@@ -331,37 +331,37 @@ export function CinematicHistory() {
         timeline.to(scenes[0], { scale: 1, duration: 0.82 }, 0);
         timeline.to(copies[0], { autoAlpha: 1, y: 0, duration: 0.45 }, 0.14);
         timeline.to(scenes[0].querySelector("[data-depth]"), { yPercent: -4, duration: 1.25 }, 0.1);
-        timeline.to(copies[0], { autoAlpha: 0, y: -18, duration: 0.54 }, 1.18);
-        timeline.to(scenes[0], { autoAlpha: 0, scale: 0.965, yPercent: -3, duration: 0.54 }, 1.18);
+        timeline.to(copies[0], { autoAlpha: 0, y: -18, duration: 0.54, ease: "power2.inOut" }, 1.18);
+        timeline.to(scenes[0], { autoAlpha: 0, scale: 0.965, yPercent: -3, duration: 0.54, ease: "power2.inOut" }, 1.18);
 
         // 2010 — a cooler, more structured transition.
-        timeline.to(scenes[1], { autoAlpha: 1, scale: 1, yPercent: 0, duration: 0.54 }, 1.18);
-        timeline.to(copies[1], { autoAlpha: 1, y: 0, duration: 0.54 }, 1.18);
+        timeline.to(scenes[1], { autoAlpha: 1, scale: 1, yPercent: 0, duration: 0.54, ease: "power2.inOut" }, 1.18);
+        timeline.to(copies[1], { autoAlpha: 1, y: 0, duration: 0.54, ease: "power2.inOut" }, 1.18);
         timeline.to(scenes[1].querySelector("[data-depth]"), { yPercent: 3, duration: 1.2 }, 1.22);
         setProgress(1, 1.17);
-        timeline.to(copies[1], { autoAlpha: 0, y: -18, duration: 0.5 }, 2.48);
-        timeline.to(scenes[1], { autoAlpha: 0, scale: 1.08, yPercent: -4, duration: 0.5 }, 2.48);
+        timeline.to(copies[1], { autoAlpha: 0, y: -18, duration: 0.5, ease: "power2.inOut" }, 2.48);
+        timeline.to(scenes[1], { autoAlpha: 0, scale: 1.08, yPercent: -4, duration: 0.5, ease: "power2.inOut" }, 2.48);
 
         // Tahqiq — linger longer. The important words deliberately take more of the scroll.
-        timeline.to(scenes[2], { autoAlpha: 1, scale: 1, yPercent: 0, duration: 0.5 }, 2.48);
-        timeline.to(copies[2], { autoAlpha: 1, y: 0, duration: 0.5 }, 2.48);
+        timeline.to(scenes[2], { autoAlpha: 1, scale: 1, yPercent: 0, duration: 0.5, ease: "power2.inOut" }, 2.48);
+        timeline.to(copies[2], { autoAlpha: 1, y: 0, duration: 0.5, ease: "power2.inOut" }, 2.48);
         timeline.to(scenes[2].querySelector("[data-depth]"), { yPercent: -2, duration: 1.8 }, 2.5);
         if (pillars) {
           timeline.to(pillars, { autoAlpha: 1, y: 0, duration: 0.34, stagger: 0.31 }, 3.22);
         }
         if (sceneThreeLine) timeline.to(sceneThreeLine, { scaleX: 1, duration: 0.78 }, 4.54);
         setProgress(2, 2.53);
-        timeline.to(copies[2], { autoAlpha: 0, y: -18, duration: 0.58 }, 4.92);
-        timeline.to(scenes[2], { autoAlpha: 0, scale: 0.975, yPercent: -3, duration: 0.58 }, 4.92);
+        timeline.to(copies[2], { autoAlpha: 0, y: -18, duration: 0.58, ease: "power2.inOut" }, 4.92);
+        timeline.to(scenes[2], { autoAlpha: 0, scale: 0.975, yPercent: -3, duration: 0.58, ease: "power2.inOut" }, 4.92);
 
         // 2026 — the gold bloom and final statement earn the ending.
-        timeline.to(scenes[3], { autoAlpha: 1, scale: 1, yPercent: 0, duration: 0.58 }, 4.92);
-        timeline.to(copies[3], { autoAlpha: 1, y: 0, duration: 0.58 }, 4.92);
+        timeline.to(scenes[3], { autoAlpha: 1, scale: 1, yPercent: 0, duration: 0.58, ease: "power2.inOut" }, 4.92);
+        timeline.to(copies[3], { autoAlpha: 1, y: 0, duration: 0.58, ease: "power2.inOut" }, 4.92);
         timeline.to(scenes[3].querySelector("[data-gold-bloom]"), { autoAlpha: 1, duration: 1.05 }, 5.05);
         timeline.to(scenes[3].querySelector("[data-depth]"), { yPercent: -3, duration: 1.8 }, 5.05);
         setProgress(3, 4.98);
-        timeline.to(copies[3], { autoAlpha: 0, y: -22, duration: 0.35 }, 6.24);
-        timeline.to(finale, { autoAlpha: 1, y: 0, scale: 1, duration: 0.64 }, 6.43);
+        timeline.to(copies[3], { autoAlpha: 0, y: -22, duration: 0.35, ease: "power2.inOut" }, 6.24);
+        timeline.to(finale, { autoAlpha: 1, y: 0, scale: 1, duration: 0.64, ease: "power2.inOut" }, 6.43);
       });
     }, root);
 
