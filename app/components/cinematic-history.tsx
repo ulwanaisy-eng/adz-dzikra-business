@@ -142,6 +142,7 @@ export function CinematicHistory() {
   const progressRefs = useRef<Array<HTMLLIElement | null>>([]);
   const refreshRafRef = useRef<number | null>(null);
   const activeSceneRef = useRef(0);
+  const finaleCompletedRef = useRef(false);
   const [activeScene, setActiveScene] = useState(0);
   const [failedVideos, setFailedVideos] = useState<Record<string, boolean>>({});
   const [videoReady, setVideoReady] = useState<Record<string, boolean>>({});
@@ -313,17 +314,33 @@ export function CinematicHistory() {
               const progressValue = trigger.progress;
               const nextIndex = progressValue < 0.22 ? 0 : progressValue < 0.43 ? 1 : progressValue < 0.72 ? 2 : 3;
               setActiveFilmScene(nextIndex);
+
+              // Once the finale has crossed the forward boundary, keep its
+              // completed frame stable through tiny trackpad/mouse reversals
+              // around the pin release. A deliberate scroll back into the
+              // 2026 chapter resets it for a genuinely new visit.
+              if (finaleCompletedRef.current && progressValue >= 0.88) {
+                gsap.set(finale, { autoAlpha: 1, y: 0, scale: 1 });
+              } else if (progressValue < 0.88) {
+                finaleCompletedRef.current = false;
+              }
             },
             onEnter: () => setHistoryVisible(true),
             onLeave: () => {
+              finaleCompletedRef.current = true;
+              gsap.set(finale, { autoAlpha: 1, y: 0, scale: 1 });
               videoRefs.current.forEach((video) => video?.pause());
               setHistoryVisible(false);
             },
             onEnterBack: () => {
+              if (finaleCompletedRef.current) gsap.set(finale, { autoAlpha: 1, y: 0, scale: 1 });
               setHistoryVisible(true);
               playVideo(videoRefs.current[activeSceneRef.current]);
             },
-            onLeaveBack: () => setHistoryVisible(false),
+            onLeaveBack: () => {
+              finaleCompletedRef.current = false;
+              setHistoryVisible(false);
+            },
           },
         });
 

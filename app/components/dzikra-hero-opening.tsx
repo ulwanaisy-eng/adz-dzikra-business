@@ -488,7 +488,12 @@ export function DzikraHeroOpening() {
               // second/fake gunungan layer competing with the source video.
               gununganFilmEndedRef.current = true;
             }}
-            onError={() => setGununganFilmFailed(true)}
+            onError={(event) => {
+              // React can surface an error from a skipped <source> through the
+              // parent handler. Only abandon the film when the media element
+              // itself reports a terminal playback error.
+              if (event.currentTarget.error) setGununganFilmFailed(true);
+            }}
           >
             <source media="(max-width: 767px)" src={gununganMobileFilmSrc} type="video/mp4" />
             <source src={gununganDesktopFilmSrc} type="video/mp4" />
