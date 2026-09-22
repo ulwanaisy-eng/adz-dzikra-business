@@ -315,15 +315,11 @@ export function CinematicHistory() {
               const nextIndex = progressValue < 0.22 ? 0 : progressValue < 0.43 ? 1 : progressValue < 0.72 ? 2 : 3;
               setActiveFilmScene(nextIndex);
 
-              // Once the finale has crossed the forward boundary, keep its
-              // completed frame stable through tiny trackpad/mouse reversals
-              // around the pin release. A deliberate scroll back into the
-              // 2026 chapter resets it for a genuinely new visit.
-              if (finaleCompletedRef.current && progressValue >= 0.88) {
-                gsap.set(finale, { autoAlpha: 1, y: 0, scale: 1 });
-              } else if (progressValue < 0.88) {
-                finaleCompletedRef.current = false;
-              }
+              // The completed frame is held only after the forward pin exit.
+              // The instant the visitor reverses into the story, hand control
+              // straight back to the scrub timeline so the finale dissolves
+              // with the rest of the 2026 chapter instead of following it.
+              if (trigger.direction < 0) finaleCompletedRef.current = false;
             },
             onEnter: () => setHistoryVisible(true),
             onLeave: () => {
@@ -333,7 +329,7 @@ export function CinematicHistory() {
               setHistoryVisible(false);
             },
             onEnterBack: () => {
-              if (finaleCompletedRef.current) gsap.set(finale, { autoAlpha: 1, y: 0, scale: 1 });
+              finaleCompletedRef.current = false;
               setHistoryVisible(true);
               playVideo(videoRefs.current[activeSceneRef.current]);
             },
