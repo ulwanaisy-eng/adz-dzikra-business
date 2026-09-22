@@ -142,7 +142,6 @@ export function CinematicHistory() {
   const progressRefs = useRef<Array<HTMLLIElement | null>>([]);
   const refreshRafRef = useRef<number | null>(null);
   const activeSceneRef = useRef(0);
-  const finaleCompletedRef = useRef(false);
   const [activeScene, setActiveScene] = useState(0);
   const [failedVideos, setFailedVideos] = useState<Record<string, boolean>>({});
   const [videoReady, setVideoReady] = useState<Record<string, boolean>>({});
@@ -315,26 +314,17 @@ export function CinematicHistory() {
               const nextIndex = progressValue < 0.22 ? 0 : progressValue < 0.43 ? 1 : progressValue < 0.72 ? 2 : 3;
               setActiveFilmScene(nextIndex);
 
-              // The completed frame is held only after the forward pin exit.
-              // The instant the visitor reverses into the story, hand control
-              // straight back to the scrub timeline so the finale dissolves
-              // with the rest of the 2026 chapter instead of following it.
-              if (trigger.direction < 0) finaleCompletedRef.current = false;
             },
             onEnter: () => setHistoryVisible(true),
             onLeave: () => {
-              finaleCompletedRef.current = true;
-              gsap.set(finale, { autoAlpha: 1, y: 0, scale: 1 });
               videoRefs.current.forEach((video) => video?.pause());
               setHistoryVisible(false);
             },
             onEnterBack: () => {
-              finaleCompletedRef.current = false;
               setHistoryVisible(true);
               playVideo(videoRefs.current[activeSceneRef.current]);
             },
             onLeaveBack: () => {
-              finaleCompletedRef.current = false;
               setHistoryVisible(false);
             },
           },
